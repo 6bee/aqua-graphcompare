@@ -1,1 +1,1 @@
-# aqua-compare
+# aqua-graphcompare
