@@ -6,7 +6,7 @@ namespace Aqua.GraphCompare
     using System.Linq;
     using System.Reflection;
 
-    public sealed class ComparisonResult
+    public class ComparisonResult
     {
         public ComparisonResult(TypeInfo fromType, TypeInfo toType, IEnumerable<Delta> deltas)
         {
@@ -27,6 +27,11 @@ namespace Aqua.GraphCompare
             {
                 return !Deltas.Any();
             }
+        }
+
+        public SimpleComparisonResult AsSimpleResult()
+        {
+            return new SimpleComparisonResult(this);
         }
     }
 }

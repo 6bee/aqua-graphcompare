@@ -4,9 +4,9 @@ namespace Aqua.GraphCompare
 {
     using System.Reflection;
 
-    public sealed class Delta
+    public class Delta
     {
-        internal Delta(ChangeType changeType, Breadcrumb breadcrumb, object oldValue, object newValue, string oldDisplayValue, string newDisplayValue)
+        public Delta(ChangeType changeType, Breadcrumb breadcrumb, object oldValue, object newValue, string oldDisplayValue, string newDisplayValue)
         {
             ChangeType = changeType;
             Breadcrumb = breadcrumb;
@@ -30,12 +30,18 @@ namespace Aqua.GraphCompare
 
         public PropertyInfo PropertyFrom
         {
-            get { return Breadcrumb.PropertyFrom; }
+            get
+            {
+                return Breadcrumb.PropertyFrom;
+            }
         }
 
         public PropertyInfo PropertyTo
         {
-            get { return Breadcrumb.PropertyTo; }
+            get
+            {
+                return Breadcrumb.PropertyTo;
+            }
         }
 
         public override string ToString()

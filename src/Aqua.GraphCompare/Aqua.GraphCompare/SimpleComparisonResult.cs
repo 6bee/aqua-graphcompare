@@ -1,0 +1,46 @@
+// Copyright (c) Christof Senn. All rights reserved. See license.txt in the project root for license information.
+
+namespace Aqua.GraphCompare
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+
+    public class SimpleComparisonResult
+    {
+        private readonly ComparisonResult _comparisonResult;
+
+        private readonly Lazy<IEnumerable<SimpleDelta>> _deltas;
+
+        public SimpleComparisonResult(ComparisonResult comparisonResult)
+        {
+            _comparisonResult = comparisonResult;
+            _deltas = new Lazy<IEnumerable<SimpleDelta>>(() => _comparisonResult.Deltas.Select(x => new SimpleDelta(x)).ToList());
+        }
+
+        public TypeInfo Type
+        {
+            get
+            {
+                return _comparisonResult.ToType ?? _comparisonResult.FromType;
+            }
+        }
+
+        public IEnumerable<SimpleDelta> Deltas
+        {
+            get
+            {
+                return _deltas.Value;
+            }
+        }
+
+        public bool IsMatch
+        {
+            get
+            {
+                return _comparisonResult.IsMatch;
+            }
+        }
+    }
+}

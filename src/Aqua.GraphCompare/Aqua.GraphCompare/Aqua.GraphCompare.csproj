@@ -43,7 +43,10 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="SimpleBreadcrumb.cs" />
     <Compile Include="Breadcrumb.cs" />
+    <Compile Include="SimpleDelta.cs" />
+    <Compile Include="SimpleComparisonResult.cs" />
     <Compile Include="Delta.cs" />
     <Compile Include="DynamicObjectWithOriginalReference.cs" />
     <Compile Include="Formatters\BreadcrumbFormatter.cs" />

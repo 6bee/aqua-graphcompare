@@ -4,10 +4,9 @@ namespace Aqua.GraphCompare
 {
     using Aqua.Dynamic;
     using System;
-    using System.Collections.Generic;
     using System.Reflection;
 
-    public sealed class Breadcrumb
+    public class Breadcrumb
     {
         public sealed class Item
         {
@@ -15,7 +14,7 @@ namespace Aqua.GraphCompare
 
             private readonly object _instance;
 
-            internal Item(DynamicObject dynamicObject, object instance)
+            public Item(DynamicObject dynamicObject, object instance)
             {
                 _dynamicObject = dynamicObject;
                 _instance = instance;
@@ -23,28 +22,32 @@ namespace Aqua.GraphCompare
 
             public DynamicObject DynamicObject
             {
-                get { return _dynamicObject; }
+                get
+                {
+                    return _dynamicObject;
+                }
             }
 
             public object Instance
             {
-                get { return _instance; }
+                get
+                {
+                    return _instance;
+                }
             }
 
             public TypeInfo InstanceType
             {
-                get { return ReferenceEquals(null, _instance) ? null : _instance.GetType().GetTypeInfo(); }
+                get
+                {
+                    return ReferenceEquals(null, _instance) ? null : _instance.GetType().GetTypeInfo();
+                }
             }
         }
 
         private readonly Lazy<string> _displayString;
 
-        internal Breadcrumb(DynamicObjectWithOriginalReference fromValue, DynamicObjectWithOriginalReference toValue, Func<string> displayString)
-            : this(null, null, null, fromValue, ReferenceEquals(null, fromValue) ? null : fromValue.OriginalObject, toValue, ReferenceEquals(null, toValue) ? null : toValue.OriginalObject, displayString)
-        {
-        }
-
-        private Breadcrumb(Breadcrumb parent, PropertyInfo propertyFrom, PropertyInfo propertyTo, DynamicObject fromObject, object fromInstance, DynamicObject toObject, object toIstance, Func<string> displayString)
+        public Breadcrumb(Breadcrumb parent, PropertyInfo propertyFrom, PropertyInfo propertyTo, DynamicObject fromObject, object fromInstance, DynamicObject toObject, object toIstance, Func<string> displayString)
         {
             _displayString = new Lazy<string>(displayString);
             Parent = parent;
@@ -52,6 +55,11 @@ namespace Aqua.GraphCompare
             PropertyTo = propertyTo;
             ItemFrom = new Item(fromObject, fromInstance);
             ItemTo = new Item(toObject, toIstance);
+        }
+
+        internal Breadcrumb(DynamicObjectWithOriginalReference fromValue, DynamicObjectWithOriginalReference toValue, Func<string> displayString)
+            : this(null, null, null, fromValue, ReferenceEquals(null, fromValue) ? null : fromValue.OriginalObject, toValue, ReferenceEquals(null, toValue) ? null : toValue.OriginalObject, displayString)
+        {
         }
 
         internal Breadcrumb AddLevel(DynamicObjectWithOriginalReference fromValue, DynamicObjectWithOriginalReference toValue, Func<string> displayString)
@@ -71,12 +79,18 @@ namespace Aqua.GraphCompare
 
         public string DisplayString
         {
-            get { return _displayString.Value; }
+            get
+            {
+                return _displayString.Value;
+            }
         }
 
         public string Path
         {
-            get { return ReferenceEquals(null, Parent) ? null : Parent.ToString(); }
+            get
+            {
+                return ReferenceEquals(null, Parent) ? null : Parent.ToString();
+            }
         }
 
         public Breadcrumb Parent { get; private set; }

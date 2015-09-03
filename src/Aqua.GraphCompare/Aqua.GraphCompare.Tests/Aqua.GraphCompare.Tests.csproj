@@ -55,6 +55,7 @@
     <Compile Include="GraphComparer\When_comparing_collections.cs" />
     <Compile Include="GraphComparer\When_comparing_anonymous_types.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleComparisonResult\When_created_from_comparison_result_of_different_types.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
