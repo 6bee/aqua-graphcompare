@@ -31,9 +31,9 @@ namespace Aqua.GraphCompare
 
             CompareInstances(breadcrumb, item1, item2, deltas, new HashSet<object>(ObjectReferenceEqualityComparer<object>.Instance));
 
-            var fromObjType = ReferenceEquals(null, from) ? null : from.GetType().GetTypeInfo();
+            var fromObjType = GetTypeInfo(item1);
 
-            var toObjType = ReferenceEquals(null, to) ? null : to.GetType().GetTypeInfo();
+            var toObjType = GetTypeInfo(item2);
 
             return new ComparisonResult(fromObjType, toObjType, deltas);
         }
@@ -222,6 +222,17 @@ namespace Aqua.GraphCompare
             return ReferenceEquals(null, dynamicObject) ? item : new ComparableDynamicObject(dynamicObject);
         }
 
+        private static TypeInfo GetTypeInfo(DynamicObject obj)
+        {
+            if (!ReferenceEquals(null, obj) && !ReferenceEquals(null, obj.Type))
+            {
+
+                return obj.Type.Type.GetTypeInfo();
+            }
+
+            return null;
+        }
+
         private static IEnumerable<PropertyInfo> GetPropertiesMissingInSecondInstance(DynamicObject item1, DynamicObject item2)
         {
             if (ReferenceEquals(null, item1))
@@ -240,7 +251,8 @@ namespace Aqua.GraphCompare
 
             return memberNames
                 .Where(x => !string.IsNullOrWhiteSpace(x))
-                .Select(declaringType.GetProperty);
+                .Select(declaringType.GetProperty)
+                .Where(p => !ReferenceEquals(null, p));
         }
 
         private static IEnumerable<PropertyPair> GetPropertiesExistingInBothInstances(DynamicObject item1, DynamicObject item2)
@@ -257,7 +269,8 @@ namespace Aqua.GraphCompare
 
             return memberNames
                 .Where(x => !string.IsNullOrWhiteSpace(x))
-                .Select(x => new PropertyPair(declaringTypeFrom.GetProperty(x), declaringTypeTo.GetProperty(x)));
+                .Select(x => new PropertyPair(declaringTypeFrom.GetProperty(x), declaringTypeTo.GetProperty(x)))
+                .Where(x => !ReferenceEquals(null, x.From) && !ReferenceEquals(null, x.To));
         }
 
         private sealed class ComparableDynamicObject : IEquatable<ComparableDynamicObject>
