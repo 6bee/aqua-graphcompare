@@ -14,13 +14,21 @@ namespace Aqua.GraphCompare.Tests.SimpleComparisonResult
     {
         class A
         {
+            public string StringValue { get; set; }
+
             public int Int32Value { get; set; }
         }
 
         class B
         {
+            public string StringValue { get; set; }
+
             public double Int64Value { get; set; }
         }
+
+        static PropertyInfo StringValuePropertyA = typeof(A).GetProperty("StringValue");
+
+        static PropertyInfo StringValuePropertyB = typeof(B).GetProperty("StringValue");
 
         static PropertyInfo Int32ValueProperty = typeof(A).GetProperty("Int32Value");
 
@@ -30,14 +38,16 @@ namespace Aqua.GraphCompare.Tests.SimpleComparisonResult
 
         public When_created_from_comparison_result_of_different_types()
         {
-            var a = new A { Int32Value = 32 };
-            var b = new B { Int64Value = 64 };
+            var a = new A { Int32Value = 32, StringValue = "S1" };
+            var b = new B { Int64Value = 64, StringValue = "S2" };
 
+            var breadcrumbUpdate = new Breadcrumb(null, StringValuePropertyA, StringValuePropertyB, new DynamicObject(a), a, new DynamicObject(b), b, () => "ValueS");
             var breadcrumbInsert = new Breadcrumb(null, null, Int64ValueProperty, new DynamicObject(a), a, new DynamicObject(b), b, () => "Value64");
             var breadcrumbDelete = new Breadcrumb(null, Int32ValueProperty, null, new DynamicObject(a), a, new DynamicObject(b), b, () => "Value32");
 
             var deltas = new[]
             {
+                new Delta(ChangeType.Update, breadcrumbUpdate, "S1", "S2", "vS1", "vS2"),
                 new Delta(ChangeType.Delete, breadcrumbDelete, 32, null, "v32", "NULL"),
                 new Delta(ChangeType.Insert, breadcrumbInsert, null, 64, "NULL", "v64"),
             };
@@ -52,9 +62,24 @@ namespace Aqua.GraphCompare.Tests.SimpleComparisonResult
         }
 
         [Fact]
-        public void Result_should_contain_two_deltas()
+        public void Result_should_contain_three_deltas()
         {
-            result.Deltas.Count().ShouldBe(2);
+            result.Deltas.Count().ShouldBe(3);
+        }
+
+        [Fact]
+        public void Result_should_delta_for_changed_string_property()
+        {
+            var d = result.Deltas.Single(x => x.Property == StringValuePropertyB);
+            d.ChangeType.ShouldBe(ChangeType.Update);
+            d.OldValue.ShouldBe("S1");
+            d.NewValue.ShouldBe("S2");
+            d.OldDisplayValue.ShouldBe("vS1");
+            d.NewDisplayValue.ShouldBe("vS2");
+            d.Breadcrumb.ItemFrom.Instance.ShouldBeInstanceOf<A>();
+            d.Breadcrumb.ItemTo.Instance.ShouldBeInstanceOf<B>();
+            d.Breadcrumb.Parent.ShouldBeNull();
+            d.Breadcrumb.Property.ShouldBe(StringValuePropertyB);
         }
 
         [Fact]
