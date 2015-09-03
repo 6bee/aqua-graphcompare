@@ -15,7 +15,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         {
             var item1 = new
             {
-                Name = "test nane",
+                Name = "test name",
                 Value = 1.23456789m,
                 Collection1 = new[] 
                 {
@@ -43,8 +43,8 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             var item2 = new
             {
-                Name = "test nane",
-                Value = 0.23456789m,
+                Name = "test new name",
+                Value = "abc",
                 Collection1 = new[] 
                 {
                     new { X = "x1" },
@@ -79,9 +79,38 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         }
 
         [Fact]
-        public void Should_have_three_difference()
+        public void Should_have_expected_number_of_deltas()
         {
-            result.Deltas.Count().ShouldBe(9);
+            result.Deltas.Count().ShouldBe(11);
+        }
+
+        [Fact]
+        public void Should_have_delta_for_added_value_property_of_type_string()
+        {
+            var d = result.Deltas.Single(x => x.PropertyTo != null && x.PropertyTo.Name == "Value");
+            d.PropertyFrom.ShouldBeNull();
+            d.PropertyTo.PropertyType.ShouldBe(typeof(string));
+            d.OldValue.ShouldBeNull();
+            d.NewValue.ShouldBe("abc");
+        }
+
+        [Fact]
+        public void Should_have_delta_for_removed_value_property_of_type_decimal()
+        {
+            var d = result.Deltas.Single(x => x.PropertyFrom != null && x.PropertyFrom.Name == "Value");
+            d.PropertyTo.ShouldBeNull();
+            d.PropertyFrom.PropertyType.ShouldBe(typeof(decimal));
+            d.OldValue.ShouldBe(1.23456789m);
+            d.NewValue.ShouldBeNull();
+        }
+
+        [Fact]
+        public void Should_have_delta_for_chnage_name_property()
+        {
+            var d = result.Deltas.Single(x => x.PropertyFrom != null && x.PropertyFrom.Name == "Name");
+            d.PropertyTo.Name.ShouldBe("Name");
+            d.OldValue.ShouldBe("test name");
+            d.NewValue.ShouldBe("test new name");
         }
     }
 }

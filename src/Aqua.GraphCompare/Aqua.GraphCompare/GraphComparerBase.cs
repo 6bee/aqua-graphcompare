@@ -84,10 +84,10 @@ namespace Aqua.GraphCompare
 
             if (!ReferenceEquals(null, value1) && !ReferenceEquals(null, value2) && value1.GetType() != value2.GetType())
             {
-                throw new NotSupportedException(string.Format("objects are not of same type: {0} and {1}    path:{2}", value1.GetType(), value2.GetType(), nextBreadcrumb));
+                ComparePropertyValues(breadcrumb, item1, item2, ChangeType.Insert, null, propertyTo, null, value2, deltas, referenceTracker);
+                ComparePropertyValues(breadcrumb, item1, item2, ChangeType.Delete, propertyFrom, null, value1, null, deltas, referenceTracker);
             }
-
-            if (value1 is object[] || value2 is object[])
+            else if (value1 is object[] || value2 is object[])
             {
                 CompareCollections(nextBreadcrumb, (value1 as object[]) ?? EmptyList, (value2 as object[]) ?? EmptyList, deltas, referenceTracker);
             }
@@ -367,10 +367,10 @@ namespace Aqua.GraphCompare
         {
             public DynamicObjectWithOriginalReference MapToDynamicObjectWithOriginalReference(object obj)
             {
-                return (DynamicObjectWithOriginalReference)MapObject(obj, setTypeInformation: true);
+                return (DynamicObjectWithOriginalReference)MapObject(obj, setTypeInformation: t => true);
             }
 
-            protected override DynamicObject MapToDynamicObjectGraph(object obj, bool setTypeInformation)
+            protected override DynamicObject MapToDynamicObjectGraph(object obj, Func<Type, bool> setTypeInformation)
             {
                 var dynamicObject = obj as DynamicObject;
 
