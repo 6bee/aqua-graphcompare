@@ -27,7 +27,7 @@ namespace Aqua.GraphCompare
 
             var deltas = new List<Delta>();
 
-            var breadcrumb = new Breadcrumb(item1, item2, () => GetDisplayString(item1, item2));
+            var breadcrumb = new Breadcrumb(item1, item2, () => GetDisplayString(item1, item2, null, null));
 
             CompareInstances(breadcrumb, item1, item2, deltas, new HashSet<object>(ObjectReferenceEqualityComparer<object>.Instance));
 
@@ -80,7 +80,7 @@ namespace Aqua.GraphCompare
             var value1Obj = value1 as DynamicObjectWithOriginalReference;
             var value2Obj = value2 as DynamicObjectWithOriginalReference;
 
-            var nextBreadcrumb = breadcrumb.AddLevel(value1Obj, value2Obj, () => GetDisplayString(value1Obj, value2Obj), propertyFrom, propertyTo);
+            var nextBreadcrumb = breadcrumb.AddLevel(item1, item2, () => GetDisplayString(value1Obj, value2Obj, propertyFrom, propertyTo), propertyFrom, propertyTo);
 
             if (!ReferenceEquals(null, value1) && !ReferenceEquals(null, value2) && value1.GetType() != value2.GetType())
             {
@@ -139,31 +139,31 @@ namespace Aqua.GraphCompare
                 {
                     var nextBreadcrumb = breadcrumb;
 
-                    if (!ReferenceEquals(null, breadcrumb.Parent) && (!ReferenceEquals(null, breadcrumb.PropertyFrom) || !ReferenceEquals(null, breadcrumb.PropertyTo)))
+                    if (!ReferenceEquals(null, breadcrumb.PropertyFrom) || !ReferenceEquals(null, breadcrumb.PropertyTo))
                     {
                         object fromInstance = null;
                         object toInstance = null;
 
-                        if (!ReferenceEquals(null, breadcrumb.Parent.ItemFrom.Instance) && !ReferenceEquals(null, breadcrumb.PropertyFrom))
+                        if (!ReferenceEquals(null, breadcrumb.ItemFrom.Instance) && !ReferenceEquals(null, breadcrumb.PropertyFrom))
                         {
-                            fromInstance = breadcrumb.PropertyFrom.GetValue(breadcrumb.Parent.ItemFrom.Instance);
+                            fromInstance = breadcrumb.PropertyFrom.GetValue(breadcrumb.ItemFrom.Instance);
                         }
 
-                        if (!ReferenceEquals(null, breadcrumb.Parent.ItemTo.Instance) && !ReferenceEquals(null, breadcrumb.PropertyTo))
+                        if (!ReferenceEquals(null, breadcrumb.ItemTo.Instance) && !ReferenceEquals(null, breadcrumb.PropertyTo))
                         {
-                            toInstance = breadcrumb.PropertyTo.GetValue(breadcrumb.Parent.ItemTo.Instance);
+                            toInstance = breadcrumb.PropertyTo.GetValue(breadcrumb.ItemTo.Instance);
                         }
 
-                        nextBreadcrumb = breadcrumb.Parent.AddLevel(fromInstance, toInstance, () => null, breadcrumb.PropertyFrom, breadcrumb.PropertyTo);
+                        nextBreadcrumb = breadcrumb.AddLevel(fromInstance, toInstance, () => null, null, null);
                     }
 
                     var changeType = GetChangeType(pair.Item1, pair.Item2);
 
-                    CompareValues(breadcrumb, item1, item2, changeType, pair.Item1, pair.Item2, deltas);
+                    CompareValues(nextBreadcrumb, item1, item2, changeType, pair.Item1, pair.Item2, deltas);
                 }
                 else
                 {
-                    var nextBreadcrumb = breadcrumb.AddLevel(item1, item2, () => GetDisplayString(item1, item2));
+                    var nextBreadcrumb = breadcrumb.AddLevel(item1, item2, () => GetDisplayString(item1, item2, breadcrumb.PropertyFrom, breadcrumb.PropertyTo), null, null);
 
                     CompareInstances(nextBreadcrumb, item1, item2, deltas, referenceTracker);
                 }
@@ -206,7 +206,7 @@ namespace Aqua.GraphCompare
             return changeType;
         }
 
-        protected abstract string GetDisplayString(DynamicObjectWithOriginalReference fromObj, DynamicObjectWithOriginalReference toObj);
+        protected abstract string GetDisplayString(DynamicObjectWithOriginalReference fromObj, DynamicObjectWithOriginalReference toObj, PropertyInfo fromProperty, PropertyInfo toProperty);
 
         protected abstract string GetPropertyDisplayValue(PropertyInfo property, DynamicObjectWithOriginalReference obj);
 

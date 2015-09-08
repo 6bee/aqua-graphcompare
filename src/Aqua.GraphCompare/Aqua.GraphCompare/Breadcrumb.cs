@@ -47,14 +47,14 @@ namespace Aqua.GraphCompare
 
         private readonly Lazy<string> _displayString;
 
-        public Breadcrumb(Breadcrumb parent, PropertyInfo propertyFrom, PropertyInfo propertyTo, DynamicObject fromObject, object fromInstance, DynamicObject toObject, object toIstance, Func<string> displayString)
+        public Breadcrumb(Breadcrumb parent, PropertyInfo propertyFrom, PropertyInfo propertyTo, DynamicObject fromObject, object fromInstance, DynamicObject toObject, object toInstance, Func<string> displayString)
         {
             _displayString = new Lazy<string>(displayString);
             Parent = parent;
             PropertyFrom = propertyFrom;
             PropertyTo = propertyTo;
-            ItemFrom = new Item(fromObject, fromInstance);
-            ItemTo = new Item(toObject, toIstance);
+            ItemFrom = ReferenceEquals(null, fromObject) && ReferenceEquals(null, fromInstance) ? null : new Item(fromObject, fromInstance);
+            ItemTo = ReferenceEquals(null, toObject) && ReferenceEquals(null, toInstance) ? null : new Item(toObject, toInstance);
         }
 
         internal Breadcrumb(DynamicObjectWithOriginalReference fromValue, DynamicObjectWithOriginalReference toValue, Func<string> displayString)
@@ -62,19 +62,14 @@ namespace Aqua.GraphCompare
         {
         }
 
-        internal Breadcrumb AddLevel(DynamicObjectWithOriginalReference fromValue, DynamicObjectWithOriginalReference toValue, Func<string> displayString)
-        {
-            return AddLevel(fromValue, toValue, displayString, null, null);
-        }
-
         internal Breadcrumb AddLevel(DynamicObjectWithOriginalReference fromValue, DynamicObjectWithOriginalReference toValue, Func<string> displayString, PropertyInfo propertyFrom, PropertyInfo propertyTo)
         {
             return new Breadcrumb(this, propertyFrom, propertyTo, fromValue, ReferenceEquals(null, fromValue) ? null : fromValue.OriginalObject, toValue, ReferenceEquals(null, toValue) ? null : toValue.OriginalObject, displayString);
         }
 
-        internal Breadcrumb AddLevel(object fromInstance, object toIstance, Func<string> displayString, PropertyInfo propertyFrom, PropertyInfo propertyTo)
+        internal Breadcrumb AddLevel(object fromInstance, object toInstance, Func<string> displayString, PropertyInfo propertyFrom, PropertyInfo propertyTo)
         {
-            return new Breadcrumb(this, propertyFrom, propertyTo, null, fromInstance, null, toIstance, displayString);
+            return new Breadcrumb(this, propertyFrom, propertyTo, null, fromInstance, null, toInstance, displayString);
         }
 
         public string DisplayString

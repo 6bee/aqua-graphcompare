@@ -7,19 +7,26 @@ namespace Aqua.GraphCompare
 
     public class GraphComparer : GraphComparerBase
     {
-        private readonly Func<object, string> _displayStringProvider;
+        private readonly Func<object, PropertyInfo, string> _displayStringProvider;
 
         private readonly Func<object, PropertyInfo, string> _propertyDisplayStringProvider;
 
-        public GraphComparer(Func<object, string> displayStringProvider = null, Func<object, PropertyInfo, string> propertyDisplayStringProvider = null)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="displayStringProvider">Optional function delegate to create display strings for breadcrumb levels</param>
+        /// <param name="propertyDisplayStringProvider">Optional function delegate to create display strings for property values.</param>
+        public GraphComparer(Func<object, PropertyInfo, string> displayStringProvider = null, Func<object, PropertyInfo, string> propertyDisplayStringProvider = null)
         {
             _displayStringProvider = displayStringProvider;
             _propertyDisplayStringProvider = propertyDisplayStringProvider;
         }
 
-        protected override string GetDisplayString(DynamicObjectWithOriginalReference fromObj, DynamicObjectWithOriginalReference toObj)
+        protected override string GetDisplayString(DynamicObjectWithOriginalReference fromObj, DynamicObjectWithOriginalReference toObj, PropertyInfo fromProperty, PropertyInfo toProperty)
         {
-            var obj = toObj ?? fromObj;
+            var obj = SelectObjectForDisplayString(fromObj, toObj);
+
+            var property = SelectPropertyForDisplayString(fromProperty, toProperty);
 
             if (ReferenceEquals(null, obj))
             {
@@ -34,7 +41,15 @@ namespace Aqua.GraphCompare
 
             if (!ReferenceEquals(null, _displayStringProvider))
             {
-                return _displayStringProvider(obj.OriginalObject);
+                return _displayStringProvider(obj.OriginalObject, property);
+            }
+
+            if (!ReferenceEquals(null, property))
+            {
+                if (ReferenceEquals(null, obj.OriginalObject) || !typeof(System.Collections.Generic.IEnumerable<>).MakeGenericType(obj.OriginalObject.GetType()).IsAssignableFrom(property.PropertyType))
+                {
+                    return property.Name;
+                }
             }
 
             if (!ReferenceEquals(null, obj.OriginalObject))
@@ -43,6 +58,16 @@ namespace Aqua.GraphCompare
             }
 
             return null;
+        }
+
+        protected virtual DynamicObjectWithOriginalReference SelectObjectForDisplayString(DynamicObjectWithOriginalReference fromObj, DynamicObjectWithOriginalReference toObj)
+        {
+            return toObj ?? fromObj;
+        }
+
+        protected virtual PropertyInfo SelectPropertyForDisplayString(PropertyInfo fromProperty, PropertyInfo toProperty)
+        {
+            return toProperty ?? fromProperty;
         }
 
         protected override string GetPropertyDisplayValue(PropertyInfo property, DynamicObjectWithOriginalReference obj)
