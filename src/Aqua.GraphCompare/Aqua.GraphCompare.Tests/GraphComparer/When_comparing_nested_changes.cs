@@ -18,6 +18,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         class L1
         {
             public string NameProperty { get; set; }
+
             public L2 L2Property { get; set; }
         }
 
@@ -28,11 +29,20 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
             public V[] Collection1Property { get; set; }
 
             public int[] Collection2Property { get; set; }
+
+            public IEnumerable<N> Collection3Property { get; set; }
         }
 
         class V
         {
             public string XProperty { get; set; }
+        }
+
+        enum N
+        {
+            One,
+            Two,
+            Three
         }
 
         ComparisonResult result;
@@ -57,6 +67,11 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                             1,
                             2,
                         },
+                        Collection3Property = new[] 
+                        {
+                            N.One,
+                            N.Two,
+                        },
                     }
                 }
             };
@@ -79,6 +94,11 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                             1,
                             3,
                         },
+                        Collection3Property = new[] 
+                        {
+                            N.One,
+                            N.Three,
+                        },
                     }
                 }
             };
@@ -90,7 +110,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         public void Should_report_differences()
         {
             result.IsMatch.ShouldBeFalse();
-            result.Deltas.Count().ShouldBe(6);
+            result.Deltas.Count().ShouldBe(8);
         }
 
         [Fact]
@@ -200,31 +220,13 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             var breadcrumb = result.GetDeltas(xProperty).Single(x => x.ChangeType == ChangeType.Delete).Breadcrumb;
 
-            breadcrumb.DisplayString.ShouldBeNull();
-
             breadcrumb.PropertyFrom.ShouldBe(xProperty);
             breadcrumb.PropertyTo.ShouldBeNull();
 
             breadcrumb.ItemFrom.TypesShouldBe<V>();
             breadcrumb.ItemTo.ShouldBeNull();
 
-            breadcrumb.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property", "Collection1Property", typeof(V).FullName);
-
-            breadcrumb.Parent.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property", "Collection1Property");
-            breadcrumb.Parent.PropertiesShouldBeNull();
-
-            breadcrumb.Parent.Parent.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property");
-            breadcrumb.Parent.Parent.PropertiesShouldBe(collectionProperty);
-
-            breadcrumb.Parent.Parent.Parent.PathShouldBe(typeof(L0).FullName, "L1Property");
-            breadcrumb.Parent.Parent.Parent.PropertiesShouldBe(l2Property);
-
-            breadcrumb.Parent.Parent.Parent.Parent.PathShouldBe(typeof(L0).FullName);
-            breadcrumb.Parent.Parent.Parent.Parent.PropertiesShouldBe(l1Property);
-
-            breadcrumb.Parent.Parent.Parent.Parent.Parent.Path.ShouldBeNull();
-
-            breadcrumb.Parent.Parent.Parent.Parent.Parent.Parent.ShouldBeNull();
+            X_property_breadcrumb_asserts(breadcrumb, hasItemTo: false);
         }
 
         [Fact]
@@ -252,39 +254,32 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             var breadcrumb = result.GetDeltas(xProperty).Single(x => x.ChangeType == ChangeType.Insert).Breadcrumb;
 
-            breadcrumb.DisplayString.ShouldBeNull();
-
             breadcrumb.PropertyFrom.ShouldBeNull();
             breadcrumb.PropertyTo.ShouldBe(xProperty);
 
             breadcrumb.ItemFrom.ShouldBeNull();
             breadcrumb.ItemTo.TypesShouldBe<V>();
 
+            X_property_breadcrumb_asserts(breadcrumb, hasItemFrom: false);
+        }
+
+        private static void X_property_breadcrumb_asserts(Breadcrumb breadcrumb, bool hasItemFrom = true, bool hasItemTo = true)
+        {
+            var collectionProperty = typeof(L2).GetProperty("Collection1Property");
+
+            breadcrumb.DisplayString.ShouldBeNull();
+
             breadcrumb.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property", "Collection1Property", typeof(V).FullName);
 
-            breadcrumb.Parent.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property", "Collection1Property");
-            breadcrumb.Parent.PropertiesShouldBeNull();
+            breadcrumb.DisplayString.ShouldBeNull();
 
-            breadcrumb.Parent.Parent.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property");
-            breadcrumb.Parent.Parent.PropertiesShouldBe(collectionProperty);
-
-            breadcrumb.Parent.Parent.Parent.PathShouldBe(typeof(L0).FullName, "L1Property");
-            breadcrumb.Parent.Parent.Parent.PropertiesShouldBe(l2Property);
-
-            breadcrumb.Parent.Parent.Parent.Parent.PathShouldBe(typeof(L0).FullName);
-            breadcrumb.Parent.Parent.Parent.Parent.PropertiesShouldBe(l1Property);
-
-            breadcrumb.Parent.Parent.Parent.Parent.Parent.Path.ShouldBeNull();
-
-            breadcrumb.Parent.Parent.Parent.Parent.Parent.Parent.ShouldBeNull();
+            L2_member_breadcrumb_asserts<V>(breadcrumb.Parent, collectionProperty, hasItemFrom, hasItemTo, hasDynamicObject: true);
         }
 
         [Fact]
         public void Collection2_2_property_delta_should_have_expected_values()
         {
             var collectionProperty = typeof(L2).GetProperty("Collection2Property");
-
-            //var delta = result.GetDeltas(collectionProperty).Single(x => x.ChangeType == ChangeType.Delete);
 
             var delta = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Delete);
 
@@ -298,37 +293,13 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         [Fact]
         public void Collection2_2_property_breadcrumb_should_have_expected_values()
         {
-            var l1Property = typeof(L0).GetProperty("L1Property");
-            var l2Property = typeof(L1).GetProperty("L2Property");
             var collectionProperty = typeof(L2).GetProperty("Collection2Property");
 
             var breadcrumb = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Delete).Breadcrumb;
 
             breadcrumb.DisplayString.ShouldBeNull();
 
-            breadcrumb.PropertiesShouldBeNull();
-
-            breadcrumb.ItemFrom.DynamicObject.ShouldBeNull();
-            breadcrumb.ItemFrom.Instance.ShouldBeInstanceOf<int[]>();
-            breadcrumb.ItemFrom.InstanceType.ShouldBe(typeof(int[]));
-            breadcrumb.ItemTo.DynamicObject.ShouldBeNull();
-            breadcrumb.ItemTo.Instance.ShouldBeInstanceOf<int[]>();
-            breadcrumb.ItemTo.InstanceType.ShouldBe(typeof(int[]));
-
-            breadcrumb.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property", "Collection2Property");
-
-            breadcrumb.Parent.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property");
-            breadcrumb.Parent.PropertiesShouldBe(collectionProperty);
-
-            breadcrumb.Parent.Parent.PathShouldBe(typeof(L0).FullName, "L1Property");
-            breadcrumb.Parent.Parent.PropertiesShouldBe(l2Property);
-
-            breadcrumb.Parent.Parent.Parent.PathShouldBe(typeof(L0).FullName);
-            breadcrumb.Parent.Parent.Parent.PropertiesShouldBe(l1Property);
-
-            breadcrumb.Parent.Parent.Parent.Parent.Path.ShouldBeNull();
-
-            breadcrumb.Parent.Parent.Parent.Parent.Parent.ShouldBeNull();
+            L2_member_breadcrumb_asserts<int[]>(breadcrumb, collectionProperty);
         }
 
         [Fact]
@@ -348,27 +319,116 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         [Fact]
         public void Collection2_3_property_breadcrumb_should_have_expected_values()
         {
-            var l1Property = typeof(L0).GetProperty("L1Property");
-            var l2Property = typeof(L1).GetProperty("L2Property");
             var collectionProperty = typeof(L2).GetProperty("Collection2Property");
 
             var breadcrumb = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Insert).Breadcrumb;
 
             breadcrumb.DisplayString.ShouldBeNull();
 
+            L2_member_breadcrumb_asserts<int[]>(breadcrumb, collectionProperty);
+        }
+
+        [Fact]
+        public void Collection3_2_property_delta_should_have_expected_values()
+        {
+            var collectionProperty = typeof(L2).GetProperty("Collection3Property");
+
+            var delta = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Delete);
+
+            delta.ChangeType.ShouldBe(ChangeType.Delete);
+            delta.OldValue.ShouldBe(N.Two.ToString());
+            delta.NewValue.ShouldBeNull();
+            delta.DisplayValuesShouldBeNull();
+            delta.PropertiesShouldBeNull();
+        }
+
+        [Fact]
+        public void Collection3_2_property_breadcrumb_should_have_expected_values()
+        {
+            var collectionProperty = typeof(L2).GetProperty("Collection3Property");
+
+            var breadcrumb = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Delete).Breadcrumb;
+
+            breadcrumb.DisplayString.ShouldBeNull();
+
+            L2_member_breadcrumb_asserts<N[]>(breadcrumb, collectionProperty);
+        }
+
+        [Fact]
+        public void Collection3_3_property_delta_should_have_expected_values()
+        {
+            var collectionProperty = typeof(L2).GetProperty("Collection3Property");
+
+            var delta = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Insert);
+
+            delta.ChangeType.ShouldBe(ChangeType.Insert);
+            delta.OldValue.ShouldBeNull();
+            delta.NewValue.ShouldBe(N.Three.ToString());
+            delta.DisplayValuesShouldBeNull();
+            delta.PropertiesShouldBeNull();
+        }
+
+        [Fact]
+        public void Collection3_3_property_breadcrumb_should_have_expected_values()
+        {
+            var collectionProperty = typeof(L2).GetProperty("Collection3Property");
+
+            var breadcrumb = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Insert).Breadcrumb;
+
+            breadcrumb.DisplayString.ShouldBeNull();
+
+            L2_member_breadcrumb_asserts<N[]>(breadcrumb, collectionProperty);
+        }
+
+        private static void L2_member_breadcrumb_asserts<T>(Breadcrumb breadcrumb, System.Reflection.PropertyInfo property, bool hasItemFrom = true, bool hasItemTo = true, bool hasDynamicObject = false)
+        {
+            var l1Property = typeof(L0).GetProperty("L1Property");
+            var l2Property = typeof(L1).GetProperty("L2Property");
+
             breadcrumb.PropertiesShouldBeNull();
 
-            breadcrumb.ItemFrom.DynamicObject.ShouldBeNull();
-            breadcrumb.ItemFrom.Instance.ShouldBeInstanceOf<int[]>();
-            breadcrumb.ItemFrom.InstanceType.ShouldBe(typeof(int[]));
-            breadcrumb.ItemTo.DynamicObject.ShouldBeNull();
-            breadcrumb.ItemTo.Instance.ShouldBeInstanceOf<int[]>();
-            breadcrumb.ItemTo.InstanceType.ShouldBe(typeof(int[]));
+            if (hasItemFrom)
+            {
+                breadcrumb.ItemFrom.Instance.ShouldBeInstanceOf<T>();
+                breadcrumb.ItemFrom.InstanceType.ShouldBe(typeof(T));
 
-            breadcrumb.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property", "Collection2Property");
+                if (hasDynamicObject)
+                {
+                    breadcrumb.ItemFrom.DynamicObject.Type.Type.ShouldBe(typeof(T));
+                }
+                else
+                {
+                    breadcrumb.ItemFrom.DynamicObject.ShouldBeNull();
+                }
+            }
+            else
+            {
+                breadcrumb.ItemFrom.ShouldBeNull();
+            }
+
+            if (hasItemTo)
+            {
+                breadcrumb.ItemTo.Instance.ShouldBeInstanceOf<T>();
+                breadcrumb.ItemTo.InstanceType.ShouldBe(typeof(T));
+
+                if (hasDynamicObject)
+                {
+                    breadcrumb.ItemTo.DynamicObject.Type.Type.ShouldBe(typeof(T));
+                }
+                else
+                {
+                    breadcrumb.ItemTo.DynamicObject.ShouldBeNull();
+                }
+            }
+            else
+            {
+                breadcrumb.ItemTo.ShouldBeNull();
+            }
+
+            breadcrumb.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property", property.Name);
 
             breadcrumb.Parent.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property");
-            breadcrumb.Parent.PropertiesShouldBe(collectionProperty);
+            breadcrumb.Parent.PropertiesShouldBe(property);
 
             breadcrumb.Parent.Parent.PathShouldBe(typeof(L0).FullName, "L1Property");
             breadcrumb.Parent.Parent.PropertiesShouldBe(l2Property);
