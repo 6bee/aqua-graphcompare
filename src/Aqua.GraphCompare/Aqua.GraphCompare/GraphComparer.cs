@@ -11,15 +11,24 @@ namespace Aqua.GraphCompare
 
         private readonly Func<object, PropertyInfo, string> _propertyDisplayStringProvider;
 
+        private readonly Func<object, DynamicObjectWithOriginalReference> _objectMapper;
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="displayStringProvider">Optional function delegate to create display strings for breadcrumb levels</param>
         /// <param name="propertyDisplayStringProvider">Optional function delegate to create display strings for property values.</param>
-        public GraphComparer(Func<object, PropertyInfo, string> displayStringProvider = null, Func<object, PropertyInfo, string> propertyDisplayStringProvider = null)
+        /// <param name="objectMapper">Optional function to map object instances to dynamoc objects for comparison.</param>
+        public GraphComparer(Func<object, PropertyInfo, string> displayStringProvider = null, Func<object, PropertyInfo, string> propertyDisplayStringProvider = null, Func<object,DynamicObjectWithOriginalReference> objectMapper = null)
         {
             _displayStringProvider = displayStringProvider;
             _propertyDisplayStringProvider = propertyDisplayStringProvider;
+            _objectMapper = objectMapper;
+        }
+
+        protected override DynamicObjectWithOriginalReference MapObject(object obj)
+        {
+            return ReferenceEquals(null, _objectMapper) ? base.MapObject(obj) : _objectMapper(obj);
         }
 
         protected override string GetDisplayString(DynamicObjectWithOriginalReference fromObj, DynamicObjectWithOriginalReference toObj, PropertyInfo fromProperty, PropertyInfo toProperty)

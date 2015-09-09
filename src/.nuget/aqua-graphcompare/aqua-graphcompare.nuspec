@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>aqua-graphcompare</id>
-    <version>1.0.0-alpha004</version>
+    <version>1.0.0-alpha005</version>
     <authors>Christof Senn</authors>
     <owners>Christof Senn</owners>
     <licenseUrl>https://raw.githubusercontent.com/6bee/aqua-core/master/license.txt</licenseUrl>
@@ -14,7 +14,7 @@
     <copyright>Copyright Christof Senn 2015</copyright>
     <tags>graph-compare deep-compare object-compare</tags>
     <dependencies>
-      <dependency id="aqua-core" version="[2.0.0,)" />
+      <dependency id="aqua-core" version="[3.0.0-alpha001,)" />
     </dependencies>
   </metadata>
   <files>  

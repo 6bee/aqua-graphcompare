@@ -12,6 +12,8 @@ namespace Aqua.GraphCompare
     {
         private static readonly object[] EmptyList = new object[0];
 
+        private readonly ObjectMapper _mapper = new ObjectMapper();
+
         public ComparisonResult Compare(object from, object to)
         {
             if (ReferenceEquals(null, from) && ReferenceEquals(null, to))
@@ -19,11 +21,9 @@ namespace Aqua.GraphCompare
                 throw new ArgumentException("Only one of 'from' and 'to' may be null.");
             }
 
-            var mapper = new ObjectMapper();
+            var item1 = MapObject(from);
 
-            var item1 = mapper.MapToDynamicObjectWithOriginalReference(from);
-
-            var item2 = mapper.MapToDynamicObjectWithOriginalReference(to);
+            var item2 = MapObject(to);
 
             var deltas = new List<Delta>();
 
@@ -36,6 +36,11 @@ namespace Aqua.GraphCompare
             var toObjType = GetTypeInfo(item2);
 
             return new ComparisonResult(fromObjType, toObjType, deltas);
+        }
+
+        protected virtual DynamicObjectWithOriginalReference MapObject(object obj)
+        {
+            return _mapper.MapToDynamicObjectWithOriginalReference(obj);
         }
 
         protected virtual void CompareInstances(Breadcrumb breadcrumb, DynamicObjectWithOriginalReference item1, DynamicObjectWithOriginalReference item2, List<Delta> deltas, HashSet<object> referenceTracker)
@@ -378,6 +383,11 @@ namespace Aqua.GraphCompare
 
         private sealed class ObjectMapper : DynamicObjectMapper
         {
+            public ObjectMapper()
+                : base(isKnownType: t => t.IsEnum)
+            {
+            }
+
             public DynamicObjectWithOriginalReference MapToDynamicObjectWithOriginalReference(object obj)
             {
                 return (DynamicObjectWithOriginalReference)MapObject(obj, setTypeInformation: t => true);

@@ -336,7 +336,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
             var delta = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Delete);
 
             delta.ChangeType.ShouldBe(ChangeType.Delete);
-            delta.OldValue.ShouldBe(N.Two.ToString());
+            delta.OldValue.ShouldBe(N.Two);
             delta.NewValue.ShouldBeNull();
             delta.DisplayValuesShouldBeNull();
             delta.PropertiesShouldBeNull();
@@ -363,7 +363,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             delta.ChangeType.ShouldBe(ChangeType.Insert);
             delta.OldValue.ShouldBeNull();
-            delta.NewValue.ShouldBe(N.Three.ToString());
+            delta.NewValue.ShouldBe(N.Three);
             delta.DisplayValuesShouldBeNull();
             delta.PropertiesShouldBeNull();
         }
