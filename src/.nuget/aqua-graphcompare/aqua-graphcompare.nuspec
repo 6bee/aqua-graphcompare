@@ -12,7 +12,7 @@
     <description>Comparer for arbitrary object graphs</description>
     <!--<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>-->
     <copyright>Copyright Christof Senn 2015</copyright>
-    <tags>graph-compare deep-compare object-compare</tags>
+    <tags>compare diff graph-compare graph-diff deep-compare deep-diff object-compare object-diff</tags>
     <dependencies>
       <dependency id="aqua-core" version="[3.0.0-alpha001,)" />
     </dependencies>
