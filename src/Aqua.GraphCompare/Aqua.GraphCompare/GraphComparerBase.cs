@@ -27,7 +27,7 @@ namespace Aqua.GraphCompare
 
             var deltas = new List<Delta>();
 
-            var breadcrumb = new Breadcrumb(item1, item2, () => GetDisplayString(item1, item2, null, null));
+            var breadcrumb = new Breadcrumb(item1, item2, () => GetInstanceDisplayString(item1, item2, null, null));
 
             CompareInstances(breadcrumb, item1, item2, deltas, new HashSet<object>(ObjectReferenceEqualityComparer<object>.Instance));
 
@@ -85,7 +85,7 @@ namespace Aqua.GraphCompare
             var value1Obj = value1 as DynamicObjectWithOriginalReference;
             var value2Obj = value2 as DynamicObjectWithOriginalReference;
 
-            var nextBreadcrumb = breadcrumb.AddLevel(item1, item2, () => GetDisplayString(value1Obj, value2Obj, propertyFrom, propertyTo), propertyFrom, propertyTo);
+            var nextBreadcrumb = breadcrumb.AddLevel(item1, item2, () => GetInstanceDisplayString(value1, value2, propertyFrom, propertyTo), propertyFrom, propertyTo);
 
             if (!ReferenceEquals(null, value1) && !ReferenceEquals(null, value2) && value1.GetType() != value2.GetType())
             {
@@ -168,7 +168,7 @@ namespace Aqua.GraphCompare
                 }
                 else
                 {
-                    var nextBreadcrumb = breadcrumb.AddLevel(item1, item2, () => GetDisplayString(item1, item2, breadcrumb.PropertyFrom, breadcrumb.PropertyTo), null, null);
+                    var nextBreadcrumb = breadcrumb.AddLevel(item1, item2, () => GetInstanceDisplayString(item1, item2, breadcrumb.PropertyFrom, breadcrumb.PropertyTo), null, null);
 
                     CompareInstances(nextBreadcrumb, item1, item2, deltas, referenceTracker);
                 }
@@ -186,8 +186,8 @@ namespace Aqua.GraphCompare
 
         protected virtual Delta CreateDelta(Breadcrumb breadcrumb, DynamicObjectWithOriginalReference item1, DynamicObjectWithOriginalReference item2, ChangeType changeType, object value1, object value2)
         {
-            var displayValue1 = ReferenceEquals(null, item1) ? null : GetPropertyDisplayValue(breadcrumb.PropertyFrom, item1);
-            var displayValue2 = ReferenceEquals(null, item2) ? null : GetPropertyDisplayValue(breadcrumb.PropertyTo, item2);
+            var displayValue1 = ReferenceEquals(null, item1) || ReferenceEquals(null, breadcrumb.PropertyFrom) ? GetPropertyValueDisplayString(null, value1) : GetPropertyValueDisplayString(breadcrumb.PropertyFrom, item1);
+            var displayValue2 = ReferenceEquals(null, item2) || ReferenceEquals(null, breadcrumb.PropertyTo) ? GetPropertyValueDisplayString(null, value2) : GetPropertyValueDisplayString(breadcrumb.PropertyTo, item2);
 
             return new Delta(changeType, breadcrumb, value1, value2, displayValue1, displayValue2);
         }
@@ -211,9 +211,9 @@ namespace Aqua.GraphCompare
             return changeType;
         }
 
-        protected abstract string GetDisplayString(DynamicObjectWithOriginalReference fromObj, DynamicObjectWithOriginalReference toObj, PropertyInfo fromProperty, PropertyInfo toProperty);
+        protected abstract string GetInstanceDisplayString(object fromObj, object toObj, PropertyInfo fromProperty, PropertyInfo toProperty);
 
-        protected abstract string GetPropertyDisplayValue(PropertyInfo property, DynamicObjectWithOriginalReference obj);
+        protected abstract string GetPropertyValueDisplayString(PropertyInfo property, object obj);
 
         protected virtual bool AreValuesEqual(object value1, object value2)
         {

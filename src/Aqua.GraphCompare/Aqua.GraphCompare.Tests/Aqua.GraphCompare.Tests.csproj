@@ -52,6 +52,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="GraphComparer\When_comparing_nested_changes_with_display_string_attributes.cs" />
     <Compile Include="GraphComparer\When_comparing_nested_changes.cs" />
     <Compile Include="GraphComparer\When_comparing_dynamic_objects.cs" />
     <Compile Include="GraphComparer\When_comparing_objects_with_different_property_type.cs" />

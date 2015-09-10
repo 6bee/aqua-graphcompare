@@ -4,7 +4,7 @@ namespace Aqua.GraphCompare
 {
     using System;
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property |  AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public class DisplayStringAttribute : Attribute
     {
         private readonly string _displayString;

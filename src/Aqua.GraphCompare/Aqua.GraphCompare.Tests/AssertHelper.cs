@@ -67,6 +67,11 @@ namespace Aqua.GraphCompare.Tests
             return result.Deltas.Where(x => x.PropertyFrom == property || x.PropertyTo == property);
         }
 
+        public static IEnumerable<Delta> GetDeltas<T>(this ComparisonResult result, string propertyName)
+        {
+            return GetDeltas(result, typeof(T).GetProperty(propertyName));
+        }
+
         public static Delta GetDelta(this ComparisonResult result, System.Reflection.PropertyInfo property)
         {
             return result.Deltas.Single(x => x.PropertyFrom == property || x.PropertyTo == property);

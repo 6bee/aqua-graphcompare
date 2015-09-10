@@ -105,14 +105,7 @@ namespace Aqua.GraphCompare
                 return DisplayString;
             }
 
-            string displayString = DisplayString;
-
-            var property = PropertyTo ?? PropertyFrom;
-
-            if (ReferenceEquals(null, displayString) && !ReferenceEquals(null, property))
-            {
-                displayString = property.Name;
-            }
+            var displayString = DisplayString;
 
             var path = Path;
 
