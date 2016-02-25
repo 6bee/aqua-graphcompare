@@ -5,7 +5,7 @@ namespace Aqua.GraphCompare.Tests
     using Aqua.GraphCompare;
     using System.Collections.Generic;
     using System.Linq;
-    using Xunit.Should;
+    using Xunit.Fluent;
 
     public static class AssertHelper
     {
@@ -36,7 +36,7 @@ namespace Aqua.GraphCompare.Tests
         public static void TypesShouldBe<T>(this Breadcrumb.Item item)
         {
             item.DynamicObject.Type.Type.ShouldBe(typeof(T));
-            item.Instance.ShouldBeInstanceOf<T>();
+            item.Instance.ShouldBeOfType<T>();
             item.InstanceType.ShouldBe(typeof(T));
         }
 

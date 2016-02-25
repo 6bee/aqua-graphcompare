@@ -87,14 +87,14 @@ namespace Aqua.GraphCompare
 
             var nextBreadcrumb = breadcrumb.AddLevel(item1, item2, () => GetInstanceDisplayString(value1, value2, propertyFrom, propertyTo), propertyFrom, propertyTo);
 
-            if (!ReferenceEquals(null, value1) && !ReferenceEquals(null, value2) && value1.GetType() != value2.GetType())
+            if (IsArray(value1) || IsArray(value2))
+            {
+                CompareCollections(nextBreadcrumb, AsObjectArray(value1), AsObjectArray(value2), deltas, referenceTracker);
+            }
+            else if (!ReferenceEquals(null, value1) && !ReferenceEquals(null, value2) && value1.GetType() != value2.GetType())
             {
                 ComparePropertyValues(breadcrumb, item1, item2, ChangeType.Insert, null, propertyTo, null, value2, deltas, referenceTracker);
                 ComparePropertyValues(breadcrumb, item1, item2, ChangeType.Delete, propertyFrom, null, value1, null, deltas, referenceTracker);
-            }
-            else if (value1 is object[] || value2 is object[])
-            {
-                CompareCollections(nextBreadcrumb, (value1 as object[]) ?? EmptyList, (value2 as object[]) ?? EmptyList, deltas, referenceTracker);
             }
             else if (value1 is DynamicObjectWithOriginalReference || value2 is DynamicObjectWithOriginalReference)
             {
@@ -104,6 +104,22 @@ namespace Aqua.GraphCompare
             {
                 CompareValues(nextBreadcrumb, item1, item2, changeType, value1, value2, deltas);
             }
+        }
+
+        private static object[] AsObjectArray(object obj)
+        {
+            var objectArray = obj as object[];
+            if (!ReferenceEquals(null, objectArray)) return objectArray;
+
+            var enumerable = obj as System.Collections.IEnumerable;
+            if (!ReferenceEquals(null, enumerable)) return enumerable.Cast<object>().ToArray();
+
+            return EmptyList;
+        }
+
+        private static bool IsArray(object obj)
+        {
+            return obj is object[] || (!ReferenceEquals(null, obj) && obj.GetType().IsArray);
         }
 
         protected virtual void CompareCollections(Breadcrumb breadcrumb, object[] list1, object[] list2, List<Delta> deltas, HashSet<object> referenceTracker)

@@ -6,7 +6,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
     using System.Collections.Generic;
     using System.Linq;
     using Xunit;
-    using Xunit.Should;
+    using Xunit.Fluent;
 
     public class When_comparing_nested_changes_with_display_string_attributes
     {
@@ -330,7 +330,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
             {
                 breadcrumb.ItemFrom.TypesShouldBe<V>();
                 breadcrumb.PropertyFrom.ShouldBe(xProperty);
-                breadcrumb.Parent.ItemFrom.Instance.ShouldBeInstanceOf<V>();
+                breadcrumb.Parent.ItemFrom.Instance.ShouldBeOfType<V>();
                 breadcrumb.Parent.ItemFrom.InstanceType.ShouldBe(typeof(V));
                 breadcrumb.Parent.ItemFrom.DynamicObject.Type.Type.ShouldBe(typeof(V));
             }
@@ -345,7 +345,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
             {
                 breadcrumb.ItemTo.TypesShouldBe<V>();
                 breadcrumb.PropertyTo.ShouldBe(xProperty);
-                breadcrumb.Parent.ItemTo.Instance.ShouldBeInstanceOf<V>();
+                breadcrumb.Parent.ItemTo.Instance.ShouldBeOfType<V>();
                 breadcrumb.Parent.ItemTo.InstanceType.ShouldBe(typeof(V));
                 breadcrumb.Parent.ItemTo.DynamicObject.Type.Type.ShouldBe(typeof(V));
             }
@@ -389,11 +389,11 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             breadcrumb.PropertiesShouldBeNull();
 
-            breadcrumb.ItemFrom.Instance.ShouldBeInstanceOf<int[]>();
+            breadcrumb.ItemFrom.Instance.ShouldBeOfType<int[]>();
             breadcrumb.ItemFrom.InstanceType.ShouldBe(typeof(int[]));
             breadcrumb.ItemFrom.DynamicObject.ShouldBeNull();
 
-            breadcrumb.ItemTo.Instance.ShouldBeInstanceOf<int[]>();
+            breadcrumb.ItemTo.Instance.ShouldBeOfType<int[]>();
             breadcrumb.ItemTo.InstanceType.ShouldBe(typeof(int[]));
             breadcrumb.ItemTo.DynamicObject.ShouldBeNull();
 
@@ -430,11 +430,11 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             breadcrumb.PropertiesShouldBeNull();
 
-            breadcrumb.ItemFrom.Instance.ShouldBeInstanceOf<int[]>();
+            breadcrumb.ItemFrom.Instance.ShouldBeOfType<int[]>();
             breadcrumb.ItemFrom.InstanceType.ShouldBe(typeof(int[]));
             breadcrumb.ItemFrom.DynamicObject.ShouldBeNull();
 
-            breadcrumb.ItemTo.Instance.ShouldBeInstanceOf<int[]>();
+            breadcrumb.ItemTo.Instance.ShouldBeOfType<int[]>();
             breadcrumb.ItemTo.InstanceType.ShouldBe(typeof(int[]));
             breadcrumb.ItemTo.DynamicObject.ShouldBeNull();
 
@@ -472,11 +472,11 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             breadcrumb.PropertiesShouldBeNull();
 
-            breadcrumb.ItemFrom.Instance.ShouldBeInstanceOf<N[]>();
+            breadcrumb.ItemFrom.Instance.ShouldBeOfType<N[]>();
             breadcrumb.ItemFrom.InstanceType.ShouldBe(typeof(N[]));
             breadcrumb.ItemFrom.DynamicObject.ShouldBeNull();
 
-            breadcrumb.ItemTo.Instance.ShouldBeInstanceOf<N[]>();
+            breadcrumb.ItemTo.Instance.ShouldBeOfType<N[]>();
             breadcrumb.ItemTo.InstanceType.ShouldBe(typeof(N[]));
             breadcrumb.ItemTo.DynamicObject.ShouldBeNull();
 
@@ -514,11 +514,11 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             breadcrumb.PropertiesShouldBeNull();
 
-            breadcrumb.ItemFrom.Instance.ShouldBeInstanceOf<N[]>();
+            breadcrumb.ItemFrom.Instance.ShouldBeOfType<N[]>();
             breadcrumb.ItemFrom.InstanceType.ShouldBe(typeof(N[]));
             breadcrumb.ItemFrom.DynamicObject.ShouldBeNull();
 
-            breadcrumb.ItemTo.Instance.ShouldBeInstanceOf<N[]>();
+            breadcrumb.ItemTo.Instance.ShouldBeOfType<N[]>();
             breadcrumb.ItemTo.InstanceType.ShouldBe(typeof(N[]));
             breadcrumb.ItemTo.DynamicObject.ShouldBeNull();
 

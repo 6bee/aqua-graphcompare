@@ -5,7 +5,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
     using Aqua.GraphCompare;
     using System.Linq;
     using Xunit;
-    using Xunit.Should;
+    using Xunit.Fluent;
 
     public class When_comparing_anonymous_types
     {
@@ -17,56 +17,66 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
             {
                 Name = "test name",
                 Value = 1.23456789m,
-                Collection1 = new[] 
+                Collection1 = new[]
                 {
                     new { X = "x1" },
                     new { X = "x2" },
                     new { X = "x3" },
                 },
-                Collection2 = new[] 
+                Collection2 = new[]
                 {
                     new { Y = "y1" },
                     new { Y = "y2" },
                 },
-                Collection3 = new[] 
+                Collection3 = new[]
                 {
                     "z1",
                     "z2"
                 },
-                Collection4 = new[] 
+                Collection4 = new[]
                 {
                     "z1",
                     "z2"
                 },
                 Collection5 = (int[])null,
+                Collection6 = new[]
+                {
+                    1,
+                    2
+                },
             };
 
             var item2 = new
             {
                 Name = "test new name",
                 Value = "abc",
-                Collection1 = new[] 
+                Collection1 = new[]
                 {
                     new { X = "x1" },
                     new { X = "x2" },
                     new { X = "x3" },
                 },
-                Collection2 = new[] 
+                Collection2 = new[]
                 {
                     new { Y = "y1" },
                     new { Y = "y3" },
                 },
-                Collection3 = new[] 
+                Collection3 = new[]
                 {
                     "z1",
                     "z3"
                 },
                 Collection4 = (string[])null,
-                Collection5 = new[] 
-                { 
+                Collection5 = new[]
+                {
                     1,
                     2
-                }
+                },
+                Collection6 = new[]
+                {
+                    1,
+                    3
+                },
             };
 
             result = new GraphComparer().Compare(item1, item2);
@@ -81,7 +91,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         [Fact]
         public void Should_have_expected_number_of_deltas()
         {
-            result.Deltas.Count().ShouldBe(11);
+            result.Deltas.Count().ShouldBe(13);
         }
 
         [Fact]

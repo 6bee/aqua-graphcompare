@@ -3,9 +3,10 @@
 namespace Aqua.GraphCompare.Tests.GraphComparer
 {
     using Aqua.GraphCompare;
+    using System.Collections.Generic;
     using System.Linq;
     using Xunit;
-    using Xunit.Should;
+    using Xunit.Fluent;
 
     public class When_comparing_collections
     {
@@ -13,7 +14,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
         public When_comparing_collections()
         {
-            var collection1 = new string[]
+            var collection1 = new []
             {
                 "1",
                 "2",
@@ -21,7 +22,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                 "4"
             };
 
-            var collection2 = new object[]
+            var collection2 = new List<object>
             {
                 
                 "1",

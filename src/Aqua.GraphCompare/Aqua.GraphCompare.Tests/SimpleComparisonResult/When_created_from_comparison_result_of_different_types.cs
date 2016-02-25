@@ -7,7 +7,7 @@ namespace Aqua.GraphCompare.Tests.SimpleComparisonResult
     using System.Reflection;
     using System.Linq;
     using Xunit;
-    using Xunit.Should;
+    using Xunit.Fluent;
     using Aqua.Dynamic;
 
     public class When_created_from_comparison_result_of_different_types
@@ -76,8 +76,8 @@ namespace Aqua.GraphCompare.Tests.SimpleComparisonResult
             d.NewValue.ShouldBe("S2");
             d.OldDisplayValue.ShouldBe("vS1");
             d.NewDisplayValue.ShouldBe("vS2");
-            d.Breadcrumb.ItemFrom.Instance.ShouldBeInstanceOf<A>();
-            d.Breadcrumb.ItemTo.Instance.ShouldBeInstanceOf<B>();
+            d.Breadcrumb.ItemFrom.Instance.ShouldBeOfType<A>();
+            d.Breadcrumb.ItemTo.Instance.ShouldBeOfType<B>();
             d.Breadcrumb.Parent.ShouldBeNull();
             d.Breadcrumb.Property.ShouldBe(StringValuePropertyB);
         }
@@ -91,8 +91,8 @@ namespace Aqua.GraphCompare.Tests.SimpleComparisonResult
             d.NewValue.ShouldBeNull();
             d.OldDisplayValue.ShouldBe("v32");
             d.NewDisplayValue.ShouldBe("NULL");
-            d.Breadcrumb.ItemFrom.Instance.ShouldBeInstanceOf<A>();
-            d.Breadcrumb.ItemTo.Instance.ShouldBeInstanceOf<B>();
+            d.Breadcrumb.ItemFrom.Instance.ShouldBeOfType<A>();
+            d.Breadcrumb.ItemTo.Instance.ShouldBeOfType<B>();
             d.Breadcrumb.Parent.ShouldBeNull();
             d.Breadcrumb.Property.ShouldBe(Int32ValueProperty);
         }
@@ -106,8 +106,8 @@ namespace Aqua.GraphCompare.Tests.SimpleComparisonResult
             d.NewValue.ShouldBe(64);
             d.OldDisplayValue.ShouldBe("NULL");
             d.NewDisplayValue.ShouldBe("v64");
-            d.Breadcrumb.ItemFrom.Instance.ShouldBeInstanceOf<A>();
-            d.Breadcrumb.ItemTo.Instance.ShouldBeInstanceOf<B>();
+            d.Breadcrumb.ItemFrom.Instance.ShouldBeOfType<A>();
+            d.Breadcrumb.ItemTo.Instance.ShouldBeOfType<B>();
             d.Breadcrumb.Parent.ShouldBeNull();
             d.Breadcrumb.Property.ShouldBe(Int64ValueProperty);
         }
