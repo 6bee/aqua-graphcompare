@@ -5,16 +5,25 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
     using Aqua.GraphCompare;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using Xunit;
     using Xunit.Fluent;
 
-    public class When_comparing_nested_changes
+    public class When_comparing_nested_changes_with_display_string_attributes
     {
+        [DisplayString("ROOT")]
         class L0
         {
+            public N Version { get; set; }
+
+            [DisplayString("Minor Version")]
+            public N? MinorVersion { get; set; }
+
+            [DisplayString("Level-1-Property")]
             public L1 L1Property { get; set; }
         }
 
+        [DisplayString("Level-1")]
         class L1
         {
             public string NameProperty { get; set; }
@@ -22,35 +31,48 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
             public L2 L2Property { get; set; }
         }
 
+        [DisplayString("Level-2")]
         class L2
         {
             public int ValueProperty { get; set; }
 
+            [DisplayString("")]
             public V[] Collection1Property { get; set; }
 
+            [DisplayString("INT-ARRAY")]
             public int[] Collection2Property { get; set; }
 
+            [DisplayString(null)]
             public IEnumerable<N> Collection3Property { get; set; }
         }
 
+        [DisplayString("THE-V")]
         class V
         {
             public string XProperty { get; set; }
         }
 
+        [DisplayString("N-DISPLAY")]
         enum N
         {
+            [DisplayString("N-1")]
             One,
+
+            [DisplayString("N-2")]
             Two,
+
+            [DisplayString("N-3")]
             Three
         }
 
         ComparisonResult result;
 
-        public When_comparing_nested_changes()
+        public When_comparing_nested_changes_with_display_string_attributes()
         {
             var item1 = new L0
             {
+                Version = N.One,
+                MinorVersion = null,
                 L1Property = new L1
                 {
                     NameProperty = "test name",
@@ -78,6 +100,8 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             var item2 = new L0
             {
+                Version = N.Two,
+                MinorVersion = N.One,
                 L1Property = new L1
                 {
                     NameProperty = "new test name",
@@ -110,7 +134,75 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         public void Should_report_differences()
         {
             result.IsMatch.ShouldBeFalse();
-            result.Deltas.Count().ShouldBe(8);
+            result.Deltas.Count().ShouldBe(10);
+        }
+
+        [Fact]
+        public void Version_property_delta_should_have_expected_values()
+        {
+            var versionProperty = typeof(L0).GetProperty("Version");
+
+            var delta = result.GetDelta(versionProperty);
+
+            delta.ChangeType.ShouldBe(ChangeType.Update);
+            delta.OldValue.ShouldBe(N.One);
+            delta.NewValue.ShouldBe(N.Two);
+            delta.OldDisplayValue.ShouldBe("N-1");
+            delta.NewDisplayValue.ShouldBe("N-2");
+            delta.PropertiesShouldBe(versionProperty);
+        }
+
+        [Fact]
+        public void Version_property_breadcrumb_should_have_expected_values()
+        {
+            var versionProperty = typeof(L0).GetProperty("Version");
+
+            var breadcrumb = result.GetDelta(versionProperty).Breadcrumb;
+
+            breadcrumb.DisplayString.ShouldBe("N-DISPLAY");
+
+            breadcrumb.PropertiesShouldBe(versionProperty);
+
+            breadcrumb.ItemTypesShouldBe<L0>();
+
+            breadcrumb.PathShouldBe("ROOT");
+            breadcrumb.PropertiesShouldBe(versionProperty);
+
+            Assert_root_breadcrumb_values(breadcrumb.Parent);
+        }
+
+        [Fact]
+        public void MinorVersion_property_delta_should_have_expected_values()
+        {
+            var versionProperty = typeof(L0).GetProperty("MinorVersion");
+
+            var delta = result.GetDelta(versionProperty);
+
+            delta.ChangeType.ShouldBe(ChangeType.Update);
+            delta.OldValue.ShouldBeNull();
+            delta.NewValue.ShouldBe(N.One);
+            delta.OldDisplayValue.ShouldBeNull();
+            delta.NewDisplayValue.ShouldBe("N-1");
+            delta.PropertiesShouldBe(versionProperty);
+        }
+
+        [Fact]
+        public void MinorVersion_property_breadcrumb_should_have_expected_values()
+        {
+            var versionProperty = typeof(L0).GetProperty("MinorVersion");
+
+            var breadcrumb = result.GetDelta(versionProperty).Breadcrumb;
+
+            breadcrumb.DisplayString.ShouldBe("Minor Version");
+
+            breadcrumb.PropertiesShouldBe(versionProperty);
+
+            breadcrumb.ItemTypesShouldBe<L0>();
+
+            breadcrumb.PathShouldBe("ROOT");
+            breadcrumb.PropertiesShouldBe(versionProperty);
+
+            Assert_root_breadcrumb_values(breadcrumb.Parent);
         }
 
         [Fact]
@@ -130,7 +222,6 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         [Fact]
         public void Name_property_breadcrumb_should_have_expected_values()
         {
-            var l1Property = typeof(L0).GetProperty("L1Property");
             var nameProperty = typeof(L1).GetProperty("NameProperty");
 
             var breadcrumb = result.GetDelta(nameProperty).Breadcrumb;
@@ -141,15 +232,10 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             breadcrumb.ItemTypesShouldBe<L1>();
 
-            breadcrumb.PathShouldBe(typeof(L0).FullName, "L1Property");
+            breadcrumb.PathShouldBe("ROOT", "Level-1-Property");
             breadcrumb.PropertiesShouldBe(nameProperty);
 
-            breadcrumb.Parent.PathShouldBe(typeof(L0).FullName);
-            breadcrumb.Parent.PropertiesShouldBe(l1Property);
-
-            breadcrumb.Parent.Parent.Path.ShouldBeNull();
-
-            breadcrumb.Parent.Parent.Parent.ShouldBeNull();
+            Assert_level1_breadcrumb_values(breadcrumb.Parent);
         }
 
         [Fact]
@@ -169,8 +255,6 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         [Fact]
         public void Value_property_breadcrumb_should_have_expected_values()
         {
-            var l1Property = typeof(L0).GetProperty("L1Property");
-            var l2Property = typeof(L1).GetProperty("L2Property");
             var valueProperty = typeof(L2).GetProperty("ValueProperty");
 
             var breadcrumb = result.GetDelta(valueProperty).Breadcrumb;
@@ -181,18 +265,10 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             breadcrumb.ItemTypesShouldBe<L2>();
 
-            breadcrumb.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property");
+            breadcrumb.PathShouldBe("ROOT", "Level-1-Property", "Level-2");
             breadcrumb.PropertiesShouldBe(valueProperty);
 
-            breadcrumb.Parent.PathShouldBe(typeof(L0).FullName, "L1Property");
-            breadcrumb.Parent.PropertiesShouldBe(l2Property);
-
-            breadcrumb.Parent.Parent.PathShouldBe(typeof(L0).FullName);
-            breadcrumb.Parent.Parent.PropertiesShouldBe(l1Property);
-
-            breadcrumb.Parent.Parent.Parent.Path.ShouldBeNull();
-
-            breadcrumb.Parent.Parent.Parent.Parent.ShouldBeNull();
+            Assert_level2_breadcrumb_values(breadcrumb.Parent);
         }
 
         [Fact]
@@ -213,20 +289,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         [Fact]
         public void X2_property_breadcrumb_should_have_expected_values()
         {
-            var l1Property = typeof(L0).GetProperty("L1Property");
-            var l2Property = typeof(L1).GetProperty("L2Property");
-            var collectionProperty = typeof(L2).GetProperty("Collection1Property");
-            var xProperty = typeof(V).GetProperty("XProperty");
-
-            var breadcrumb = result.GetDeltas(xProperty).Single(x => x.ChangeType == ChangeType.Delete).Breadcrumb;
-
-            breadcrumb.PropertyFrom.ShouldBe(xProperty);
-            breadcrumb.PropertyTo.ShouldBeNull();
-
-            breadcrumb.ItemFrom.TypesShouldBe<V>();
-            breadcrumb.ItemTo.ShouldBeNull();
-
-            X_property_breadcrumb_asserts(breadcrumb, hasItemTo: false);
+            Assert_X_property_breadcrumb_values(ChangeType.Delete, hasItemTo: false);
         }
 
         [Fact]
@@ -247,31 +310,59 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         [Fact]
         public void X3_property_breadcrumb_should_have_expected_values()
         {
-            var l1Property = typeof(L0).GetProperty("L1Property");
-            var l2Property = typeof(L1).GetProperty("L2Property");
-            var collectionProperty = typeof(L2).GetProperty("Collection1Property");
-            var xProperty = typeof(V).GetProperty("XProperty");
-
-            var breadcrumb = result.GetDeltas(xProperty).Single(x => x.ChangeType == ChangeType.Insert).Breadcrumb;
-
-            breadcrumb.PropertyFrom.ShouldBeNull();
-            breadcrumb.PropertyTo.ShouldBe(xProperty);
-
-            breadcrumb.ItemFrom.ShouldBeNull();
-            breadcrumb.ItemTo.TypesShouldBe<V>();
-
-            X_property_breadcrumb_asserts(breadcrumb, hasItemFrom: false);
+            Assert_X_property_breadcrumb_values(ChangeType.Insert, hasItemFrom: false);
         }
 
-        private static void X_property_breadcrumb_asserts(Breadcrumb breadcrumb, bool hasItemFrom = true, bool hasItemTo = true)
+        private void Assert_X_property_breadcrumb_values(ChangeType changeType, bool hasItemFrom = true, bool hasItemTo = true)
         {
             var collectionProperty = typeof(L2).GetProperty("Collection1Property");
 
+            var xProperty = typeof(V).GetProperty("XProperty");
+
+            var breadcrumb = result.GetDeltas(xProperty).Single(x => x.ChangeType == changeType).Breadcrumb;
+
             breadcrumb.DisplayString.ShouldBe("XProperty");
 
-            breadcrumb.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property", "Collection1Property", typeof(V).FullName);
+            breadcrumb.PathShouldBe("ROOT", "Level-1-Property", "Level-2", "THE-V");
 
-            L2_member_breadcrumb_asserts<V>(breadcrumb.Parent, collectionProperty, hasItemFrom, hasItemTo, hasDynamicObject: true);
+            breadcrumb.Parent.PropertiesShouldBeNull();
+
+            if (hasItemFrom)
+            {
+                breadcrumb.ItemFrom.TypesShouldBe<V>();
+                breadcrumb.PropertyFrom.ShouldBe(xProperty);
+                breadcrumb.Parent.ItemFrom.Instance.ShouldBeOfType<V>();
+                breadcrumb.Parent.ItemFrom.InstanceType.ShouldBe(typeof(V));
+                breadcrumb.Parent.ItemFrom.DynamicObject.Type.Type.ShouldBe(typeof(V));
+            }
+            else
+            {
+                breadcrumb.ItemFrom.ShouldBeNull();
+                breadcrumb.PropertyFrom.ShouldBeNull();
+                breadcrumb.Parent.ItemFrom.ShouldBeNull();
+            }
+
+            if (hasItemTo)
+            {
+                breadcrumb.ItemTo.TypesShouldBe<V>();
+                breadcrumb.PropertyTo.ShouldBe(xProperty);
+                breadcrumb.Parent.ItemTo.Instance.ShouldBeOfType<V>();
+                breadcrumb.Parent.ItemTo.InstanceType.ShouldBe(typeof(V));
+                breadcrumb.Parent.ItemTo.DynamicObject.Type.Type.ShouldBe(typeof(V));
+            }
+            else
+            {
+                breadcrumb.ItemTo.ShouldBeNull();
+                breadcrumb.Parent.ItemTo.ShouldBeNull();
+                breadcrumb.PropertyTo.ShouldBeNull();
+            }
+
+            breadcrumb.Parent.PathShouldBe("ROOT", "Level-1-Property", "Level-2");
+
+            breadcrumb.Parent.Parent.PathShouldBe("ROOT", "Level-1-Property", "Level-2");
+            breadcrumb.Parent.Parent.PropertiesShouldBe(collectionProperty);
+
+            Assert_level2_breadcrumb_values(breadcrumb.Parent.Parent.Parent);
         }
 
         [Fact]
@@ -297,7 +388,22 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             breadcrumb.DisplayString.ShouldBeNull();
 
-            L2_member_breadcrumb_asserts<int[]>(breadcrumb, collectionProperty);
+            breadcrumb.PropertiesShouldBeNull();
+
+            breadcrumb.ItemFrom.Instance.ShouldBeOfType<int[]>();
+            breadcrumb.ItemFrom.InstanceType.ShouldBe(typeof(int[]));
+            breadcrumb.ItemFrom.DynamicObject.ShouldBeNull();
+
+            breadcrumb.ItemTo.Instance.ShouldBeOfType<int[]>();
+            breadcrumb.ItemTo.InstanceType.ShouldBe(typeof(int[]));
+            breadcrumb.ItemTo.DynamicObject.ShouldBeNull();
+
+            breadcrumb.PathShouldBe("ROOT", "Level-1-Property", "Level-2", "INT-ARRAY");
+
+            breadcrumb.Parent.PathShouldBe("ROOT", "Level-1-Property", "Level-2");
+            breadcrumb.Parent.PropertiesShouldBe(collectionProperty);
+
+            Assert_level2_breadcrumb_values(breadcrumb.Parent.Parent);
         }
 
         [Fact]
@@ -323,7 +429,22 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             breadcrumb.DisplayString.ShouldBeNull();
 
-            L2_member_breadcrumb_asserts<int[]>(breadcrumb, collectionProperty);
+            breadcrumb.PropertiesShouldBeNull();
+
+            breadcrumb.ItemFrom.Instance.ShouldBeOfType<int[]>();
+            breadcrumb.ItemFrom.InstanceType.ShouldBe(typeof(int[]));
+            breadcrumb.ItemFrom.DynamicObject.ShouldBeNull();
+
+            breadcrumb.ItemTo.Instance.ShouldBeOfType<int[]>();
+            breadcrumb.ItemTo.InstanceType.ShouldBe(typeof(int[]));
+            breadcrumb.ItemTo.DynamicObject.ShouldBeNull();
+
+            breadcrumb.PathShouldBe("ROOT", "Level-1-Property", "Level-2", "INT-ARRAY");
+
+            breadcrumb.Parent.PathShouldBe("ROOT", "Level-1-Property", "Level-2");
+            breadcrumb.Parent.PropertiesShouldBe(collectionProperty);
+
+            Assert_level2_breadcrumb_values(breadcrumb.Parent.Parent);
         }
 
         [Fact]
@@ -336,7 +457,8 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
             delta.ChangeType.ShouldBe(ChangeType.Delete);
             delta.OldValue.ShouldBe(N.Two);
             delta.NewValue.ShouldBeNull();
-            delta.DisplayValuesShouldBeNull();
+            delta.OldDisplayValue.ShouldBe("N-2");
+            delta.NewDisplayValue.ShouldBeNull();
             delta.PropertiesShouldBeNull();
         }
 
@@ -349,7 +471,22 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             breadcrumb.DisplayString.ShouldBeNull();
 
-            L2_member_breadcrumb_asserts<N[]>(breadcrumb, collectionProperty);
+            breadcrumb.PropertiesShouldBeNull();
+
+            breadcrumb.ItemFrom.Instance.ShouldBeOfType<N[]>();
+            breadcrumb.ItemFrom.InstanceType.ShouldBe(typeof(N[]));
+            breadcrumb.ItemFrom.DynamicObject.ShouldBeNull();
+
+            breadcrumb.ItemTo.Instance.ShouldBeOfType<N[]>();
+            breadcrumb.ItemTo.InstanceType.ShouldBe(typeof(N[]));
+            breadcrumb.ItemTo.DynamicObject.ShouldBeNull();
+
+            breadcrumb.PathShouldBe("ROOT", "Level-1-Property", "Level-2");
+
+            breadcrumb.Parent.PathShouldBe("ROOT", "Level-1-Property", "Level-2");
+            breadcrumb.Parent.PropertiesShouldBe(collectionProperty);
+
+            Assert_level2_breadcrumb_values(breadcrumb.Parent.Parent);
         }
 
         [Fact]
@@ -362,7 +499,8 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
             delta.ChangeType.ShouldBe(ChangeType.Insert);
             delta.OldValue.ShouldBeNull();
             delta.NewValue.ShouldBe(N.Three);
-            delta.DisplayValuesShouldBeNull();
+            delta.OldDisplayValue.ShouldBeNull();
+            delta.NewDisplayValue.ShouldBe("N-3");
             delta.PropertiesShouldBeNull();
         }
 
@@ -375,68 +513,56 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
             breadcrumb.DisplayString.ShouldBeNull();
 
-            L2_member_breadcrumb_asserts<N[]>(breadcrumb, collectionProperty);
-        }
-
-        private static void L2_member_breadcrumb_asserts<T>(Breadcrumb breadcrumb, System.Reflection.PropertyInfo property, bool hasItemFrom = true, bool hasItemTo = true, bool hasDynamicObject = false)
-        {
-            var l1Property = typeof(L0).GetProperty("L1Property");
-            var l2Property = typeof(L1).GetProperty("L2Property");
-
             breadcrumb.PropertiesShouldBeNull();
 
-            if (hasItemFrom)
-            {
-                breadcrumb.ItemFrom.Instance.ShouldBeOfType<T>();
-                breadcrumb.ItemFrom.InstanceType.ShouldBe(typeof(T));
+            breadcrumb.ItemFrom.Instance.ShouldBeOfType<N[]>();
+            breadcrumb.ItemFrom.InstanceType.ShouldBe(typeof(N[]));
+            breadcrumb.ItemFrom.DynamicObject.ShouldBeNull();
 
-                if (hasDynamicObject)
-                {
-                    breadcrumb.ItemFrom.DynamicObject.Type.Type.ShouldBe(typeof(T));
-                }
-                else
-                {
-                    breadcrumb.ItemFrom.DynamicObject.ShouldBeNull();
-                }
-            }
-            else
-            {
-                breadcrumb.ItemFrom.ShouldBeNull();
-            }
+            breadcrumb.ItemTo.Instance.ShouldBeOfType<N[]>();
+            breadcrumb.ItemTo.InstanceType.ShouldBe(typeof(N[]));
+            breadcrumb.ItemTo.DynamicObject.ShouldBeNull();
 
-            if (hasItemTo)
-            {
-                breadcrumb.ItemTo.Instance.ShouldBeOfType<T>();
-                breadcrumb.ItemTo.InstanceType.ShouldBe(typeof(T));
+            breadcrumb.PathShouldBe("ROOT", "Level-1-Property", "Level-2");
 
-                if (hasDynamicObject)
-                {
-                    breadcrumb.ItemTo.DynamicObject.Type.Type.ShouldBe(typeof(T));
-                }
-                else
-                {
-                    breadcrumb.ItemTo.DynamicObject.ShouldBeNull();
-                }
-            }
-            else
-            {
-                breadcrumb.ItemTo.ShouldBeNull();
-            }
+            breadcrumb.Parent.PathShouldBe("ROOT", "Level-1-Property", "Level-2");
+            breadcrumb.Parent.PropertiesShouldBe(collectionProperty);
 
-            breadcrumb.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property", property.Name);
+            Assert_level2_breadcrumb_values(breadcrumb.Parent.Parent);
+        }
 
-            breadcrumb.Parent.PathShouldBe(typeof(L0).FullName, "L1Property", "L2Property");
-            breadcrumb.Parent.PropertiesShouldBe(property);
+        private static void Assert_level2_breadcrumb_values(Breadcrumb breadcrumb)
+        {
+            var l2Property = typeof(L1).GetProperty("L2Property");
 
-            breadcrumb.Parent.Parent.PathShouldBe(typeof(L0).FullName, "L1Property");
-            breadcrumb.Parent.Parent.PropertiesShouldBe(l2Property);
+            breadcrumb.PathShouldBe("ROOT", "Level-1-Property");
+            breadcrumb.DisplayString.ShouldBe("Level-2");
+            breadcrumb.PropertiesShouldBe(l2Property);
+            breadcrumb.ItemTypesShouldBe<L1>();
 
-            breadcrumb.Parent.Parent.Parent.PathShouldBe(typeof(L0).FullName);
-            breadcrumb.Parent.Parent.Parent.PropertiesShouldBe(l1Property);
+            Assert_level1_breadcrumb_values(breadcrumb.Parent);
+        }
 
-            breadcrumb.Parent.Parent.Parent.Parent.Path.ShouldBeNull();
+        private static void Assert_level1_breadcrumb_values(Breadcrumb breadcrumb)
+        {
+            var l1Property = typeof(L0).GetProperty("L1Property");
 
-            breadcrumb.Parent.Parent.Parent.Parent.Parent.ShouldBeNull();
+            breadcrumb.PathShouldBe("ROOT");
+            breadcrumb.DisplayString.ShouldBe("Level-1-Property");
+            breadcrumb.PropertiesShouldBe(l1Property);
+            breadcrumb.ItemTypesShouldBe<L0>();
+
+            Assert_root_breadcrumb_values(breadcrumb.Parent);
+        }
+
+        private static void Assert_root_breadcrumb_values(Breadcrumb breadcrumb)
+        {
+            breadcrumb.ShouldNotBeNull();
+            breadcrumb.DisplayString.ShouldBe("ROOT");
+            breadcrumb.ItemTypesShouldBe<L0>();
+            breadcrumb.Parent.ShouldBeNull();
+            breadcrumb.Path.ShouldBeNull();
+            breadcrumb.PropertiesShouldBeNull();
         }
     }
 }

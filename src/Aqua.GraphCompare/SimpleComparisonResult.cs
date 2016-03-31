@@ -19,7 +19,7 @@ namespace Aqua.GraphCompare
             _deltas = new Lazy<IEnumerable<SimpleDelta>>(() => _comparisonResult.Deltas.Select(x => new SimpleDelta(x)).ToList());
         }
 
-        public TypeInfo Type
+        public Type Type
         {
             get
             {

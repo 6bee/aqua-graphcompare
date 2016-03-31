@@ -5,6 +5,7 @@ namespace Aqua.GraphCompare.Tests
     using Aqua.GraphCompare;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using Xunit.Fluent;
 
     public static class AssertHelper

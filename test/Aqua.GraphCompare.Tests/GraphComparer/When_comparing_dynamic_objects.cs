@@ -5,6 +5,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
     using Aqua.Dynamic;
     using Aqua.GraphCompare;
     using System.Linq;
+    using System.Reflection;
     using Xunit;
     using Xunit.Fluent;
 

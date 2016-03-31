@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0D9E9EEF-C316-4083-B603-9B5ECF50C3AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{35A7F649-E5F2-4ADB-98CA-7A3025A76019}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{454E4ECC-C779-4AC6-B768-A7D9AFD37244}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Aqua.GraphCompare", "src\Aqua.GraphCompare\Aqua.GraphCompare.xproj", "{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Aqua.GraphCompare.Tests", "test\Aqua.GraphCompare.Tests\Aqua.GraphCompare.Tests.xproj", "{435495FC-BEFF-4B3E-9596-907AB9D63CCE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{435495FC-BEFF-4B3E-9596-907AB9D63CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{435495FC-BEFF-4B3E-9596-907AB9D63CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{435495FC-BEFF-4B3E-9596-907AB9D63CCE}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{435495FC-BEFF-4B3E-9596-907AB9D63CCE}.Release|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{64FB0AE0-A3AB-4413-81AC-305938FAC8E2} = {0D9E9EEF-C316-4083-B603-9B5ECF50C3AF}
+		{435495FC-BEFF-4B3E-9596-907AB9D63CCE} = {35A7F649-E5F2-4ADB-98CA-7A3025A76019}
+	EndGlobalSection
+EndGlobal

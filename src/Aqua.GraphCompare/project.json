@@ -1,0 +1,20 @@
+{
+  "name": "aqua-graphcompare",
+  "authors": [ "Christof Senn" ],
+  "version": "1.1.0-alpha001",
+  "description": "Comparer for arbitrary object graphs",
+  "licenseUrl": "https://raw.githubusercontent.com/6bee/aqua-graphcompare/master/license.txt",
+  "projectUrl": "https://github.com/6bee/aqua-graphcompare/wiki",
+  "iconUrl": "https://raw.githubusercontent.com/6bee/aqua-graphcompare/master/aqua-small.png",
+  "copyright": "Copyright Christof Senn 2015-2016",
+  "tags": [ "compare", "diff", "graph-compare", "graph-diff", "deep-compare", "deep-diff", "object-compare", "object-diff" ],
+  "dependencies": {
+    "aqua-core": "4.0.0-*"
+  },
+  "frameworks": {
+    "dnx451": { },
+    "net451": { },
+    "dnxcore50": { },
+    "netcore50": { }
+  }
+}

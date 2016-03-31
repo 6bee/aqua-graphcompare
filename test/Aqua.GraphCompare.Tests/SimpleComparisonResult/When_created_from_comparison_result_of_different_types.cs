@@ -52,7 +52,7 @@ namespace Aqua.GraphCompare.Tests.SimpleComparisonResult
                 new Delta(ChangeType.Insert, breadcrumbInsert, null, 64, "NULL", "v64"),
             };
 
-            result = new ComparisonResult(a.GetType().GetTypeInfo(), b.GetType().GetTypeInfo(), deltas).AsSimpleResult();
+            result = new ComparisonResult(a.GetType(), b.GetType(), deltas).AsSimpleResult();
         }
 
         [Fact]

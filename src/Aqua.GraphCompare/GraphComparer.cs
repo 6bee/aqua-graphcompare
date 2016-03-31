@@ -2,7 +2,9 @@
 
 namespace Aqua.GraphCompare
 {
+    using Aqua.TypeSystem.Extensions;
     using System;
+    using System.Linq;
     using System.Reflection;
 
     public class GraphComparer : GraphComparerBase
@@ -63,7 +65,7 @@ namespace Aqua.GraphCompare
                 }
             }
 
-            var displayStringAttribute = objType.GetCustomAttribute<DisplayStringAttribute>();
+            var displayStringAttribute = objType.GetTypeInfo().GetCustomAttribute<DisplayStringAttribute>();
             if (!ReferenceEquals(null, displayStringAttribute))
             {
                 return displayStringAttribute.DisplayString;
@@ -94,7 +96,11 @@ namespace Aqua.GraphCompare
             var member = TryGetEnumMember(property, obj);
             if (!ReferenceEquals(null, member))
             {
+#if NET35
+                var displayStringAttribute = member.GetCustomAttributes(typeof(DisplayStringAttribute), true).FirstOrDefault() as DisplayStringAttribute;
+#else
                 var displayStringAttribute = member.GetCustomAttribute<DisplayStringAttribute>();
+#endif
                 if (!ReferenceEquals(null, displayStringAttribute))
                 {
                     return displayStringAttribute.DisplayString;
@@ -157,14 +163,14 @@ namespace Aqua.GraphCompare
         {
             enumType = null;
 
-            if (type.IsEnum)
+            if (type.IsEnum())
             {
                 enumType = type;
             }
-            else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            else if (type.IsGenericType() && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 var genericArgument = type.GetGenericArguments()[0];
-                if (genericArgument.IsEnum)
+                if (genericArgument.IsEnum())
                 {
                     enumType = genericArgument;
                 }

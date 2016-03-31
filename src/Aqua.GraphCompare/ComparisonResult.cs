@@ -2,22 +2,22 @@
 
 namespace Aqua.GraphCompare
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
 
     public class ComparisonResult
     {
-        public ComparisonResult(TypeInfo fromType, TypeInfo toType, IEnumerable<Delta> deltas)
+        public ComparisonResult(Type fromType, Type toType, IEnumerable<Delta> deltas)
         {
             FromType = fromType;
             ToType = toType;
             Deltas = deltas;
         }
 
-        public TypeInfo FromType { get; private set; }
+        public Type FromType { get; private set; }
 
-        public TypeInfo ToType { get; private set; }
+        public Type ToType { get; private set; }
 
         public IEnumerable<Delta> Deltas { get; private set; }
 

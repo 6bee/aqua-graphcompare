@@ -36,11 +36,11 @@ namespace Aqua.GraphCompare
                 }
             }
 
-            public TypeInfo InstanceType
+            public Type InstanceType
             {
                 get
                 {
-                    return ReferenceEquals(null, _instance) ? null : _instance.GetType().GetTypeInfo();
+                    return ReferenceEquals(null, _instance) ? null : _instance.GetType();
                 }
             }
         }

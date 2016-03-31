@@ -3,6 +3,7 @@
 namespace Aqua.GraphCompare
 {
     using Aqua.Dynamic;
+    using Aqua.TypeSystem.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -29,7 +30,7 @@ namespace Aqua.GraphCompare
 
             var breadcrumb = new Breadcrumb(item1, item2, () => GetInstanceDisplayString(item1, item2, null, null));
 
-            CompareInstances(breadcrumb, item1, item2, deltas, new HashSet<object>(ObjectReferenceEqualityComparer<object>.Instance));
+            CompareInstances(breadcrumb, item1, item2, deltas, new HashSet<object>(ReferenceEqualityComparer<object>.Instance));
 
             var fromObjType = GetTypeInfo(item1);
 
@@ -243,12 +244,12 @@ namespace Aqua.GraphCompare
             return ReferenceEquals(null, dynamicObject) ? item : new ComparableDynamicObject(dynamicObject);
         }
 
-        private static TypeInfo GetTypeInfo(DynamicObject obj)
+        private static Type GetTypeInfo(DynamicObject obj)
         {
             if (!ReferenceEquals(null, obj) && !ReferenceEquals(null, obj.Type))
             {
 
-                return obj.Type.Type.GetTypeInfo();
+                return obj.Type.Type;
             }
 
             return null;
@@ -400,7 +401,7 @@ namespace Aqua.GraphCompare
         private sealed class ObjectMapper : DynamicObjectMapper
         {
             public ObjectMapper()
-                : base(isKnownType: t => t.IsEnum)
+                : base(isKnownType: t => t.IsEnum())
             {
             }
 
@@ -428,7 +429,7 @@ namespace Aqua.GraphCompare
 
             protected override IEnumerable<PropertyInfo> GetPropertiesForMapping(Type type)
             {
-                if (type.GetCustomAttribute<IgnoreAttribute>() != null)
+                if (type.GetTypeInfo().GetCustomAttribute<IgnoreAttribute>() != null)
                 {
                     return Enumerable.Empty<PropertyInfo>();
                 }
