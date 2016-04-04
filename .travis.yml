@@ -1,0 +1,12 @@
+language: csharp
+mono:
+- beta
+branches:
+  only:
+    #- master
+    - dnx
+sudo: false
+install: curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh
+  | sh && source ~/.dnx/dnvm/dnvm.sh && dnvm upgrade
+script:
+  dnu restore && dnu build src/Aqua.GraphCompare && dnu build test/Aqua.GraphCompare.Tests && dnx -p test/Aqua.GraphCompare.Tests test
