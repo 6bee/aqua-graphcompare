@@ -1,0 +1,1 @@
+dnu restore && dnu build src\Aqua.GraphCompare test\Aqua.GraphCompare.Tests && dnx -p test\Aqua.GraphCompare.Tests test && dotnet pack src\Aqua.GraphCompare --output artifacts --configuration Release --version-suffix 001
