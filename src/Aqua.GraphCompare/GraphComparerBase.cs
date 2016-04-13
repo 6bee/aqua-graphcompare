@@ -30,7 +30,7 @@ namespace Aqua.GraphCompare
 
             var breadcrumb = new Breadcrumb(item1, item2, () => GetInstanceDisplayString(item1, item2, null, null));
 
-            CompareInstances(breadcrumb, item1, item2, deltas, new HashSet<object>(ReferenceEqualityComparer<object>.Instance));
+            CompareInstances(breadcrumb, item1, item2, deltas, new HashSet<object>(ReferenceEqualityComparer<object>.Default));
 
             var fromObjType = GetTypeInfo(item1);
 
@@ -400,8 +400,13 @@ namespace Aqua.GraphCompare
 
         private sealed class ObjectMapper : DynamicObjectMapper
         {
+            private sealed class IsKnownTypeProvider : IIsKnownTypeProvider
+            {
+                public bool IsKnownType(Type type) => type.IsEnum();
+            }
+
             public ObjectMapper()
-                : base(isKnownType: t => t.IsEnum())
+                : base(isKnownTypeProvider: new IsKnownTypeProvider())
             {
             }
 
