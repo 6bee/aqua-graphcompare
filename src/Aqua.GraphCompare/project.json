@@ -1,7 +1,7 @@
 {
   "name": "aqua-graphcompare",
   "authors": [ "Christof Senn" ],
-  "version": "1.1.0-alpha-*",
+  "version": "1.1.0-alpha-002",
   "description": "Comparer for arbitrary object graphs",
   "licenseUrl": "https://raw.githubusercontent.com/6bee/aqua-graphcompare/master/license.txt",
   "projectUrl": "https://github.com/6bee/aqua-graphcompare/wiki",
