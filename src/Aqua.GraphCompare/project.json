@@ -9,7 +9,7 @@
   "copyright": "Copyright Christof Senn 2015-2016",
   "tags": [ "compare", "diff", "graph-compare", "graph-diff", "deep-compare", "deep-diff", "object-compare", "object-diff" ],
   "dependencies": {
-    "aqua-core": "4.0.0-alpha-*"
+    "aqua-core": "4.0.0-alpha-002"
   },
   "frameworks": {
     "dnx451": { },
