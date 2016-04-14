@@ -7,4 +7,4 @@
 * Differ for arbitrary object graphs
 * Provides hierarchical and flat deltas
 * Allows for custom descriptions for types and members
-* Allows for custom resolution of member values (e.g. enums, foreign keys, etc.)
+* Allows for custom resolution of values (i.e. display values for enums, foreign keys, etc.)
