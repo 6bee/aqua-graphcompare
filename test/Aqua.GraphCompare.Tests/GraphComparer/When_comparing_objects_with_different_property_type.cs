@@ -3,9 +3,9 @@
 namespace Aqua.GraphCompare.Tests.GraphComparer
 {
     using Aqua.GraphCompare;
+    using Shouldly;
     using System.Linq;
     using Xunit;
-    using Xunit.Fluent;
 
     public class When_comparing_objects_with_different_property_type
     {

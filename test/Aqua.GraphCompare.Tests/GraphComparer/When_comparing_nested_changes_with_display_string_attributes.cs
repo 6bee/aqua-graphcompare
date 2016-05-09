@@ -3,11 +3,11 @@
 namespace Aqua.GraphCompare.Tests.GraphComparer
 {
     using Aqua.GraphCompare;
+    using Shouldly;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using Xunit;
-    using Xunit.Fluent;
 
     public class When_comparing_nested_changes_with_display_string_attributes
     {

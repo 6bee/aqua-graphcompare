@@ -2,13 +2,13 @@
 
 namespace Aqua.GraphCompare.Tests.SimpleComparisonResult
 {
-    using Aqua.GraphCompare;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Linq;
-    using Xunit;
-    using Xunit.Fluent;
     using Aqua.Dynamic;
+    using Aqua.GraphCompare;
+    using Shouldly;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using Xunit;
 
     public class When_created_from_comparison_result_of_different_types
     {
