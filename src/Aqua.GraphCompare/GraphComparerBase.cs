@@ -262,16 +262,16 @@ namespace Aqua.GraphCompare
                 return Enumerable.Empty<PropertyInfo>();
             }
 
-            var memberNames = item1.MemberNames;
+            var propertyNames = item1.PropertyNames;
 
             if (!ReferenceEquals(null, item2))
             {
-                memberNames = memberNames.Except(item2.MemberNames);
+                propertyNames = propertyNames.Except(item2.PropertyNames);
             }
 
             var declaringType = item1.Type.Type;
 
-            return memberNames
+            return propertyNames
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .Select(declaringType.GetProperty)
                 .Where(p => !ReferenceEquals(null, p));
@@ -284,12 +284,12 @@ namespace Aqua.GraphCompare
                 return Enumerable.Empty<PropertyPair>();
             }
 
-            var memberNames = item1.MemberNames.Intersect(item2.MemberNames);
+            var propertyNames = item1.PropertyNames.Intersect(item2.PropertyNames);
 
             var declaringTypeFrom = item1.Type.Type;
             var declaringTypeTo = item2.Type.Type;
 
-            return memberNames
+            return propertyNames
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .Select(x => new PropertyPair(declaringTypeFrom.GetProperty(x), declaringTypeTo.GetProperty(x)))
                 .Where(x => !ReferenceEquals(null, x.From) && !ReferenceEquals(null, x.To));
@@ -348,10 +348,10 @@ namespace Aqua.GraphCompare
                     return keyProperties.All(x => (item1.TryGet(x, out key1) | item2.TryGet(x, out key2)) && Equals(key1, key2));
                 }
 
-                if (item1.MemberCount == item2.MemberCount && !item1.MemberNames.Except(item2.MemberNames).Any())
+                if (item1.PropertyCount == item2.PropertyCount && !item1.PropertyNames.Except(item2.PropertyNames).Any())
                 {
                     // comparing simple properties only - no deep comparison
-                    if (item1.Members.All(x => x.Value is DynamicObject || x.Value is object[] || Equals(x.Value, item2.Get(x.Name))))
+                    if (item1.Properties.All(x => x.Value is DynamicObject || x.Value is object[] || Equals(x.Value, item2.Get(x.Name))))
                     {
                         return true;
                     }
@@ -368,7 +368,7 @@ namespace Aqua.GraphCompare
                     return GetHashCode(keyProperties);
                 }
 
-                return GetHashCode(_obj.MemberNames);
+                return GetHashCode(_obj.PropertyNames);
             }
 
             private static int GetHashCode(IEnumerable<string> properties)
@@ -387,7 +387,7 @@ namespace Aqua.GraphCompare
 
             private static IEnumerable<string> GetKeyProperties(DynamicObject o1)
             {
-                return o1.MemberNames
+                return o1.PropertyNames
                     .Where(m =>
                         {
                             var p = o1.Type.Type.GetProperty(m);

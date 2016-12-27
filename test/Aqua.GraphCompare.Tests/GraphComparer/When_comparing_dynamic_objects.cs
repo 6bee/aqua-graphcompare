@@ -24,14 +24,20 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
         {
             var item1 = new DynamicObject(typeof(A))
             {
-                { "Int32Value", 1 },
-                { "StringValue", "S1" },
+                Properties = new PropertySet
+                {
+                    { "Int32Value", 1 },
+                    { "StringValue", "S1" },
+                }
             };
 
             var item2 = new DynamicObject(typeof(A))
             {
-                { "Int32Value", 2 },
-                { "StringValue", "S2" },
+                Properties = new PropertySet
+                {
+                    { "Int32Value", 2 },
+                    { "StringValue", "S2" },
+                }
             };
 
             result = new GraphComparer().Compare(item1, item2);
