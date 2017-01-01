@@ -7,7 +7,7 @@ version: 1.0.{build}
 before_build:
 - cmd: dotnet restore
 build_script:
-- cmd: dotnet build .\src\Aqua.GraphCompare test\Aqua.GraphCompare.Tests
+- cmd: dotnet build .\src\Aqua.GraphCompare .\test\Aqua.GraphCompare.Tests
 test_script:
 - cmd: dotnet test .\test\Aqua.GraphCompare.Tests
 build:
