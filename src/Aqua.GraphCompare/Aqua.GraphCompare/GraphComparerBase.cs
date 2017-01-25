@@ -12,7 +12,12 @@ namespace Aqua.GraphCompare
     {
         private static readonly object[] EmptyList = new object[0];
 
-        private readonly ObjectMapper _mapper = new ObjectMapper();
+        private readonly ObjectMapper _mapper;
+
+        protected GraphComparerBase()
+        {
+            _mapper = new ObjectMapper(IsComparableProperty);
+        }
 
         public ComparisonResult Compare(object from, object to)
         {
@@ -208,6 +213,8 @@ namespace Aqua.GraphCompare
             return new Delta(changeType, breadcrumb, value1, value2, displayValue1, displayValue2);
         }
 
+        protected virtual bool IsComparableProperty(PropertyInfo property) => true;
+
         private ChangeType GetChangeType(object item1, object item2)
         {
             ChangeType changeType;
@@ -293,7 +300,7 @@ namespace Aqua.GraphCompare
                 .Select(x => new PropertyPair(declaringTypeFrom.GetProperty(x), declaringTypeTo.GetProperty(x)))
                 .Where(x => !ReferenceEquals(null, x.From) && !ReferenceEquals(null, x.To));
         }
-
+        
         private sealed class ComparableDynamicObject : IEquatable<ComparableDynamicObject>
         {
             private readonly DynamicObject _obj;
@@ -399,9 +406,12 @@ namespace Aqua.GraphCompare
 
         private sealed class ObjectMapper : DynamicObjectMapper
         {
-            public ObjectMapper()
+            private readonly Func<PropertyInfo, bool> _propertyFilter;
+
+            public ObjectMapper(Func<PropertyInfo, bool> propertyFilter)
                 : base(isKnownType: t => t.IsEnum)
             {
+                _propertyFilter = propertyFilter;
             }
 
             public DynamicObjectWithOriginalReference MapToDynamicObjectWithOriginalReference(object obj)
@@ -436,6 +446,7 @@ namespace Aqua.GraphCompare
                 var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                     .Where(x => x.CanRead && x.GetIndexParameters().Length == 0)
                     .Where(p => p.GetCustomAttribute<IgnoreAttribute>() == null)
+                    .Where(_propertyFilter)
                     .ToList();
 
                 return properties;

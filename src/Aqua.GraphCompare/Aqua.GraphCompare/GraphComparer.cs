@@ -13,6 +13,8 @@ namespace Aqua.GraphCompare
 
         private readonly Func<object, DynamicObjectWithOriginalReference> _objectMapper;
 
+        private readonly Func<PropertyInfo, bool> _propertyFilter;
+
         /// <summary>
         /// 
         /// </summary>
@@ -22,17 +24,17 @@ namespace Aqua.GraphCompare
         public GraphComparer(
             Func<object, PropertyInfo, string> instanceDisplayStringProvider = null,
             Func<object, PropertyInfo, string> propertyValueDisplayStringProvider = null,
-            Func<object, DynamicObjectWithOriginalReference> objectMapper = null)
+            Func<object, DynamicObjectWithOriginalReference> objectMapper = null,
+            Func<PropertyInfo, bool> propertyFilter = null)
         {
             _instanceDisplayStringProvider = instanceDisplayStringProvider;
             _propertyValueDisplayStringProvider = propertyValueDisplayStringProvider;
             _objectMapper = objectMapper;
+            _propertyFilter = propertyFilter ?? base.IsComparableProperty;
         }
 
         protected override DynamicObjectWithOriginalReference MapObject(object obj)
-        {
-            return ReferenceEquals(null, _objectMapper) ? base.MapObject(obj) : _objectMapper(obj);
-        }
+            => ReferenceEquals(null, _objectMapper) ? base.MapObject(obj) : _objectMapper(obj);
 
         protected override string GetInstanceDisplayString(object fromObj, object toObj, PropertyInfo fromProperty, PropertyInfo toProperty)
         {
@@ -109,15 +111,14 @@ namespace Aqua.GraphCompare
             return null;
         }
 
-        protected virtual object SelectObjectForDisplayString(object fromObj, object toObj)
-        {
-            return toObj ?? fromObj;
-        }
+        protected virtual object SelectObjectForDisplayString(object fromObj, object toObj) 
+            => toObj ?? fromObj;
 
-        protected virtual PropertyInfo SelectPropertyForDisplayString(PropertyInfo fromProperty, PropertyInfo toProperty)
-        {
-            return toProperty ?? fromProperty;
-        }
+        protected virtual PropertyInfo SelectPropertyForDisplayString(PropertyInfo fromProperty, PropertyInfo toProperty) 
+            => toProperty ?? fromProperty;
+
+        protected override bool IsComparableProperty(PropertyInfo property) 
+            => _propertyFilter(property);
 
         private static object TryUnwrapDynamicObject(object obj)
         {
