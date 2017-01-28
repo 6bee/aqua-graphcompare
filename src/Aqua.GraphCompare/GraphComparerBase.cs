@@ -13,7 +13,12 @@ namespace Aqua.GraphCompare
     {
         private static readonly object[] EmptyList = new object[0];
 
-        private readonly ObjectMapper _mapper = new ObjectMapper();
+        private readonly ObjectMapper _mapper;
+
+        protected GraphComparerBase()
+        {
+            _mapper = new ObjectMapper(IsComparableProperty);
+        }
 
         public ComparisonResult Compare(object from, object to)
         {
@@ -208,6 +213,9 @@ namespace Aqua.GraphCompare
 
             return new Delta(changeType, breadcrumb, value1, value2, displayValue1, displayValue2);
         }
+
+        protected virtual bool IsComparableProperty(PropertyInfo property)
+            => property.GetCustomAttribute<IgnoreAttribute>() == null;
 
         private ChangeType GetChangeType(object item1, object item2)
         {
@@ -405,9 +413,12 @@ namespace Aqua.GraphCompare
                 public bool IsKnownType(Type type) => type.IsEnum();
             }
 
-            public ObjectMapper()
+            private readonly Func<PropertyInfo, bool> _propertyFilter;
+
+            public ObjectMapper(Func<PropertyInfo, bool> propertyFilter)
                 : base(isKnownTypeProvider: new IsKnownTypeProvider())
             {
+                _propertyFilter = propertyFilter;
             }
 
             public DynamicObjectWithOriginalReference MapToDynamicObjectWithOriginalReference(object obj)
@@ -440,8 +451,8 @@ namespace Aqua.GraphCompare
                 }
 
                 var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                    .Where(x => x.CanRead && x.GetIndexParameters().Length == 0)
-                    .Where(p => p.GetCustomAttribute<IgnoreAttribute>() == null)
+                    .Where(p => p.CanRead && p.GetIndexParameters().Length == 0)
+                    .Where(_propertyFilter)
                     .ToList();
 
                 return properties;
