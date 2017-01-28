@@ -4,7 +4,6 @@ namespace Aqua.GraphCompare
 {
     using Aqua.TypeSystem.Extensions;
     using System;
-    using System.Linq;
     using System.Reflection;
 
     public class GraphComparer : GraphComparerBase
@@ -15,6 +14,8 @@ namespace Aqua.GraphCompare
 
         private readonly Func<object, DynamicObjectWithOriginalReference> _objectMapper;
 
+        private readonly Func<PropertyInfo, bool> _propertyFilter;
+
         /// <summary>
         /// 
         /// </summary>
@@ -24,17 +25,17 @@ namespace Aqua.GraphCompare
         public GraphComparer(
             Func<object, PropertyInfo, string> instanceDisplayStringProvider = null,
             Func<object, PropertyInfo, string> propertyValueDisplayStringProvider = null,
-            Func<object, DynamicObjectWithOriginalReference> objectMapper = null)
+            Func<object, DynamicObjectWithOriginalReference> objectMapper = null,
+            Func<PropertyInfo, bool> propertyFilter = null)
         {
             _instanceDisplayStringProvider = instanceDisplayStringProvider;
             _propertyValueDisplayStringProvider = propertyValueDisplayStringProvider;
             _objectMapper = objectMapper;
+            _propertyFilter = propertyFilter;
         }
 
         protected override DynamicObjectWithOriginalReference MapObject(object obj)
-        {
-            return ReferenceEquals(null, _objectMapper) ? base.MapObject(obj) : _objectMapper(obj);
-        }
+            => ReferenceEquals(null, _objectMapper) ? base.MapObject(obj) : _objectMapper(obj);
 
         protected override string GetInstanceDisplayString(object fromObj, object toObj, PropertyInfo fromProperty, PropertyInfo toProperty)
         {
@@ -96,11 +97,7 @@ namespace Aqua.GraphCompare
             var member = TryGetEnumMember(property, obj);
             if (!ReferenceEquals(null, member))
             {
-#if NET35
-                var displayStringAttribute = member.GetCustomAttributes(typeof(DisplayStringAttribute), true).FirstOrDefault() as DisplayStringAttribute;
-#else
                 var displayStringAttribute = member.GetCustomAttribute<DisplayStringAttribute>();
-#endif
                 if (!ReferenceEquals(null, displayStringAttribute))
                 {
                     return displayStringAttribute.DisplayString;
@@ -115,15 +112,14 @@ namespace Aqua.GraphCompare
             return null;
         }
 
-        protected virtual object SelectObjectForDisplayString(object fromObj, object toObj)
-        {
-            return toObj ?? fromObj;
-        }
+        protected virtual object SelectObjectForDisplayString(object fromObj, object toObj) 
+            => toObj ?? fromObj;
 
-        protected virtual PropertyInfo SelectPropertyForDisplayString(PropertyInfo fromProperty, PropertyInfo toProperty)
-        {
-            return toProperty ?? fromProperty;
-        }
+        protected virtual PropertyInfo SelectPropertyForDisplayString(PropertyInfo fromProperty, PropertyInfo toProperty) 
+            => toProperty ?? fromProperty;
+
+        protected override bool IsComparableProperty(PropertyInfo property) 
+            => base.IsComparableProperty(property) && (ReferenceEquals(null, _propertyFilter) || _propertyFilter(property));
 
         private static object TryUnwrapDynamicObject(object obj)
         {
