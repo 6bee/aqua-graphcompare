@@ -1,1 +1,1 @@
-dotnet restore && dotnet build src\Aqua.GraphCompare test\Aqua.GraphCompare.Tests && dotnet test test\Aqua.GraphCompare.Tests && dotnet pack src\Aqua.GraphCompare --output artifacts --configuration Release --version-suffix 003
+clean && dotnet restore && dotnet build src\Aqua.GraphCompare test\Aqua.GraphCompare.Tests && dotnet test test\Aqua.GraphCompare.Tests && dotnet pack src\Aqua.GraphCompare --output artifacts --configuration Debug --version-suffix 004
