@@ -16,33 +16,21 @@ namespace Aqua.GraphCompare
             NewDisplayValue = newDisplayValue;
         }
 
-        public ChangeType ChangeType { get; private set; }
+        public ChangeType ChangeType { get; }
 
-        public Breadcrumb Breadcrumb { get; private set; }
+        public Breadcrumb Breadcrumb { get; }
 
-        public object OldValue { get; private set; }
+        public object OldValue { get; }
 
-        public object NewValue { get; private set; }
+        public object NewValue { get; }
 
-        public string OldDisplayValue { get; private set; }
+        public string OldDisplayValue { get; }
 
-        public string NewDisplayValue { get; private set; }
+        public string NewDisplayValue { get; }
 
-        public PropertyInfo PropertyFrom
-        {
-            get
-            {
-                return Breadcrumb.PropertyFrom;
-            }
-        }
+        public PropertyInfo PropertyFrom => Breadcrumb.PropertyFrom;
 
-        public PropertyInfo PropertyTo
-        {
-            get
-            {
-                return Breadcrumb.PropertyTo;
-            }
-        }
+        public PropertyInfo PropertyTo => Breadcrumb.PropertyTo;
 
         public override string ToString()
         {

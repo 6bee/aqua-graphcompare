@@ -20,29 +20,11 @@ namespace Aqua.GraphCompare
                 _instance = instance;
             }
 
-            public DynamicObject DynamicObject
-            {
-                get
-                {
-                    return _dynamicObject;
-                }
-            }
+            public DynamicObject DynamicObject => _dynamicObject;
 
-            public object Instance
-            {
-                get
-                {
-                    return _instance;
-                }
-            }
+            public object Instance => _instance;
 
-            public Type InstanceType
-            {
-                get
-                {
-                    return ReferenceEquals(null, _instance) ? null : _instance.GetType();
-                }
-            }
+            public Type InstanceType => ReferenceEquals(null, _instance) ? null : _instance.GetType();
         }
 
         private readonly Lazy<string> _displayString;
@@ -72,31 +54,19 @@ namespace Aqua.GraphCompare
             return new Breadcrumb(this, propertyFrom, propertyTo, null, fromInstance, null, toInstance, displayString);
         }
 
-        public string DisplayString
-        {
-            get
-            {
-                return _displayString.Value;
-            }
-        }
+        public string DisplayString => _displayString.Value;
 
-        public string Path
-        {
-            get
-            {
-                return ReferenceEquals(null, Parent) ? null : Parent.ToString();
-            }
-        }
+        public string Path => ReferenceEquals(null, Parent) ? null : Parent.ToString();
 
-        public Breadcrumb Parent { get; private set; }
+        public Breadcrumb Parent { get; }
 
-        public PropertyInfo PropertyFrom { get; private set; }
+        public PropertyInfo PropertyFrom { get; }
 
-        public PropertyInfo PropertyTo { get; private set; }
+        public PropertyInfo PropertyTo { get; }
 
-        public Item ItemFrom { get; private set; }
+        public Item ItemFrom { get; }
 
-        public Item ItemTo { get; private set; }
+        public Item ItemTo { get; }
 
         public override string ToString()
         {

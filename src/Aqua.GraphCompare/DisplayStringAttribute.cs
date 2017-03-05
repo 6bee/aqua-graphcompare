@@ -14,12 +14,6 @@ namespace Aqua.GraphCompare
             _displayString = displayString;
         }
 
-        public string DisplayString
-        {
-            get
-            {
-                return _displayString;
-            }
-        }
+        public string DisplayString => _displayString;
     }
 }

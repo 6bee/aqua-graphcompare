@@ -15,23 +15,14 @@ namespace Aqua.GraphCompare
             Deltas = deltas;
         }
 
-        public Type FromType { get; private set; }
+        public Type FromType { get; }
 
-        public Type ToType { get; private set; }
+        public Type ToType { get; }
 
-        public IEnumerable<Delta> Deltas { get; private set; }
+        public IEnumerable<Delta> Deltas { get; }
 
-        public bool IsMatch
-        {
-            get
-            {
-                return !Deltas.Any();
-            }
-        }
+        public bool IsMatch => !Deltas.Any();
 
-        public SimpleComparisonResult AsSimpleResult()
-        {
-            return new SimpleComparisonResult(this);
-        }
+        public SimpleComparisonResult AsSimpleResult() => new SimpleComparisonResult(this);
     }
 }

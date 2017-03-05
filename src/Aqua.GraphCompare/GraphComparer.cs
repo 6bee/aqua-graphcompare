@@ -17,11 +17,12 @@ namespace Aqua.GraphCompare
         private readonly Func<PropertyInfo, bool> _propertyFilter;
 
         /// <summary>
-        /// 
+        /// Creates a new instance of <see cref="GraphComparer"/>  where custom logic may be injected via function delegates
         /// </summary>
         /// <param name="instanceDisplayStringProvider">Optional function delegate to create display strings for breadcrumb levels</param>
         /// <param name="propertyValueDisplayStringProvider">Optional function delegate to create display strings for property values.</param>
         /// <param name="objectMapper">Optional function to map object instances to dynamoc objects for comparison.</param>
+        /// <param name="propertyFilter">Optional function to define properties to be compared for a given type.</param>
         public GraphComparer(
             Func<object, PropertyInfo, string> instanceDisplayStringProvider = null,
             Func<object, PropertyInfo, string> propertyValueDisplayStringProvider = null,

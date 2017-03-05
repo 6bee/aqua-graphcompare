@@ -17,45 +17,15 @@ namespace Aqua.GraphCompare
             _parent = new Lazy<SimpleBreadcrumb>(() => ReferenceEquals(null, _breadcrumb.Parent) ? null : new SimpleBreadcrumb(_breadcrumb.Parent));
         }
 
-        public string Path
-        {
-            get
-            {
-                return _breadcrumb.Path;
-            }
-        }
+        public string Path => _breadcrumb.Path;
 
-        public SimpleBreadcrumb Parent
-        {
-            get
-            {
-                return _parent.Value;
-            }
-        }
+        public SimpleBreadcrumb Parent => _parent.Value;
 
-        public PropertyInfo Property
-        {
-            get
-            {
-                return _breadcrumb.PropertyTo ?? _breadcrumb.PropertyFrom;
-            }
-        }
+        public PropertyInfo Property => _breadcrumb.PropertyTo ?? _breadcrumb.PropertyFrom;
 
-        public Breadcrumb.Item ItemFrom
-        {
-            get
-            {
-                return _breadcrumb.ItemFrom;
-            }
-        }
+        public Breadcrumb.Item ItemFrom => _breadcrumb.ItemFrom;
 
-        public Breadcrumb.Item ItemTo
-        {
-            get
-            {
-                return _breadcrumb.ItemTo;
-            }
-        }
+        public Breadcrumb.Item ItemTo => _breadcrumb.ItemTo;
 
         public override string ToString()
         {

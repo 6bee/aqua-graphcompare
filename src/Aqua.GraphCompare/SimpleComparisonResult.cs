@@ -5,7 +5,6 @@ namespace Aqua.GraphCompare
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
 
     public class SimpleComparisonResult
     {
@@ -19,28 +18,10 @@ namespace Aqua.GraphCompare
             _deltas = new Lazy<IEnumerable<SimpleDelta>>(() => _comparisonResult.Deltas.Select(x => new SimpleDelta(x)).ToList());
         }
 
-        public Type Type
-        {
-            get
-            {
-                return _comparisonResult.ToType ?? _comparisonResult.FromType;
-            }
-        }
+        public Type Type => _comparisonResult.ToType ?? _comparisonResult.FromType;
 
-        public IEnumerable<SimpleDelta> Deltas
-        {
-            get
-            {
-                return _deltas.Value;
-            }
-        }
+        public IEnumerable<SimpleDelta> Deltas => _deltas.Value;
 
-        public bool IsMatch
-        {
-            get
-            {
-                return _comparisonResult.IsMatch;
-            }
-        }
+        public bool IsMatch => _comparisonResult.IsMatch;
     }
 }

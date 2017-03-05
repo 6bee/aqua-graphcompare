@@ -17,61 +17,19 @@ namespace Aqua.GraphCompare
             _breadcrumb = new Lazy<SimpleBreadcrumb>(() => new SimpleBreadcrumb(_delta.Breadcrumb));
         }
 
-        public ChangeType ChangeType
-        {
-            get
-            {
-                return _delta.ChangeType;
-            }
-        }
+        public ChangeType ChangeType => _delta.ChangeType;
 
-        public SimpleBreadcrumb Breadcrumb
-        {
-            get
-            {
-                return _breadcrumb.Value;
-            }
-        }
+        public SimpleBreadcrumb Breadcrumb => _breadcrumb.Value;
 
-        public object OldValue
-        {
-            get
-            {
-                return _delta.OldValue;
-            }
-        }
+        public object OldValue => _delta.OldValue;
 
-        public object NewValue
-        {
-            get
-            {
-                return _delta.NewValue;
-            }
-        }
+        public object NewValue => _delta.NewValue;
 
-        public string OldDisplayValue
-        {
-            get
-            {
-                return _delta.OldDisplayValue;
-            }
-        }
+        public string OldDisplayValue => _delta.OldDisplayValue;
 
-        public string NewDisplayValue
-        {
-            get
-            {
-                return _delta.NewDisplayValue;
-            }
-        }
+        public string NewDisplayValue => _delta.NewDisplayValue;
 
-        public PropertyInfo Property
-        {
-            get
-            {
-                return Breadcrumb.Property;
-            }
-        }
+        public PropertyInfo Property => Breadcrumb.Property;
 
         public override string ToString()
         {

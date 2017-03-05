@@ -24,10 +24,7 @@ namespace Aqua.GraphCompare.Formatters
             };
         }
 
-        public IList<IStringTransformer> DisplayValueTransformers
-        {
-            get { return _stringTransformers; }
-        } 
+        public IList<IStringTransformer> DisplayValueTransformers => _stringTransformers;
 
         public virtual string GetPropertyDisplayValue(Breadcrumb breadcrumb)
         {
