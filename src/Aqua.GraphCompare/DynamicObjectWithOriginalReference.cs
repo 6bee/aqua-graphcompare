@@ -9,7 +9,7 @@ namespace Aqua.GraphCompare
         private readonly object _originalObject;
 
         public DynamicObjectWithOriginalReference(DynamicObject dynamicObject, object originalObject)
-            : base(dynamicObject, deepCopy: false)
+            : base(dynamicObject.Type, dynamicObject.Properties)
         {
             _originalObject = originalObject;
         }
@@ -23,12 +23,6 @@ namespace Aqua.GraphCompare
         /// <summary>
         /// Gets the object instance represented by this dynamic object
         /// </summary>
-        public object OriginalObject
-        {
-            get
-            {
-                return _originalObject;
-            }
-        }
+        public object OriginalObject => _originalObject;
     }
 }
