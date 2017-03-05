@@ -115,10 +115,16 @@ namespace Aqua.GraphCompare
         private static object[] AsObjectArray(object obj)
         {
             var objectArray = obj as object[];
-            if (!ReferenceEquals(null, objectArray)) return objectArray;
+            if (!ReferenceEquals(null, objectArray))
+            {
+                return objectArray;
+            }
 
             var enumerable = obj as System.Collections.IEnumerable;
-            if (!ReferenceEquals(null, enumerable)) return enumerable.Cast<object>().ToArray();
+            if (!ReferenceEquals(null, enumerable))
+            {
+                return enumerable.Cast<object>().ToArray();
+            }
 
             return EmptyList;
         }
@@ -219,21 +225,17 @@ namespace Aqua.GraphCompare
 
         private ChangeType GetChangeType(object item1, object item2)
         {
-            ChangeType changeType;
             if (ReferenceEquals(null, item1))
             {
-                changeType = ChangeType.Insert;
-            }
-            else if (ReferenceEquals(null, item2))
-            {
-                changeType = ChangeType.Delete;
-            }
-            else
-            {
-                changeType = ChangeType.Update;
+                return ChangeType.Insert;
             }
 
-            return changeType;
+            if (ReferenceEquals(null, item2))
+            {
+                return ChangeType.Delete;
+            }
+
+            return ChangeType.Update;
         }
 
         protected abstract string GetInstanceDisplayString(object fromObj, object toObj, PropertyInfo fromProperty, PropertyInfo toProperty);
@@ -312,10 +314,7 @@ namespace Aqua.GraphCompare
                 _obj = obj;
             }
 
-            public DynamicObject DynamicObject
-            {
-                get { return _obj; }
-            }
+            public DynamicObject DynamicObject => _obj;
 
             public override bool Equals(object obj)
             {
@@ -471,15 +470,9 @@ namespace Aqua.GraphCompare
                 _propertyTo = propertyTo;
             }
 
-            public PropertyInfo From
-            {
-                get { return _propertyFrom; }
-            }
+            public PropertyInfo From => _propertyFrom;
 
-            public PropertyInfo To
-            {
-                get { return _propertyTo; }
-            }
+            public PropertyInfo To => _propertyTo;
         }
     }
 }
