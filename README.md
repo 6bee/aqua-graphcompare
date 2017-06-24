@@ -15,7 +15,7 @@ The comparer may be customized by both, subtyping and dependency injection for v
 * Specify display string provider for property values (old/new value display string)
 * Specify custom object mapper for advanced scenario
 
-The comparer allows comparison of independent object types and relies on object structure and values instead.
+The comparer allows comparison of independent object types and relies on object structure and values at runtime rather than statically defined type information.
 
 
 ### Features
