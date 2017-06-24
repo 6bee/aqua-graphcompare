@@ -39,6 +39,7 @@ Console.WriteLine("{0} {1} {2}",
     result.FromType, 
     result.IsMatch ? "==" : "<>", 
     result.ToType);
+
 foreach(var delta in result.Deltas)
 {
     Console.WriteLine(delta.ChangeType);
