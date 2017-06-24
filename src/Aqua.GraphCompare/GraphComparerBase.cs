@@ -460,19 +460,15 @@ namespace Aqua.GraphCompare
 
         private sealed class PropertyPair
         {
-            private readonly PropertyInfo _propertyFrom;
-
-            private readonly PropertyInfo _propertyTo;
-
             public PropertyPair(PropertyInfo propertyFrom, PropertyInfo propertyTo)
             {
-                _propertyFrom = propertyFrom;
-                _propertyTo = propertyTo;
+                From = propertyFrom;
+                To = propertyTo;
             }
 
-            public PropertyInfo From => _propertyFrom;
+            public PropertyInfo From { get; }
 
-            public PropertyInfo To => _propertyTo;
+            public PropertyInfo To { get; }
         }
     }
 }

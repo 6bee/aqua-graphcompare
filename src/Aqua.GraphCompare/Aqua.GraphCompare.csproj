@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Comparer for arbitrary object graphs</Description>
+    <Copyright>Copyright © Christof Senn 2015-2017</Copyright>
+    <VersionPrefix>1.1.0-beta</VersionPrefix>
+    <Authors>Christof Senn</Authors>
+    <TargetFrameworks>net451;netstandard1.3;netstandard1.6</TargetFrameworks>
+    <AssemblyName>Aqua.GraphCompare</AssemblyName>
+    <PackageId>aqua-graphcompare</PackageId>
+    <PackageTags>compare;diff;graph-compare;graph-diff;deep-compare;deep-diff;object-compare;object-diff</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/6bee/aqua-graphcompare/master/aqua-small.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/6bee/aqua-graphcompare</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/6bee/aqua-graphcompare/master/license.txt</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/6bee/aqua-graphcompare.git</RepositoryUrl>
+    <GenerateAssemblyTitleAttribute>true</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>true</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyProductAttribute>true</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCompanyAttribute>true</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyCopyrightAttribute>true</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>true</GenerateAssemblyFileVersionAttribute>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="aqua-core" Version="4.0.1" />
+  </ItemGroup>
+
+</Project>

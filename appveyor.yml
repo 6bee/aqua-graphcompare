@@ -1,14 +1,24 @@
+image: Visual Studio 2017
+
+branches:
+  except:
+  - experimental
+
 init:
   - git config --global core.autocrlf true
-branches:
-  only:
-    - master
+
 version: 1.0.{build}
+
 before_build:
-- cmd: dotnet restore
+  - dotnet --info
+  - dotnet restore
+
 build_script:
-- cmd: dotnet build .\src\Aqua.GraphCompare .\test\Aqua.GraphCompare.Tests
+  - dotnet build src\Aqua.GraphCompare
+  - dotnet build test\Aqua.GraphCompare.Tests
+
 test_script:
-- cmd: dotnet test .\test\Aqua.GraphCompare.Tests
+  - dotnet test test\Aqua.GraphCompare.Tests\Aqua.GraphCompare.Tests.csproj
+
 build:
   verbosity: normal

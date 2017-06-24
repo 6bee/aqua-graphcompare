@@ -160,17 +160,17 @@ namespace Aqua.GraphCompare
         {
             enumType = null;
 
-            if (type.IsEnum())
-            {
-                enumType = type;
-            }
-            else if (type.IsGenericType() && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            if (type.IsGenericType() && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 var genericArgument = type.GetGenericArguments()[0];
                 if (genericArgument.IsEnum())
                 {
                     enumType = genericArgument;
                 }
+            }
+            else if (type.IsEnum())
+            {
+                enumType = type;
             }
 
             return !ReferenceEquals(null, enumType);

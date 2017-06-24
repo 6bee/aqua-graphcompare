@@ -16,7 +16,7 @@ namespace Aqua.GraphCompare.Tests
             delta.OldDisplayValue.ShouldBeNull();
         }
 
-        public static void PropertiesShouldBe(this Delta delta, System.Reflection.PropertyInfo nameProperty)
+        public static void PropertiesShouldBe(this Delta delta, PropertyInfo nameProperty)
         {
             delta.PropertyFrom.ShouldBe(nameProperty);
             delta.PropertyTo.ShouldBe(nameProperty);
@@ -41,7 +41,7 @@ namespace Aqua.GraphCompare.Tests
             item.InstanceType.ShouldBe(typeof(T));
         }
 
-        public static void PropertiesShouldBe(this Breadcrumb breadcrumb, System.Reflection.PropertyInfo property)
+        public static void PropertiesShouldBe(this Breadcrumb breadcrumb, PropertyInfo property)
         {
             breadcrumb.PropertyFrom.ShouldBe(property);
             breadcrumb.PropertyTo.ShouldBe(property);
@@ -63,7 +63,7 @@ namespace Aqua.GraphCompare.Tests
             return string.Join(" > ", values);
         }
 
-        public static IEnumerable<Delta> GetDeltas(this ComparisonResult result, System.Reflection.PropertyInfo property)
+        public static IEnumerable<Delta> GetDeltas(this ComparisonResult result, PropertyInfo property)
         {
             return result.Deltas.Where(x => x.PropertyFrom == property || x.PropertyTo == property);
         }
@@ -73,7 +73,7 @@ namespace Aqua.GraphCompare.Tests
             return GetDeltas(result, typeof(T).GetProperty(propertyName));
         }
 
-        public static Delta GetDelta(this ComparisonResult result, System.Reflection.PropertyInfo property)
+        public static Delta GetDelta(this ComparisonResult result, PropertyInfo property)
         {
             return result.Deltas.Single(x => x.PropertyFrom == property || x.PropertyTo == property);
         }

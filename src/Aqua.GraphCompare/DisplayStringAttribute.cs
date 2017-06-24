@@ -7,13 +7,11 @@ namespace Aqua.GraphCompare
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public class DisplayStringAttribute : Attribute
     {
-        private readonly string _displayString;
-
         public DisplayStringAttribute(string displayString)
         {
-            _displayString = displayString;
+            DisplayString = displayString;
         }
 
-        public string DisplayString => _displayString;
+        public string DisplayString { get; }
     }
 }
