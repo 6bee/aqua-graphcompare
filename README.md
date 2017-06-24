@@ -4,7 +4,7 @@
 | --- | --- | --- | --- |
 | `master` | [![NuGet Badge](https://buildstats.info/nuget/aqua-graphcompare?includePreReleases=true)](http://www.nuget.org/packages/aqua-graphcompare) [![MyGet Pre Release](http://img.shields.io/myget/aqua/vpre/aqua-graphcompare.svg?style=flat-square&label=myget)](https://www.myget.org/feed/aqua/package/nuget/aqua-graphcompare) | [![Build status](https://ci.appveyor.com/api/projects/status/se738mykuhel4b3q/branch/master?svg=true)](https://ci.appveyor.com/project/6bee/aqua-graphcompare/branch/master) | [![Travis build Status](https://travis-ci.org/6bee/aqua-graphcompare.svg?branch=master)](https://travis-ci.org/6bee/aqua-graphcompare?branch=master) |
 
-### Description:
+### Description
 Differ for arbitrary object graphs allows to compare property values starting at a pair of root objects, recording any differences while visiting all objects of the graph. 
 
 The comparison result contains a list of deltas describing each difference found. 
@@ -18,7 +18,7 @@ The comparer may be customized by both, subtyping and dependency injection for v
 The comparer allows comparison of independent object types and relies on object structure and values instead.
 
 
-### Features:
+### Features
 * Differ for arbitrary object graphs
 * Provides hierarchical and flat deltas
 * Allows for custom descriptions for types and members
