@@ -36,9 +36,9 @@ var result = new GraphComparer().Compare(original, changed);
 
 
 Console.WriteLine("{0} {1} {2}", 
-	result.FromType, 
+    result.FromType, 
     result.IsMatch ? "==" : "<>", 
-	result.ToType);
+    result.ToType);
 foreach(var delta in result.Deltas)
 {
     Console.WriteLine(delta.ChangeType);
