@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Description>Comparer for arbitrary object graphs</Description>
     <Copyright>Copyright © Christof Senn 2015-2017</Copyright>
-    <VersionPrefix>1.1.0-beta</VersionPrefix>
+    <VersionPrefix>1.1.0</VersionPrefix>
     <Authors>Christof Senn</Authors>
     <TargetFrameworks>net451;netstandard1.3;netstandard1.6</TargetFrameworks>
     <AssemblyName>Aqua.GraphCompare</AssemblyName>
@@ -27,7 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="aqua-core" Version="4.0.1" />
+    <PackageReference Include="aqua-core" Version="4.1.0" />
   </ItemGroup>
 
 </Project>
