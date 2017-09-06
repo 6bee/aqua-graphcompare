@@ -3,9 +3,9 @@
   <PropertyGroup>
     <Description>Comparer for arbitrary object graphs</Description>
     <Copyright>Copyright © Christof Senn 2015-2017</Copyright>
-    <VersionPrefix>1.1.0</VersionPrefix>
+    <VersionPrefix>1.2.0-alpha</VersionPrefix>
     <Authors>Christof Senn</Authors>
-    <TargetFrameworks>net451;netstandard1.3;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net451;netstandard1.3;netstandard1.6;netstandard2.0</TargetFrameworks>
     <AssemblyName>Aqua.GraphCompare</AssemblyName>
     <PackageId>aqua-graphcompare</PackageId>
     <PackageTags>compare;diff;graph-compare;graph-diff;deep-compare;deep-diff;object-compare;object-diff</PackageTags>
