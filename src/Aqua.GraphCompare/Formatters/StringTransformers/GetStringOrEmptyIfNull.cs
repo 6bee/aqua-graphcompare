@@ -5,10 +5,6 @@ namespace Aqua.GraphCompare.Formatters.StringTransformers
     public class GetStringOrEmptyIfNull : IStringTransformer
     {
         public string Transform(string value)
-        {
-            return ReferenceEquals(null, value) 
-                ? string.Empty 
-                : value;
-        }
+            => value ?? string.Empty;
     }
 }

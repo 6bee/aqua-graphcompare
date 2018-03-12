@@ -9,7 +9,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
     public class When_comparing_objects_with_different_property_type
     {
-        ComparisonResult result;
+        private readonly ComparisonResult result;
 
         public When_comparing_objects_with_different_property_type()
         {

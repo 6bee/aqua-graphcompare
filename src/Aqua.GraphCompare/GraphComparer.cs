@@ -17,7 +17,8 @@ namespace Aqua.GraphCompare
         private readonly Func<PropertyInfo, bool> _propertyFilter;
 
         /// <summary>
-        /// Creates a new instance of <see cref="GraphComparer"/>  where custom logic may be injected via function delegates
+        /// Initializes a new instance of the <see cref="GraphComparer"/> class
+        /// with custom logic injected via function delegates
         /// </summary>
         /// <param name="instanceDisplayStringProvider">Optional function delegate to create display strings for breadcrumb levels</param>
         /// <param name="propertyValueDisplayStringProvider">Optional function delegate to create display strings for property values.</param>
@@ -113,13 +114,13 @@ namespace Aqua.GraphCompare
             return null;
         }
 
-        protected virtual object SelectObjectForDisplayString(object fromObj, object toObj) 
+        protected virtual object SelectObjectForDisplayString(object fromObj, object toObj)
             => toObj ?? fromObj;
 
-        protected virtual PropertyInfo SelectPropertyForDisplayString(PropertyInfo fromProperty, PropertyInfo toProperty) 
+        protected virtual PropertyInfo SelectPropertyForDisplayString(PropertyInfo fromProperty, PropertyInfo toProperty)
             => toProperty ?? fromProperty;
 
-        protected override bool IsComparableProperty(PropertyInfo property) 
+        protected override bool IsComparableProperty(PropertyInfo property)
             => base.IsComparableProperty(property) && (ReferenceEquals(null, _propertyFilter) || _propertyFilter(property));
 
         private static object TryUnwrapDynamicObject(object obj)

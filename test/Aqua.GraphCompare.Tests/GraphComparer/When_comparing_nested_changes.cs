@@ -12,19 +12,19 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
     public class When_comparing_nested_changes
     {
-        class L0
+        private class L0
         {
             public L1 L1Property { get; set; }
         }
 
-        class L1
+        private class L1
         {
             public string NameProperty { get; set; }
 
             public L2 L2Property { get; set; }
         }
 
-        class L2
+        private class L2
         {
             public int ValueProperty { get; set; }
 
@@ -35,19 +35,19 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
             public IEnumerable<N> Collection3Property { get; set; }
         }
 
-        class V
+        private class V
         {
             public string XProperty { get; set; }
         }
 
-        enum N
+        private enum N
         {
             One,
             Two,
-            Three
+            Three,
         }
 
-        ComparisonResult result;
+        private readonly ComparisonResult result;
 
         public When_comparing_nested_changes()
         {
@@ -59,23 +59,23 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                     L2Property = new L2
                     {
                         ValueProperty = 10,
-                        Collection1Property = new[] 
+                        Collection1Property = new[]
                         {
                             new V { XProperty = "x1" },
                             new V { XProperty = "x2" },
                         },
-                        Collection2Property = new[] 
+                        Collection2Property = new[]
                         {
                             1,
                             2,
                         },
-                        Collection3Property = new[] 
+                        Collection3Property = new[]
                         {
                             N.One,
                             N.Two,
                         },
-                    }
-                }
+                    },
+                },
             };
 
             var item2 = new L0
@@ -86,23 +86,23 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                     L2Property = new L2
                     {
                         ValueProperty = 20,
-                        Collection1Property = new[] 
+                        Collection1Property = new[]
                         {
                             new V { XProperty = "x1" },
                             new V { XProperty = "x3" },
                         },
-                        Collection2Property = new[] 
+                        Collection2Property = new[]
                         {
                             1,
                             3,
                         },
-                        Collection3Property = new[] 
+                        Collection3Property = new[]
                         {
                             N.One,
                             N.Three,
                         },
-                    }
-                }
+                    },
+                },
             };
 
             result = new GraphComparer().Compare(item1, item2);

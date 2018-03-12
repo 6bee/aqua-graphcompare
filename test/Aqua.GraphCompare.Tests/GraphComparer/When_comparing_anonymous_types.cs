@@ -9,7 +9,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
     public class When_comparing_anonymous_types
     {
-        ComparisonResult result;
+        private readonly ComparisonResult result;
 
         public When_comparing_anonymous_types()
         {
@@ -31,18 +31,18 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                 Collection3 = new[]
                 {
                     "z1",
-                    "z2"
+                    "z2",
                 },
                 Collection4 = new[]
                 {
                     "z1",
-                    "z2"
+                    "z2",
                 },
                 Collection5 = (int[])null,
                 Collection6 = new[]
                 {
                     1,
-                    2
+                    2,
                 },
             };
 
@@ -64,18 +64,18 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                 Collection3 = new[]
                 {
                     "z1",
-                    "z3"
+                    "z3",
                 },
                 Collection4 = (string[])null,
                 Collection5 = new[]
                 {
                     1,
-                    2
+                    2,
                 },
                 Collection6 = new[]
                 {
                     1,
-                    3
+                    3,
                 },
             };
 

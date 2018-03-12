@@ -32,8 +32,6 @@ namespace Aqua.GraphCompare
         public PropertyInfo Property => Breadcrumb.Property;
 
         public override string ToString()
-        {
-            return _delta.ToString();
-        }
+            => _delta.ToString();
     }
 }

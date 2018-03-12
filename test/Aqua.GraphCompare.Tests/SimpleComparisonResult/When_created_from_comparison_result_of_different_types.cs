@@ -12,29 +12,26 @@ namespace Aqua.GraphCompare.Tests.SimpleComparisonResult
 
     public class When_created_from_comparison_result_of_different_types
     {
-        class A
+        private class A
         {
             public string StringValue { get; set; }
 
             public int Int32Value { get; set; }
         }
 
-        class B
+        private class B
         {
             public string StringValue { get; set; }
 
             public double Int64Value { get; set; }
         }
 
-        static PropertyInfo StringValuePropertyA = typeof(A).GetProperty("StringValue");
+        private static PropertyInfo StringValuePropertyA = typeof(A).GetProperty(nameof(A.StringValue));
+        private static PropertyInfo StringValuePropertyB = typeof(B).GetProperty(nameof(B.StringValue));
+        private static PropertyInfo Int32ValueProperty = typeof(A).GetProperty(nameof(A.Int32Value));
+        private static PropertyInfo Int64ValueProperty = typeof(B).GetProperty(nameof(B.Int64Value));
 
-        static PropertyInfo StringValuePropertyB = typeof(B).GetProperty("StringValue");
-
-        static PropertyInfo Int32ValueProperty = typeof(A).GetProperty("Int32Value");
-
-        static PropertyInfo Int64ValueProperty = typeof(B).GetProperty("Int64Value");
-
-        SimpleComparisonResult result;
+        private readonly SimpleComparisonResult result;
 
         public When_created_from_comparison_result_of_different_types()
         {

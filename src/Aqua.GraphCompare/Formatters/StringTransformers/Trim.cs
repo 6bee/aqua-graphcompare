@@ -5,10 +5,6 @@ namespace Aqua.GraphCompare.Formatters.StringTransformers
     public class Trim : IStringTransformer
     {
         public string Transform(string value)
-        {
-            return ReferenceEquals(null, value) 
-                ? null 
-                : value.Trim();
-        }
+            => value?.Trim();
     }
 }

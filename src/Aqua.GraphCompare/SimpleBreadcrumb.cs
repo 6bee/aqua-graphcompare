@@ -28,8 +28,6 @@ namespace Aqua.GraphCompare
         public Breadcrumb.Item ItemTo => _breadcrumb.ItemTo;
 
         public override string ToString()
-        {
-            return _breadcrumb.ToString();
-        }
+            => _breadcrumb.ToString();
     }
 }

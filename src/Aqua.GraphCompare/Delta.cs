@@ -33,12 +33,11 @@ namespace Aqua.GraphCompare
         public PropertyInfo PropertyTo => Breadcrumb.PropertyTo;
 
         public override string ToString()
-        {
-            return string.Format("[{0}] {1}: {2} -> {3}",
+            => string.Format(
+                "[{0}] {1}: {2} -> {3}",
                 ChangeType.ToString().ToUpper(),
                 Breadcrumb,
                 OldDisplayValue ?? OldValue ?? "[NULL]",
                 NewDisplayValue ?? NewValue ?? "[NULL]");
-        }
     }
 }

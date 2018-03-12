@@ -255,15 +255,7 @@ namespace Aqua.GraphCompare
         }
 
         private static Type GetTypeInfo(DynamicObject obj)
-        {
-            if (!ReferenceEquals(null, obj) && !ReferenceEquals(null, obj.Type))
-            {
-
-                return obj.Type.Type;
-            }
-
-            return null;
-        }
+            => obj?.Type?.Type;
 
         private static IEnumerable<PropertyInfo> GetPropertiesMissingInSecondInstance(DynamicObject item1, DynamicObject item2)
         {

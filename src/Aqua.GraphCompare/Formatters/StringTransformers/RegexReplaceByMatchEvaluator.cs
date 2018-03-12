@@ -17,8 +17,6 @@ namespace Aqua.GraphCompare.Formatters.StringTransformers
         }
 
         public string Transform(string value)
-        {
-            return Regex.Replace(value, _pattern, _evaluator);
-        }
+            => Regex.Replace(value, _pattern, _evaluator);
     }
 }

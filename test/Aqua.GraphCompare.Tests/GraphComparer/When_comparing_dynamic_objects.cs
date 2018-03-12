@@ -11,14 +11,14 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
     public class When_comparing_dynamic_objects
     {
-        class A
+        private class A
         {
             public int Int32Value { get; set; }
 
             public string StringValue { get; set; }
         }
 
-        ComparisonResult result;
+        private readonly ComparisonResult result;
 
         public When_comparing_dynamic_objects()
         {
@@ -28,7 +28,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                 {
                     { "Int32Value", 1 },
                     { "StringValue", "S1" },
-                }
+                },
             };
 
             var item2 = new DynamicObject(typeof(A))
@@ -37,7 +37,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                 {
                     { "Int32Value", 2 },
                     { "StringValue", "S2" },
-                }
+                },
             };
 
             result = new GraphComparer().Compare(item1, item2);

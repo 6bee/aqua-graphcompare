@@ -10,26 +10,25 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
     public class When_comparing_collections
     {
-        ComparisonResult result;
+        private readonly ComparisonResult result;
 
         public When_comparing_collections()
         {
-            var collection1 = new []
+            var collection1 = new[]
             {
                 "1",
                 "2",
                 "3",
-                "4"
+                "4",
             };
 
             var collection2 = new List<object>
             {
-                
                 "1",
                 "2",
                 "4",
                 "5",
-                99
+                99,
             };
 
             result = new GraphComparer().Compare(new { Collection = collection1 }, new { Collection = collection2 });

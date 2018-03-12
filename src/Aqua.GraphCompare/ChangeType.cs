@@ -6,6 +6,6 @@ namespace Aqua.GraphCompare
     {
         Insert,
         Update,
-        Delete
+        Delete,
     }
 }
