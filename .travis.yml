@@ -18,15 +18,14 @@ matrix:
   include:
     - os: linux
       dist: trusty
-      sudo: required
+      sudo: false
       env: FRAMEWORK_VERSION=1.0 CLI_VERSION=1.1.5 CONFIGURATION=Release
     - os: linux
       dist: trusty
-      sudo: required
+      sudo: false
       env: FRAMEWORK_VERSION=2.0 CLI_VERSION=2.0.0 CONFIGURATION=Release
     - os: linux
-      dist: trusty
-      sudo: required
+      sudo: false
       env: FRAMEWORK_VERSION=2.0 CLI_VERSION=Latest CONFIGURATION=Debug
     - os: osx
       env: FRAMEWORK_VERSION=1.0 CLI_VERSION=1.1.5 CONFIGURATION=Release
