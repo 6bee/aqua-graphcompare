@@ -14,7 +14,7 @@ namespace Aqua.GraphCompare
         public SimpleBreadcrumb(Breadcrumb breadcrumb)
         {
             _breadcrumb = breadcrumb;
-            _parent = new Lazy<SimpleBreadcrumb>(() => ReferenceEquals(null, _breadcrumb.Parent) ? null : new SimpleBreadcrumb(_breadcrumb.Parent));
+            _parent = new Lazy<SimpleBreadcrumb>(() => _breadcrumb.Parent is null ? null : new SimpleBreadcrumb(_breadcrumb.Parent));
         }
 
         public string Path => _breadcrumb.Path;

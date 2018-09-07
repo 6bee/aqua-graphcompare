@@ -30,7 +30,7 @@ namespace Aqua.GraphCompare.Formatters
         {
             var property = breadcrumb.PropertyTo ?? breadcrumb.PropertyFrom;
 
-            if (!ReferenceEquals(null, property))
+            if (!(property is null))
             {
                 var displayStringAttribute = property.GetCustomAttribute<DisplayStringAttribute>();
                 if (displayStringAttribute != null)
@@ -44,7 +44,7 @@ namespace Aqua.GraphCompare.Formatters
 
         public virtual string FormatBreadcrumb(Breadcrumb breadcrumb)
         {
-            if (ReferenceEquals(null, breadcrumb.PropertyTo ?? breadcrumb.PropertyFrom))
+            if ((breadcrumb.PropertyTo ?? breadcrumb.PropertyFrom) is null)
             {
                 return GetDisplayString(breadcrumb);
             }
@@ -66,7 +66,7 @@ namespace Aqua.GraphCompare.Formatters
 
             var property = breadcrumb.PropertyTo ?? breadcrumb.PropertyFrom;
 
-            if (ReferenceEquals(null, displayString) && !ReferenceEquals(null, property))
+            if (displayString is null && !(property is null))
             {
                 displayString = FormatString(property.Name);
             }

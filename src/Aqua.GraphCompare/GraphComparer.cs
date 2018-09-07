@@ -37,7 +37,7 @@ namespace Aqua.GraphCompare
         }
 
         protected override DynamicObjectWithOriginalReference MapObject(object obj)
-            => ReferenceEquals(null, _objectMapper) ? base.MapObject(obj) : _objectMapper(obj);
+            => _objectMapper is null ? base.MapObject(obj) : _objectMapper(obj);
 
         protected override string GetInstanceDisplayString(object fromObj, object toObj, PropertyInfo fromProperty, PropertyInfo toProperty)
         {
@@ -48,7 +48,7 @@ namespace Aqua.GraphCompare
 
             var property = SelectPropertyForDisplayString(fromProperty, toProperty);
 
-            if (ReferenceEquals(null, obj))
+            if (obj is null)
             {
                 return null;
             }
@@ -56,25 +56,25 @@ namespace Aqua.GraphCompare
             var objType = obj.GetType();
 
             var isSingleValueProperty =
-                !ReferenceEquals(null, property) &&
+                !(property is null) &&
                 !typeof(System.Collections.Generic.IEnumerable<>).MakeGenericType(objType).IsAssignableFrom(property.PropertyType);
 
             if (isSingleValueProperty)
             {
                 var propertyDisplayStringAttribute = property.GetCustomAttribute<DisplayStringAttribute>();
-                if (!ReferenceEquals(null, propertyDisplayStringAttribute))
+                if (!(propertyDisplayStringAttribute is null))
                 {
                     return propertyDisplayStringAttribute.DisplayString;
                 }
             }
 
             var displayStringAttribute = objType.GetTypeInfo().GetCustomAttribute<DisplayStringAttribute>();
-            if (!ReferenceEquals(null, displayStringAttribute))
+            if (!(displayStringAttribute is null))
             {
                 return displayStringAttribute.DisplayString;
             }
 
-            if (!ReferenceEquals(null, _instanceDisplayStringProvider))
+            if (!(_instanceDisplayStringProvider is null))
             {
                 return _instanceDisplayStringProvider(obj, property);
             }
@@ -89,7 +89,7 @@ namespace Aqua.GraphCompare
 
         protected override string GetPropertyValueDisplayString(PropertyInfo property, object obj)
         {
-            if (ReferenceEquals(null, obj))
+            if (obj is null)
             {
                 return null;
             }
@@ -97,16 +97,16 @@ namespace Aqua.GraphCompare
             obj = TryUnwrapDynamicObject(obj);
 
             var member = TryGetEnumMember(property, obj);
-            if (!ReferenceEquals(null, member))
+            if (!(member is null))
             {
                 var displayStringAttribute = member.GetCustomAttribute<DisplayStringAttribute>();
-                if (!ReferenceEquals(null, displayStringAttribute))
+                if (!(displayStringAttribute is null))
                 {
                     return displayStringAttribute.DisplayString;
                 }
             }
 
-            if (!ReferenceEquals(null, _propertyValueDisplayStringProvider))
+            if (!(_propertyValueDisplayStringProvider is null))
             {
                 return _propertyValueDisplayStringProvider(obj, property);
             }
@@ -121,12 +121,12 @@ namespace Aqua.GraphCompare
             => toProperty ?? fromProperty;
 
         protected override bool IsComparableProperty(PropertyInfo property)
-            => base.IsComparableProperty(property) && (ReferenceEquals(null, _propertyFilter) || _propertyFilter(property));
+            => base.IsComparableProperty(property) && (_propertyFilter is null || _propertyFilter(property));
 
         private static object TryUnwrapDynamicObject(object obj)
         {
             var dynamicObject = obj as DynamicObjectWithOriginalReference;
-            if (!ReferenceEquals(null, dynamicObject) && !ReferenceEquals(null, dynamicObject.OriginalObject))
+            if (!(dynamicObject is null) && !(dynamicObject.OriginalObject is null))
             {
                 return dynamicObject.OriginalObject;
             }
@@ -137,7 +137,7 @@ namespace Aqua.GraphCompare
         private static FieldInfo TryGetEnumMember(PropertyInfo property, object obj)
         {
             Type enumType;
-            if (ReferenceEquals(null, property))
+            if (property is null)
             {
                 var objType = obj.GetType();
                 if (TryGetEnumType(objType, out enumType))
@@ -148,7 +148,7 @@ namespace Aqua.GraphCompare
             else if (TryGetEnumType(property.PropertyType, out enumType))
             {
                 var value = property.GetValue(obj);
-                if (!ReferenceEquals(null, value))
+                if (!(value is null))
                 {
                     return enumType.GetField(value.ToString());
                 }
@@ -174,7 +174,7 @@ namespace Aqua.GraphCompare
                 enumType = type;
             }
 
-            return !ReferenceEquals(null, enumType);
+            return !(enumType is null);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Aqua.GraphCompare
 
             public object Instance => _instance;
 
-            public Type InstanceType => ReferenceEquals(null, _instance) ? null : _instance.GetType();
+            public Type InstanceType => _instance is null ? null : _instance.GetType();
         }
 
         private readonly Lazy<string> _displayString;
@@ -35,18 +35,18 @@ namespace Aqua.GraphCompare
             Parent = parent;
             PropertyFrom = propertyFrom;
             PropertyTo = propertyTo;
-            ItemFrom = ReferenceEquals(null, fromObject) && ReferenceEquals(null, fromInstance) ? null : new Item(fromObject, fromInstance);
-            ItemTo = ReferenceEquals(null, toObject) && ReferenceEquals(null, toInstance) ? null : new Item(toObject, toInstance);
+            ItemFrom = fromObject is null && fromInstance is null ? null : new Item(fromObject, fromInstance);
+            ItemTo = toObject is null && toInstance is null ? null : new Item(toObject, toInstance);
         }
 
         internal Breadcrumb(DynamicObjectWithOriginalReference fromValue, DynamicObjectWithOriginalReference toValue, Func<string> displayString)
-            : this(null, null, null, fromValue, ReferenceEquals(null, fromValue) ? null : fromValue.OriginalObject, toValue, ReferenceEquals(null, toValue) ? null : toValue.OriginalObject, displayString)
+            : this(null, null, null, fromValue, fromValue is null ? null : fromValue.OriginalObject, toValue, toValue is null ? null : toValue.OriginalObject, displayString)
         {
         }
 
         internal Breadcrumb AddLevel(DynamicObjectWithOriginalReference fromValue, DynamicObjectWithOriginalReference toValue, Func<string> displayString, PropertyInfo propertyFrom, PropertyInfo propertyTo)
         {
-            return new Breadcrumb(this, propertyFrom, propertyTo, fromValue, ReferenceEquals(null, fromValue) ? null : fromValue.OriginalObject, toValue, ReferenceEquals(null, toValue) ? null : toValue.OriginalObject, displayString);
+            return new Breadcrumb(this, propertyFrom, propertyTo, fromValue, fromValue is null ? null : fromValue.OriginalObject, toValue, toValue is null ? null : toValue.OriginalObject, displayString);
         }
 
         internal Breadcrumb AddLevel(object fromInstance, object toInstance, Func<string> displayString, PropertyInfo propertyFrom, PropertyInfo propertyTo)
@@ -56,7 +56,7 @@ namespace Aqua.GraphCompare
 
         public string DisplayString => _displayString.Value;
 
-        public string Path => ReferenceEquals(null, Parent) ? null : Parent.ToString();
+        public string Path => Parent is null ? null : Parent.ToString();
 
         public Breadcrumb Parent { get; }
 
@@ -70,7 +70,7 @@ namespace Aqua.GraphCompare
 
         public override string ToString()
         {
-            if (ReferenceEquals(null, Parent))
+            if (Parent is null)
             {
                 return DisplayString;
             }

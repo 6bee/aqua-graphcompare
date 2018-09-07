@@ -22,9 +22,9 @@ namespace Aqua.GraphCompare
 
         public ComparisonResult Compare(object from, object to)
         {
-            if (ReferenceEquals(null, from) && ReferenceEquals(null, to))
+            if (from is null && to is null)
             {
-                throw new ArgumentException("Only one of 'from' and 'to' may be null.");
+                throw new ArgumentException($"Only one of '{nameof(from)}' and '{nameof(to)}' may be null.");
             }
 
             var item1 = MapObject(from);
@@ -51,7 +51,7 @@ namespace Aqua.GraphCompare
 
         protected virtual void CompareInstances(Breadcrumb breadcrumb, DynamicObjectWithOriginalReference item1, DynamicObjectWithOriginalReference item2, List<Delta> deltas, HashSet<object> referenceTracker)
         {
-            if (ReferenceEquals(null, item1) && ReferenceEquals(null, item2))
+            if (item1 is null && item2 is null)
             {
                 throw new ArgumentException("Only one of 'from' and 'to' may be null.");
             }
@@ -97,7 +97,7 @@ namespace Aqua.GraphCompare
             {
                 CompareCollections(nextBreadcrumb, AsObjectArray(value1), AsObjectArray(value2), deltas, referenceTracker);
             }
-            else if (!ReferenceEquals(null, value1) && !ReferenceEquals(null, value2) && value1.GetType() != value2.GetType())
+            else if (!(value1 is null) && !(value2 is null) && value1.GetType() != value2.GetType())
             {
                 ComparePropertyValues(breadcrumb, item1, item2, ChangeType.Insert, null, propertyTo, null, value2, deltas, referenceTracker);
                 ComparePropertyValues(breadcrumb, item1, item2, ChangeType.Delete, propertyFrom, null, value1, null, deltas, referenceTracker);
@@ -115,13 +115,13 @@ namespace Aqua.GraphCompare
         private static object[] AsObjectArray(object obj)
         {
             var objectArray = obj as object[];
-            if (!ReferenceEquals(null, objectArray))
+            if (!(objectArray is null))
             {
                 return objectArray;
             }
 
             var enumerable = obj as System.Collections.IEnumerable;
-            if (!ReferenceEquals(null, enumerable))
+            if (!(enumerable is null))
             {
                 return enumerable.Cast<object>().ToArray();
             }
@@ -131,7 +131,7 @@ namespace Aqua.GraphCompare
 
         private static bool IsArray(object obj)
         {
-            return obj is object[] || (!ReferenceEquals(null, obj) && obj.GetType().IsArray);
+            return obj is object[] || (!(obj is null) && obj.GetType().IsArray);
         }
 
         protected virtual void CompareCollections(Breadcrumb breadcrumb, object[] list1, object[] list2, List<Delta> deltas, HashSet<object> referenceTracker)
@@ -147,7 +147,7 @@ namespace Aqua.GraphCompare
                 select new
                 {
                     Item1 = item1.Value,
-                    Item2 = ReferenceEquals(null, item2) ? null : item2.Value,
+                    Item2 = item2 is null ? null : item2.Value,
                 };
 
             var rightOuterJoin =
@@ -157,7 +157,7 @@ namespace Aqua.GraphCompare
                 from item1 in g.DefaultIfEmpty()
                 select new
                 {
-                    Item1 = ReferenceEquals(null, item1) ? null : item1.Value,
+                    Item1 = item1 is null ? null : item1.Value,
                     Item2 = item2.Value,
                 };
 
@@ -168,21 +168,21 @@ namespace Aqua.GraphCompare
                 var item1 = pair.Item1 as DynamicObjectWithOriginalReference;
                 var item2 = pair.Item2 as DynamicObjectWithOriginalReference;
 
-                if (ReferenceEquals(null, item1) && ReferenceEquals(null, item2))
+                if (item1 is null && item2 is null)
                 {
                     var nextBreadcrumb = breadcrumb;
 
-                    if (!ReferenceEquals(null, breadcrumb.PropertyFrom) || !ReferenceEquals(null, breadcrumb.PropertyTo))
+                    if (!(breadcrumb.PropertyFrom is null) || !(breadcrumb.PropertyTo is null))
                     {
                         object fromInstance = null;
                         object toInstance = null;
 
-                        if (!ReferenceEquals(null, breadcrumb.ItemFrom.Instance) && !ReferenceEquals(null, breadcrumb.PropertyFrom))
+                        if (!(breadcrumb.ItemFrom.Instance is null) && !(breadcrumb.PropertyFrom is null))
                         {
                             fromInstance = breadcrumb.PropertyFrom.GetValue(breadcrumb.ItemFrom.Instance);
                         }
 
-                        if (!ReferenceEquals(null, breadcrumb.ItemTo.Instance) && !ReferenceEquals(null, breadcrumb.PropertyTo))
+                        if (!(breadcrumb.ItemTo.Instance is null) && !(breadcrumb.PropertyTo is null))
                         {
                             toInstance = breadcrumb.PropertyTo.GetValue(breadcrumb.ItemTo.Instance);
                         }
@@ -214,8 +214,8 @@ namespace Aqua.GraphCompare
 
         protected virtual Delta CreateDelta(Breadcrumb breadcrumb, DynamicObjectWithOriginalReference item1, DynamicObjectWithOriginalReference item2, ChangeType changeType, object value1, object value2)
         {
-            var displayValue1 = ReferenceEquals(null, item1) || ReferenceEquals(null, breadcrumb.PropertyFrom) ? GetPropertyValueDisplayString(null, value1) : GetPropertyValueDisplayString(breadcrumb.PropertyFrom, item1);
-            var displayValue2 = ReferenceEquals(null, item2) || ReferenceEquals(null, breadcrumb.PropertyTo) ? GetPropertyValueDisplayString(null, value2) : GetPropertyValueDisplayString(breadcrumb.PropertyTo, item2);
+            var displayValue1 = item1 is null || breadcrumb.PropertyFrom is null ? GetPropertyValueDisplayString(null, value1) : GetPropertyValueDisplayString(breadcrumb.PropertyFrom, item1);
+            var displayValue2 = item2 is null || breadcrumb.PropertyTo is null ? GetPropertyValueDisplayString(null, value2) : GetPropertyValueDisplayString(breadcrumb.PropertyTo, item2);
 
             return new Delta(changeType, breadcrumb, value1, value2, displayValue1, displayValue2);
         }
@@ -225,12 +225,12 @@ namespace Aqua.GraphCompare
 
         private ChangeType GetChangeType(object item1, object item2)
         {
-            if (ReferenceEquals(null, item1))
+            if (item1 is null)
             {
                 return ChangeType.Insert;
             }
 
-            if (ReferenceEquals(null, item2))
+            if (item2 is null)
             {
                 return ChangeType.Delete;
             }
@@ -251,7 +251,7 @@ namespace Aqua.GraphCompare
         {
             var dynamicObject = item as DynamicObjectWithOriginalReference;
 
-            return ReferenceEquals(null, dynamicObject) ? item : new ComparableDynamicObject(dynamicObject);
+            return dynamicObject is null ? item : new ComparableDynamicObject(dynamicObject);
         }
 
         private static Type GetTypeInfo(DynamicObject obj)
@@ -259,14 +259,14 @@ namespace Aqua.GraphCompare
 
         private static IEnumerable<PropertyInfo> GetPropertiesMissingInSecondInstance(DynamicObject item1, DynamicObject item2)
         {
-            if (ReferenceEquals(null, item1))
+            if (item1 is null)
             {
                 return Enumerable.Empty<PropertyInfo>();
             }
 
             var propertyNames = item1.PropertyNames;
 
-            if (!ReferenceEquals(null, item2))
+            if (!(item2 is null))
             {
                 propertyNames = propertyNames.Except(item2.PropertyNames);
             }
@@ -276,12 +276,12 @@ namespace Aqua.GraphCompare
             return propertyNames
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .Select(declaringType.GetProperty)
-                .Where(p => !ReferenceEquals(null, p));
+                .Where(p => !(p is null));
         }
 
         private static IEnumerable<PropertyPair> GetPropertiesExistingInBothInstances(DynamicObject item1, DynamicObject item2)
         {
-            if (ReferenceEquals(null, item1) || ReferenceEquals(null, item2))
+            if (item1 is null || item2 is null)
             {
                 return Enumerable.Empty<PropertyPair>();
             }
@@ -294,7 +294,7 @@ namespace Aqua.GraphCompare
             return propertyNames
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .Select(x => new PropertyPair(declaringTypeFrom.GetProperty(x), declaringTypeTo.GetProperty(x)))
-                .Where(x => !ReferenceEquals(null, x.From) && !ReferenceEquals(null, x.To));
+                .Where(x => !(x.From is null) && !(x.To is null));
         }
 
         private sealed class ComparableDynamicObject : IEquatable<ComparableDynamicObject>
@@ -310,7 +310,7 @@ namespace Aqua.GraphCompare
 
             public override bool Equals(object obj)
             {
-                if (ReferenceEquals(null, obj))
+                if (obj is null)
                 {
                     return false;
                 }
@@ -321,7 +321,7 @@ namespace Aqua.GraphCompare
                 }
 
                 var other = obj as ComparableDynamicObject;
-                if (ReferenceEquals(null, other))
+                if (other is null)
                 {
                     return false;
                 }
@@ -421,12 +421,12 @@ namespace Aqua.GraphCompare
             {
                 var dynamicObject = obj as DynamicObject;
 
-                if (ReferenceEquals(null, dynamicObject))
+                if (dynamicObject is null)
                 {
                     dynamicObject = base.MapToDynamicObjectGraph(obj, setTypeInformation);
                 }
 
-                if (!ReferenceEquals(null, dynamicObject) && !(dynamicObject is DynamicObjectWithOriginalReference))
+                if (!(dynamicObject is null) && !(dynamicObject is DynamicObjectWithOriginalReference))
                 {
                     dynamicObject = new DynamicObjectWithOriginalReference(dynamicObject, obj);
                 }
