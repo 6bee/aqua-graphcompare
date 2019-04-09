@@ -1,14 +1,26 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0D9E9EEF-C316-4083-B603-9B5ECF50C3AF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{35A7F649-E5F2-4ADB-98CA-7A3025A76019}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aqua.GraphCompare", "src\Aqua.GraphCompare\Aqua.GraphCompare.csproj", "{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aqua.GraphCompare", "src\Aqua.GraphCompare\Aqua.GraphCompare.csproj", "{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aqua.GraphCompare.Tests", "test\Aqua.GraphCompare.Tests\Aqua.GraphCompare.Tests.csproj", "{435495FC-BEFF-4B3E-9596-907AB9D63CCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aqua.GraphCompare.Tests", "test\Aqua.GraphCompare.Tests\Aqua.GraphCompare.Tests.csproj", "{435495FC-BEFF-4B3E-9596-907AB9D63CCE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".global", ".global", "{60DD58F9-31CD-4E09-A6B7-C51F82236E27}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
+		NuGet.config = NuGet.config
+		Style.ruleset = Style.ruleset
+		stylecop.json = stylecop.json
+		StyleNoDoc.ruleset = StyleNoDoc.ruleset
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,5 +43,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{64FB0AE0-A3AB-4413-81AC-305938FAC8E2} = {0D9E9EEF-C316-4083-B603-9B5ECF50C3AF}
 		{435495FC-BEFF-4B3E-9596-907AB9D63CCE} = {35A7F649-E5F2-4ADB-98CA-7A3025A76019}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B13E4571-D4B6-4154-962D-4343DA5DB5E5}
 	EndGlobalSection
 EndGlobal
