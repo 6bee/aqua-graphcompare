@@ -21,7 +21,7 @@ namespace Aqua.GraphCompare
         }
 
         /// <summary>
-        /// Gets the object instance represented by this dynamic object
+        /// Gets the object instance represented by this dynamic object.
         /// </summary>
         public object OriginalObject => _originalObject;
     }

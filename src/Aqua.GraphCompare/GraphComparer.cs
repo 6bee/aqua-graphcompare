@@ -18,9 +18,9 @@ namespace Aqua.GraphCompare
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GraphComparer"/> class
-        /// with custom logic injected via function delegates
+        /// with custom logic injected via function delegates.
         /// </summary>
-        /// <param name="instanceDisplayStringProvider">Optional function delegate to create display strings for breadcrumb levels</param>
+        /// <param name="instanceDisplayStringProvider">Optional function delegate to create display strings for breadcrumb levels.</param>
         /// <param name="propertyValueDisplayStringProvider">Optional function delegate to create display strings for property values.</param>
         /// <param name="objectMapper">Optional function to map object instances to dynamoc objects for comparison.</param>
         /// <param name="propertyFilter">Optional function to define properties to be compared for a given type.</param>
