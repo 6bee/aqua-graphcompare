@@ -1,6 +1,6 @@
 ﻿<Project>
   <PropertyGroup>
-    <Copyright>Copyright © Christof Senn 2015-2019</Copyright>
+    <Copyright>Copyright © Christof Senn 2015-2020</Copyright>
     <VersionPrefix>1.2.2</VersionPrefix>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <Authors>Christof Senn</Authors>
