@@ -17,17 +17,13 @@ addons:
 matrix:
   include:
     - os: linux
-      env: FRAMEWORK_VERSION=2.1 CLI_VERSION=2.2.100 CONFIGURATION=Debug
-    - os: linux
-      env: FRAMEWORK_VERSION=2.1 CLI_VERSION=Latest CONFIGURATION=Release
+      env: CONFIGURATION=Release
     - os: osx
-      env: FRAMEWORK_VERSION=2.1 CLI_VERSION=2.2.100 CONFIGURATION=Debug
-    - os: osx
-      env: FRAMEWORK_VERSION=2.1 CLI_VERSION=Latest CONFIGURATION=Release
+      env: CONFIGURATION=Release
 
 install:
   - export DOTNET_INSTALL_DIR="$PWD/.dotnetcli"
-  - curl -sSL "https://dot.net/v1/dotnet-install.sh" | bash /dev/stdin --channel 2.2 --version "$CLI_VERSION" --install-dir "$DOTNET_INSTALL_DIR"
+  - curl -sSL "https://dot.net/v1/dotnet-install.sh" | bash /dev/stdin --channel 5.0 --version Latest --install-dir "$DOTNET_INSTALL_DIR"
   - export PATH="$DOTNET_INSTALL_DIR:$PATH"
 
 before_script:
@@ -35,4 +31,4 @@ before_script:
   - dotnet --info
 
 script:
-  - dotnet test ./test/Aqua.GraphCompare.Tests/Aqua.GraphCompare.Tests.csproj -c $CONFIGURATION -f "netcoreapp$FRAMEWORK_VERSION"
+  - dotnet test test/Aqua.GraphCompare.Tests -c $CONFIGURATION -f net5.0
