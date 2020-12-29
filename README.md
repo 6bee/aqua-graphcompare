@@ -1,11 +1,11 @@
 # aqua-graphcompare
 
-| branch | package | AppVeyor | Travis CI |
-| --- | --- | --- | --- |
-| `master` | [![NuGet Badge](https://buildstats.info/nuget/aqua-graphcompare?includePreReleases=true)](http://www.nuget.org/packages/aqua-graphcompare) [![MyGet Pre Release](http://img.shields.io/myget/aqua/vpre/aqua-graphcompare.svg?style=flat-square&label=myget)](https://www.myget.org/feed/aqua/package/nuget/aqua-graphcompare) | [![Build status](https://ci.appveyor.com/api/projects/status/se738mykuhel4b3q/branch/master?svg=true)](https://ci.appveyor.com/project/6bee/aqua-graphcompare/branch/master) | [![Travis build Status](https://travis-ci.org/6bee/aqua-graphcompare.svg?branch=master)](https://travis-ci.org/6bee/aqua-graphcompare?branch=master) |
+| branch | package                                             | AppVeyor                | Travis CI                      |
+| ---    | ---                                                 | ---                     | ---                            |
+| `main` | [![NuGet Badge][1]][2] [![MyGet Pre Release][3]][4] | [![Build status][5]][6] | [![Travis build Status][7]][8] |
 
 ### Description
-Differ for arbitrary object graphs allows to compare property values starting at a pair of root objects, recording any differences while visiting all objects of the graph. 
+Differ for arbitrary object graphs allows to compare property values starting at a pair of root objects, recording any differences while visiting all nodes of the object graph. 
 
 The comparison result contains a list of deltas describing each difference found. 
 
@@ -40,7 +40,7 @@ Console.WriteLine("{0} {1} {2}",
     result.IsMatch ? "==" : "<>", 
     result.ToType);
 
-foreach(var delta in result.Deltas)
+foreach (var delta in result.Deltas)
 {
     Console.WriteLine(delta.ChangeType);
     Console.WriteLine(delta.Breadcrumb);
@@ -48,3 +48,12 @@ foreach(var delta in result.Deltas)
     Console.WriteLine(delta.NewValue);
 }
 ```
+
+[1]: https://buildstats.info/nuget/aqua-graphcompare?includePreReleases=true
+[2]: http://www.nuget.org/packages/aqua-graphcompare
+[3]: http://img.shields.io/myget/aqua/vpre/aqua-graphcompare.svg?style=flat-square&label=myget
+[4]: https://www.myget.org/feed/aqua/package/nuget/aqua-graphcompare
+[5]: https://ci.appveyor.com/api/projects/status/se738mykuhel4b3q/branch/main?svg=true
+[6]: https://ci.appveyor.com/project/6bee/aqua-graphcompare/branch/main
+[7]: https://travis-ci.org/6bee/aqua-graphcompare.svg?branch=main
+[8]: https://travis-ci.org/6bee/aqua-graphcompare?branch=main
