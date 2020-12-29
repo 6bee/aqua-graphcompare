@@ -6,7 +6,6 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
     using Aqua.GraphCompare;
     using Shouldly;
     using System.Linq;
-    using System.Reflection;
     using Xunit;
 
     public class When_comparing_dynamic_objects

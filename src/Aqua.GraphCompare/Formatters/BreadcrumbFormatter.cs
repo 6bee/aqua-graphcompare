@@ -3,7 +3,6 @@
 namespace Aqua.GraphCompare.Formatters
 {
     using Aqua.GraphCompare.Formatters.StringTransformers;
-    using Aqua.TypeSystem.Extensions;
     using System.Collections.Generic;
     using System.Reflection;
 

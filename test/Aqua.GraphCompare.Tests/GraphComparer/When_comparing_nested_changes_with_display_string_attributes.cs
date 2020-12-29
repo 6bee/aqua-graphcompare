@@ -6,7 +6,6 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
     using Shouldly;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using Xunit;
 
     public class When_comparing_nested_changes_with_display_string_attributes
