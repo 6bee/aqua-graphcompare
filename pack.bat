@@ -1,9 +1,5 @@
 @echo off
-set configuration=Release
-set version-suffix=""
+set configuration=Debug
 clean ^
-  && dotnet restore ^
-  && dotnet build src\Aqua.GraphCompare --configuration %configuration% ^
-  && dotnet build test\Aqua.GraphCompare.Tests --configuration %configuration% ^
-  && dotnet test test\Aqua.GraphCompare.Tests\Aqua.GraphCompare.Tests.csproj --configuration %configuration% ^
-  && dotnet pack src\Aqua.GraphCompare\Aqua.GraphCompare.csproj --output "..\..\artifacts" --configuration %configuration% --include-symbols --version-suffix "%version-suffix%"
+  && dotnet test test\Aqua.GraphCompare.Tests --configuration %configuration% ^
+  && dotnet pack src\Aqua.GraphCompare        --configuration %configuration% --include-symbols --output "artifacts"

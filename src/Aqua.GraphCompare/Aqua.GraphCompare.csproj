@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>Comparer for arbitrary object graphs</Description>
-    <TargetFrameworks>net451;netstandard1.3;netstandard1.6;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>Aqua.GraphCompare</AssemblyName>
     <PackageId>aqua-graphcompare</PackageId>
     <PackageTags>compare;diff;graph-compare;graph-diff;deep-compare;deep-diff;object-compare;object-diff</PackageTags>
@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="aqua-core" Version="4.5.3" />
+    <PackageReference Include="aqua-core" Version="4.6.4" />
   </ItemGroup>
 
 </Project>

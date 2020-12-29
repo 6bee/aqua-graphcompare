@@ -1,10 +1,22 @@
-﻿<Project>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
   <PropertyGroup>
-    <Copyright>Copyright © Christof Senn 2015-2020</Copyright>
-    <VersionPrefix>1.2.2</VersionPrefix>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <MajorVersion>1</MajorVersion>
+    <MinorVersion>3</MinorVersion>
+    <PatchVersion>0</PatchVersion>
+    <PreReleaseLabel>alpha-001</PreReleaseLabel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VersionPrefix>$(MajorVersion).$(MinorVersion).$(PatchVersion)</VersionPrefix>
+    <VersionSuffix>$(PreReleaseLabel)</VersionSuffix>
+    <AssemblyVersion>$(MajorVersion).$(MinorVersion).0.0</AssemblyVersion>
+    <AssemblyFileVersion>$(MajorVersion).$(MinorVersion).$(PatchVersion).0</AssemblyFileVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <CopyrightYear>$([System.DateTime]::Now.ToString("yyyy"))</CopyrightYear>
+    <Copyright>Copyright © Christof Senn 2015-$(CopyrightYear)</Copyright>
     <Authors>Christof Senn</Authors>
-    <PackageIconUrl>https://raw.githubusercontent.com/6bee/aqua-graphcompare/master/aqua-small.png</PackageIconUrl>
+    <PackageIcon>aqua-small.png</PackageIcon>
     <PackageProjectUrl>https://github.com/6bee/aqua-graphcompare</PackageProjectUrl>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
@@ -22,6 +34,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)aqua-small.png" Pack="true" Visible="false" PackagePath=""/>
     <None Include="$(MSBuildThisFileDirectory)license.txt" Pack="true" Visible="false" PackagePath=""/>
   </ItemGroup>
   <ItemGroup>
