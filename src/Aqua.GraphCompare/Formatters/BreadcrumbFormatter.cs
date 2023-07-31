@@ -3,37 +3,29 @@
 namespace Aqua.GraphCompare.Formatters
 {
     using Aqua.GraphCompare.Formatters.StringTransformers;
-    using Aqua.TypeSystem.Extensions;
     using System.Collections.Generic;
     using System.Reflection;
 
     public class BreadcrumbFormatter : IBreadcrumbFormatter
     {
-        public const string BreadcrumbSeparator = " > ";
+        public string BreadcrumbSeparator { get; init; } = " > ";
 
-        private readonly List<IStringTransformer> _stringTransformers;
-
-        public BreadcrumbFormatter()
+        public IList<IStringTransformer> DisplayValueTransformers { get; } = new List<IStringTransformer>
         {
-            _stringTransformers = new List<IStringTransformer>()
-            {
-                new GetStringOrEmptyIfNull(),
-                new CamelCaseSplitter(),
-                new FirstLetterUpperCase(),
-                new Trim(),
-            };
-        }
-
-        public IList<IStringTransformer> DisplayValueTransformers => _stringTransformers;
+            new GetStringOrEmptyIfNull(),
+            new CamelCaseSplitter(),
+            new FirstLetterUpperCase(),
+            new Trim(),
+        };
 
         public virtual string GetPropertyDisplayValue(Breadcrumb breadcrumb)
         {
             var property = breadcrumb.PropertyTo ?? breadcrumb.PropertyFrom;
 
-            if (!(property is null))
+            if (property is not null)
             {
                 var displayStringAttribute = property.GetCustomAttribute<DisplayStringAttribute>();
-                if (displayStringAttribute != null)
+                if (displayStringAttribute is not null)
                 {
                     return displayStringAttribute.DisplayString;
                 }
@@ -57,7 +49,7 @@ namespace Aqua.GraphCompare.Formatters
                 ? null
                 : BreadcrumbSeparator;
 
-            return string.Format("{1}{0}{2}", separator, s1, s2);
+            return $"{s1}{separator}{s2}";
         }
 
         private string GetDisplayString(Breadcrumb breadcrumb)
@@ -66,7 +58,7 @@ namespace Aqua.GraphCompare.Formatters
 
             var property = breadcrumb.PropertyTo ?? breadcrumb.PropertyFrom;
 
-            if (displayString is null && !(property is null))
+            if (displayString is null && property is not null)
             {
                 displayString = FormatString(property.Name);
             }

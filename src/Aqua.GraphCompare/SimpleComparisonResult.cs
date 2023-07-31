@@ -10,17 +10,17 @@ namespace Aqua.GraphCompare
     {
         private readonly ComparisonResult _comparisonResult;
 
-        private readonly Lazy<IEnumerable<SimpleDelta>> _deltas;
+        private readonly Lazy<IReadOnlyCollection<SimpleDelta>> _deltas;
 
         public SimpleComparisonResult(ComparisonResult comparisonResult)
         {
             _comparisonResult = comparisonResult;
-            _deltas = new Lazy<IEnumerable<SimpleDelta>>(() => _comparisonResult.Deltas.Select(x => new SimpleDelta(x)).ToList());
+            _deltas = new Lazy<IReadOnlyCollection<SimpleDelta>>(() => _comparisonResult.Deltas.Select(x => new SimpleDelta(x)).ToList());
         }
 
         public Type Type => _comparisonResult.ToType ?? _comparisonResult.FromType;
 
-        public IEnumerable<SimpleDelta> Deltas => _deltas.Value;
+        public IReadOnlyCollection<SimpleDelta> Deltas => _deltas.Value;
 
         public bool IsMatch => _comparisonResult.IsMatch;
     }

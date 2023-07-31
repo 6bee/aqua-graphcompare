@@ -8,7 +8,7 @@ namespace Aqua.GraphCompare
 
     public class ComparisonResult
     {
-        public ComparisonResult(Type fromType, Type toType, IEnumerable<Delta> deltas)
+        public ComparisonResult(Type fromType, Type toType, IReadOnlyCollection<Delta> deltas)
         {
             FromType = fromType;
             ToType = toType;
@@ -19,7 +19,7 @@ namespace Aqua.GraphCompare
 
         public Type ToType { get; }
 
-        public IEnumerable<Delta> Deltas { get; }
+        public IReadOnlyCollection<Delta> Deltas { get; }
 
         public bool IsMatch => !Deltas.Any();
 

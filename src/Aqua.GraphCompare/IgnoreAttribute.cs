@@ -4,7 +4,7 @@ namespace Aqua.GraphCompare
 {
     using System;
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class IgnoreAttribute : Attribute
     {
     }

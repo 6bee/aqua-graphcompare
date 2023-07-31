@@ -3,11 +3,9 @@
 namespace Aqua.GraphCompare.Tests.GraphComparer
 {
     using Aqua.GraphCompare;
-    using Aqua.TypeSystem.Extensions;
     using Shouldly;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using Xunit;
 
     public class When_comparing_nested_changes
@@ -394,7 +392,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
                 if (hasDynamicObject)
                 {
-                    breadcrumb.ItemFrom.DynamicObject.Type.Type.ShouldBe(typeof(T));
+                    breadcrumb.ItemFrom.DynamicObject.Type.ToType().ShouldBe(typeof(T));
                 }
                 else
                 {
@@ -413,7 +411,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
                 if (hasDynamicObject)
                 {
-                    breadcrumb.ItemTo.DynamicObject.Type.Type.ShouldBe(typeof(T));
+                    breadcrumb.ItemTo.DynamicObject.Type.ToType().ShouldBe(typeof(T));
                 }
                 else
                 {

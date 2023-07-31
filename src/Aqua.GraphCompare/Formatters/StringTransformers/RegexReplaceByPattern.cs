@@ -7,7 +7,6 @@ namespace Aqua.GraphCompare.Formatters.StringTransformers
     public class RegexReplaceByPattern : IStringTransformer
     {
         private readonly string _pattern;
-
         private readonly string _replacement;
 
         public RegexReplaceByPattern(string pattern, string replacement)

@@ -6,7 +6,6 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
     using Shouldly;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using Xunit;
 
     public class When_comparing_nested_changes_with_display_string_attributes
@@ -333,7 +332,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                 breadcrumb.PropertyFrom.ShouldBe(xProperty);
                 breadcrumb.Parent.ItemFrom.Instance.ShouldBeOfType<V>();
                 breadcrumb.Parent.ItemFrom.InstanceType.ShouldBe(typeof(V));
-                breadcrumb.Parent.ItemFrom.DynamicObject.Type.Type.ShouldBe(typeof(V));
+                breadcrumb.Parent.ItemFrom.DynamicObject.Type.ToType().ShouldBe(typeof(V));
             }
             else
             {
@@ -348,7 +347,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                 breadcrumb.PropertyTo.ShouldBe(xProperty);
                 breadcrumb.Parent.ItemTo.Instance.ShouldBeOfType<V>();
                 breadcrumb.Parent.ItemTo.InstanceType.ShouldBe(typeof(V));
-                breadcrumb.Parent.ItemTo.DynamicObject.Type.Type.ShouldBe(typeof(V));
+                breadcrumb.Parent.ItemTo.DynamicObject.Type.ToType().ShouldBe(typeof(V));
             }
             else
             {

@@ -2,7 +2,7 @@
 
 namespace Aqua.GraphCompare
 {
-    using Aqua.TypeSystem.Extensions;
+    using Aqua.TypeExtensions;
     using System;
     using System.Reflection;
 
@@ -97,16 +97,16 @@ namespace Aqua.GraphCompare
             obj = TryUnwrapDynamicObject(obj);
 
             var member = TryGetEnumMember(property, obj);
-            if (!(member is null))
+            if (member is not null)
             {
                 var displayStringAttribute = member.GetCustomAttribute<DisplayStringAttribute>();
-                if (!(displayStringAttribute is null))
+                if (displayStringAttribute is not null)
                 {
                     return displayStringAttribute.DisplayString;
                 }
             }
 
-            if (!(_propertyValueDisplayStringProvider is null))
+            if (_propertyValueDisplayStringProvider is not null)
             {
                 return _propertyValueDisplayStringProvider(obj, property);
             }
@@ -126,7 +126,7 @@ namespace Aqua.GraphCompare
         private static object TryUnwrapDynamicObject(object obj)
         {
             var dynamicObject = obj as DynamicObjectWithOriginalReference;
-            if (!(dynamicObject is null) && !(dynamicObject.OriginalObject is null))
+            if (dynamicObject is not null && dynamicObject.OriginalObject is not null)
             {
                 return dynamicObject.OriginalObject;
             }
@@ -148,7 +148,7 @@ namespace Aqua.GraphCompare
             else if (TryGetEnumType(property.PropertyType, out enumType))
             {
                 var value = property.GetValue(obj);
-                if (!(value is null))
+                if (value is not null)
                 {
                     return enumType.GetField(value.ToString());
                 }
@@ -161,7 +161,7 @@ namespace Aqua.GraphCompare
         {
             enumType = null;
 
-            if (type.IsGenericType() && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 var genericArgument = type.GetGenericArguments()[0];
                 if (genericArgument.IsEnum())
@@ -174,7 +174,7 @@ namespace Aqua.GraphCompare
                 enumType = type;
             }
 
-            return !(enumType is null);
+            return enumType is not null;
         }
     }
 }
