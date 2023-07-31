@@ -332,7 +332,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                 breadcrumb.PropertyFrom.ShouldBe(xProperty);
                 breadcrumb.Parent.ItemFrom.Instance.ShouldBeOfType<V>();
                 breadcrumb.Parent.ItemFrom.InstanceType.ShouldBe(typeof(V));
-                breadcrumb.Parent.ItemFrom.DynamicObject.Type.Type.ShouldBe(typeof(V));
+                breadcrumb.Parent.ItemFrom.DynamicObject.Type.ToType().ShouldBe(typeof(V));
             }
             else
             {
@@ -347,7 +347,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
                 breadcrumb.PropertyTo.ShouldBe(xProperty);
                 breadcrumb.Parent.ItemTo.Instance.ShouldBeOfType<V>();
                 breadcrumb.Parent.ItemTo.InstanceType.ShouldBe(typeof(V));
-                breadcrumb.Parent.ItemTo.DynamicObject.Type.Type.ShouldBe(typeof(V));
+                breadcrumb.Parent.ItemTo.DynamicObject.Type.ToType().ShouldBe(typeof(V));
             }
             else
             {

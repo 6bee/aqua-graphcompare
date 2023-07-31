@@ -392,7 +392,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
                 if (hasDynamicObject)
                 {
-                    breadcrumb.ItemFrom.DynamicObject.Type.Type.ShouldBe(typeof(T));
+                    breadcrumb.ItemFrom.DynamicObject.Type.ToType().ShouldBe(typeof(T));
                 }
                 else
                 {
@@ -411,7 +411,7 @@ namespace Aqua.GraphCompare.Tests.GraphComparer
 
                 if (hasDynamicObject)
                 {
-                    breadcrumb.ItemTo.DynamicObject.Type.Type.ShouldBe(typeof(T));
+                    breadcrumb.ItemTo.DynamicObject.Type.ToType().ShouldBe(typeof(T));
                 }
                 else
                 {

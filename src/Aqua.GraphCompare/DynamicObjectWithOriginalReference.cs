@@ -6,23 +6,17 @@ namespace Aqua.GraphCompare
 
     public sealed class DynamicObjectWithOriginalReference : DynamicObject
     {
-        private readonly object _originalObject;
-
         public DynamicObjectWithOriginalReference(DynamicObject dynamicObject, object originalObject)
             : base(dynamicObject.Type, dynamicObject.Properties)
-        {
-            _originalObject = originalObject;
-        }
+            => OriginalObject = originalObject;
 
         public DynamicObjectWithOriginalReference(object obj, IDynamicObjectMapper mapper = null)
-            : base(obj, mapper)
-        {
-            _originalObject = obj;
-        }
+            : base(obj, null, mapper)
+            => OriginalObject = obj;
 
         /// <summary>
         /// Gets the object instance represented by this dynamic object.
         /// </summary>
-        public object OriginalObject => _originalObject;
+        public object OriginalObject { get; }
     }
 }

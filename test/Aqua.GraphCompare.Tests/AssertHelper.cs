@@ -36,7 +36,7 @@ namespace Aqua.GraphCompare.Tests
 
         public static void TypesShouldBe<T>(this Breadcrumb.Item item)
         {
-            item.DynamicObject.Type.Type.ShouldBe(typeof(T));
+            item.DynamicObject.Type.ToType().ShouldBe(typeof(T));
             item.Instance.ShouldBeOfType<T>();
             item.InstanceType.ShouldBe(typeof(T));
         }

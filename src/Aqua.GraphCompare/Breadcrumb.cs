@@ -10,21 +10,17 @@ namespace Aqua.GraphCompare
     {
         public sealed class Item
         {
-            private readonly DynamicObject _dynamicObject;
-
-            private readonly object _instance;
-
             public Item(DynamicObject dynamicObject, object instance)
             {
-                _dynamicObject = dynamicObject;
-                _instance = instance;
+                DynamicObject = dynamicObject;
+                Instance = instance;
             }
 
-            public DynamicObject DynamicObject => _dynamicObject;
+            public DynamicObject DynamicObject { get; }
 
-            public object Instance => _instance;
+            public object Instance { get; }
 
-            public Type InstanceType => _instance is null ? null : _instance.GetType();
+            public Type InstanceType => Instance?.GetType();
         }
 
         private readonly Lazy<string> _displayString;
@@ -45,18 +41,14 @@ namespace Aqua.GraphCompare
         }
 
         internal Breadcrumb AddLevel(DynamicObjectWithOriginalReference fromValue, DynamicObjectWithOriginalReference toValue, Func<string> displayString, PropertyInfo propertyFrom, PropertyInfo propertyTo)
-        {
-            return new Breadcrumb(this, propertyFrom, propertyTo, fromValue, fromValue is null ? null : fromValue.OriginalObject, toValue, toValue is null ? null : toValue.OriginalObject, displayString);
-        }
+            => new Breadcrumb(this, propertyFrom, propertyTo, fromValue, fromValue is null ? null : fromValue.OriginalObject, toValue, toValue is null ? null : toValue.OriginalObject, displayString);
 
         internal Breadcrumb AddLevel(object fromInstance, object toInstance, Func<string> displayString, PropertyInfo propertyFrom, PropertyInfo propertyTo)
-        {
-            return new Breadcrumb(this, propertyFrom, propertyTo, null, fromInstance, null, toInstance, displayString);
-        }
+            => new Breadcrumb(this, propertyFrom, propertyTo, null, fromInstance, null, toInstance, displayString);
 
         public string DisplayString => _displayString.Value;
 
-        public string Path => Parent is null ? null : Parent.ToString();
+        public string Path => Parent?.ToString();
 
         public Breadcrumb Parent { get; }
 
@@ -76,12 +68,9 @@ namespace Aqua.GraphCompare
             }
 
             var displayString = DisplayString;
-
             var path = Path;
-
             var separator = string.IsNullOrEmpty(path) || string.IsNullOrEmpty(displayString) ? null : " > ";
-
-            return string.Format("{0}{2}{1}", path, displayString, separator);
+            return $"{path}{separator}{displayString}";
         }
     }
 }
