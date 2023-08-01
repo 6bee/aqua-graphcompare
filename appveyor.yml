@@ -1,24 +1,23 @@
-image: Visual Studio 2019
+image: Visual Studio 2022
 
 branches:
   except:
-  - experimental
+  - /^experimental.*$/
 
 init:
   - git config --global core.autocrlf true
 
 version: 1.0.{build}
 
+environment:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
 before_build:
   - dotnet --info
-  - dotnet restore
 
 build_script:
-  - dotnet build src\Aqua.GraphCompare
-  - dotnet build test\Aqua.GraphCompare.Tests
+  - dotnet build Aqua.GraphCompare.sln
 
 test_script:
-  - dotnet test test\Aqua.GraphCompare.Tests\Aqua.GraphCompare.Tests.csproj
-
-build:
-  verbosity: normal
+  - dotnet test test\Aqua.GraphCompare.Tests
