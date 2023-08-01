@@ -369,7 +369,7 @@ public class When_comparing_nested_changes_with_display_string_attributes
     {
         var collectionProperty = typeof(L2).GetProperty("Collection2Property");
 
-        var delta = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Delete);
+        var delta = result.Deltas.Single(x => x.Breadcrumb.Parent?.PropertyFrom == collectionProperty && x.ChangeType is ChangeType.Delete);
 
         delta.ChangeType.ShouldBe(ChangeType.Delete);
         delta.OldValue.ShouldBe(2);
@@ -383,7 +383,7 @@ public class When_comparing_nested_changes_with_display_string_attributes
     {
         var collectionProperty = typeof(L2).GetProperty("Collection2Property");
 
-        var breadcrumb = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Delete).Breadcrumb;
+        var breadcrumb = result.Deltas.Single(x => x.Breadcrumb.Parent?.PropertyFrom == collectionProperty && x.ChangeType is ChangeType.Delete).Breadcrumb;
 
         breadcrumb.DisplayString.ShouldBeNull();
 
@@ -410,7 +410,7 @@ public class When_comparing_nested_changes_with_display_string_attributes
     {
         var collectionProperty = typeof(L2).GetProperty("Collection2Property");
 
-        var delta = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Insert);
+        var delta = result.Deltas.Single(x => x.Breadcrumb.Parent?.PropertyFrom == collectionProperty && x.ChangeType is ChangeType.Insert);
 
         delta.ChangeType.ShouldBe(ChangeType.Insert);
         delta.OldValue.ShouldBeNull();
@@ -424,7 +424,7 @@ public class When_comparing_nested_changes_with_display_string_attributes
     {
         var collectionProperty = typeof(L2).GetProperty("Collection2Property");
 
-        var breadcrumb = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Insert).Breadcrumb;
+        var breadcrumb = result.Deltas.Single(x => x.Breadcrumb.Parent?.PropertyFrom == collectionProperty && x.ChangeType is ChangeType.Insert).Breadcrumb;
 
         breadcrumb.DisplayString.ShouldBeNull();
 
@@ -451,7 +451,7 @@ public class When_comparing_nested_changes_with_display_string_attributes
     {
         var collectionProperty = typeof(L2).GetProperty("Collection3Property");
 
-        var delta = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Delete);
+        var delta = result.Deltas.Single(x => x.Breadcrumb.Parent?.PropertyFrom == collectionProperty && x.ChangeType is ChangeType.Delete);
 
         delta.ChangeType.ShouldBe(ChangeType.Delete);
         delta.OldValue.ShouldBe(N.Two);
@@ -466,7 +466,7 @@ public class When_comparing_nested_changes_with_display_string_attributes
     {
         var collectionProperty = typeof(L2).GetProperty("Collection3Property");
 
-        var breadcrumb = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Delete).Breadcrumb;
+        var breadcrumb = result.Deltas.Single(x => x.Breadcrumb.Parent?.PropertyFrom == collectionProperty && x.ChangeType is ChangeType.Delete).Breadcrumb;
 
         breadcrumb.DisplayString.ShouldBeNull();
 
@@ -493,7 +493,7 @@ public class When_comparing_nested_changes_with_display_string_attributes
     {
         var collectionProperty = typeof(L2).GetProperty("Collection3Property");
 
-        var delta = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Insert);
+        var delta = result.Deltas.Single(x => x.Breadcrumb.Parent?.PropertyFrom == collectionProperty && x.ChangeType is ChangeType.Insert);
 
         delta.ChangeType.ShouldBe(ChangeType.Insert);
         delta.OldValue.ShouldBeNull();
@@ -508,7 +508,7 @@ public class When_comparing_nested_changes_with_display_string_attributes
     {
         var collectionProperty = typeof(L2).GetProperty("Collection3Property");
 
-        var breadcrumb = result.Deltas.Single(x => x.Breadcrumb.Parent != null && x.Breadcrumb.Parent.PropertyFrom == collectionProperty && x.ChangeType == ChangeType.Insert).Breadcrumb;
+        var breadcrumb = result.Deltas.Single(x => x.Breadcrumb.Parent?.PropertyFrom == collectionProperty && x.ChangeType is ChangeType.Insert).Breadcrumb;
 
         breadcrumb.DisplayString.ShouldBeNull();
 

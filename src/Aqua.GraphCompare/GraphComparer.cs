@@ -64,7 +64,7 @@ public class GraphComparer : GraphComparerBase
         }
 
         var displayStringAttribute = objType.GetTypeInfo().GetCustomAttribute<DisplayStringAttribute>();
-        if (!(displayStringAttribute is null))
+        if (displayStringAttribute is not null)
         {
             return displayStringAttribute.DisplayString;
         }

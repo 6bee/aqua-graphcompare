@@ -97,7 +97,7 @@ public class When_comparing_anonymous_types
     [Fact]
     public void Should_have_delta_for_added_value_property_of_type_string()
     {
-        var d = result.Deltas.Single(x => x.PropertyTo != null && x.PropertyTo.Name == "Value");
+        var d = result.Deltas.Single(x => x.PropertyTo?.Name == "Value");
         d.PropertyFrom.ShouldBeNull();
         d.PropertyTo.PropertyType.ShouldBe(typeof(string));
         d.OldValue.ShouldBeNull();
@@ -107,7 +107,7 @@ public class When_comparing_anonymous_types
     [Fact]
     public void Should_have_delta_for_removed_value_property_of_type_decimal()
     {
-        var d = result.Deltas.Single(x => x.PropertyFrom != null && x.PropertyFrom.Name == "Value");
+        var d = result.Deltas.Single(x => x.PropertyFrom?.Name == "Value");
         d.PropertyTo.ShouldBeNull();
         d.PropertyFrom.PropertyType.ShouldBe(typeof(decimal));
         d.OldValue.ShouldBe(1.23456789m);
@@ -117,7 +117,7 @@ public class When_comparing_anonymous_types
     [Fact]
     public void Should_have_delta_for_chnage_name_property()
     {
-        var d = result.Deltas.Single(x => x.PropertyFrom != null && x.PropertyFrom.Name == "Name");
+        var d = result.Deltas.Single(x => x.PropertyFrom?.Name == "Name");
         d.PropertyTo.Name.ShouldBe("Name");
         d.OldValue.ShouldBe("test name");
         d.NewValue.ShouldBe("test new name");
