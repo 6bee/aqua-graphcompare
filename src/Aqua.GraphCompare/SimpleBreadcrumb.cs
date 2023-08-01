@@ -8,26 +8,25 @@ namespace Aqua.GraphCompare
     public sealed class SimpleBreadcrumb
     {
         private readonly Breadcrumb _breadcrumb;
-
-        private readonly Lazy<SimpleBreadcrumb> _parent;
+        private readonly Lazy<SimpleBreadcrumb?> _parent;
 
         public SimpleBreadcrumb(Breadcrumb breadcrumb)
         {
-            _breadcrumb = breadcrumb;
-            _parent = new Lazy<SimpleBreadcrumb>(() => _breadcrumb.Parent is null ? null : new SimpleBreadcrumb(_breadcrumb.Parent));
+            _breadcrumb = breadcrumb.CheckNotNull(nameof(breadcrumb));
+            _parent = new Lazy<SimpleBreadcrumb?>(() => _breadcrumb.Parent is null ? null : new SimpleBreadcrumb(_breadcrumb.Parent));
         }
 
-        public string Path => _breadcrumb.Path;
+        public string? Path => _breadcrumb.Path;
 
-        public SimpleBreadcrumb Parent => _parent.Value;
+        public SimpleBreadcrumb? Parent => _parent.Value;
 
-        public PropertyInfo Property => _breadcrumb.PropertyTo ?? _breadcrumb.PropertyFrom;
+        public PropertyInfo? Property => _breadcrumb.PropertyTo ?? _breadcrumb.PropertyFrom;
 
-        public Breadcrumb.Item ItemFrom => _breadcrumb.ItemFrom;
+        public Breadcrumb.Item? ItemFrom => _breadcrumb.ItemFrom;
 
-        public Breadcrumb.Item ItemTo => _breadcrumb.ItemTo;
+        public Breadcrumb.Item? ItemTo => _breadcrumb.ItemTo;
 
-        public override string ToString()
+        public override string? ToString()
             => _breadcrumb.ToString();
     }
 }

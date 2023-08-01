@@ -4,7 +4,7 @@ namespace Aqua.GraphCompare.Formatters.StringTransformers
 {
     public class Trim : IStringTransformer
     {
-        public string Transform(string value)
+        public string? Transform(string? value)
             => value?.Trim();
     }
 }

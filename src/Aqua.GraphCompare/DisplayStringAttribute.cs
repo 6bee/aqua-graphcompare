@@ -7,8 +7,8 @@ namespace Aqua.GraphCompare
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public class DisplayStringAttribute : Attribute
     {
-        public DisplayStringAttribute(string displayString) => DisplayString = displayString;
+        public DisplayStringAttribute(string? displayString) => DisplayString = displayString;
 
-        public string DisplayString { get; }
+        public string? DisplayString { get; }
     }
 }

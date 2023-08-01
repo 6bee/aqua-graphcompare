@@ -11,11 +11,13 @@ namespace Aqua.GraphCompare.Formatters.StringTransformers
 
         public RegexReplaceByPattern(string pattern, string replacement)
         {
-            _pattern = pattern;
-            _replacement = replacement;
+            _pattern = pattern.CheckNotNullOrEmpty(nameof(pattern));
+            _replacement = replacement.CheckNotNull(nameof(replacement));
         }
 
-        public string Transform(string value)
-            => Regex.Replace(value, _pattern, _replacement);
+        public string? Transform(string? value)
+            => value is null
+            ? null
+            : Regex.Replace(value, _pattern, _replacement);
     }
 }

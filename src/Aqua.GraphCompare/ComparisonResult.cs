@@ -8,16 +8,21 @@ namespace Aqua.GraphCompare
 
     public class ComparisonResult
     {
-        public ComparisonResult(Type fromType, Type toType, IReadOnlyCollection<Delta> deltas)
+        public ComparisonResult(Type? fromType, Type? toType, IReadOnlyCollection<Delta> deltas)
         {
+            if (fromType is null && toType is null)
+            {
+                throw new ArgumentException($"Only one of '{nameof(fromType)}' and '{nameof(toType)}' may be null.");
+            }
+
             FromType = fromType;
             ToType = toType;
-            Deltas = deltas;
+            Deltas = deltas.CheckNotNull(nameof(deltas));
         }
 
-        public Type FromType { get; }
+        public Type? FromType { get; }
 
-        public Type ToType { get; }
+        public Type? ToType { get; }
 
         public IReadOnlyCollection<Delta> Deltas { get; }
 

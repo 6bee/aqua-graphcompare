@@ -4,8 +4,8 @@ namespace Aqua.GraphCompare.Formatters
 {
     public interface IBreadcrumbFormatter
     {
-        string FormatBreadcrumb(Breadcrumb breadcrumb);
+        string? FormatBreadcrumb(Breadcrumb? breadcrumb);
 
-        string GetPropertyDisplayValue(Breadcrumb breadcrumb);
+        string? GetPropertyDisplayValue(Breadcrumb? breadcrumb);
     }
 }
