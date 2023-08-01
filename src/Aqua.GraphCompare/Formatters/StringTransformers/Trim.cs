@@ -1,10 +1,9 @@
 ﻿// Copyright (c) Christof Senn. All rights reserved. See license.txt in the project root for license information.
 
-namespace Aqua.GraphCompare.Formatters.StringTransformers
+namespace Aqua.GraphCompare.Formatters.StringTransformers;
+
+public class Trim : IStringTransformer
 {
-    public class Trim : IStringTransformer
-    {
-        public string? Transform(string? value)
-            => value?.Trim();
-    }
+    public string? Transform(string? value)
+        => value?.Trim();
 }
