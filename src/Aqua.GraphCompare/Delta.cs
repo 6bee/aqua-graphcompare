@@ -6,10 +6,10 @@ namespace Aqua.GraphCompare
 
     public class Delta
     {
-        public Delta(ChangeType changeType, Breadcrumb breadcrumb, object oldValue, object newValue, string oldDisplayValue, string newDisplayValue)
+        public Delta(ChangeType changeType, Breadcrumb breadcrumb, object? oldValue, object? newValue, string? oldDisplayValue, string? newDisplayValue)
         {
             ChangeType = changeType;
-            Breadcrumb = breadcrumb;
+            Breadcrumb = breadcrumb.CheckNotNull(nameof(breadcrumb));
             OldValue = oldValue;
             NewValue = newValue;
             OldDisplayValue = oldDisplayValue;
@@ -20,17 +20,17 @@ namespace Aqua.GraphCompare
 
         public Breadcrumb Breadcrumb { get; }
 
-        public object OldValue { get; }
+        public object? OldValue { get; }
 
-        public object NewValue { get; }
+        public object? NewValue { get; }
 
-        public string OldDisplayValue { get; }
+        public string? OldDisplayValue { get; }
 
-        public string NewDisplayValue { get; }
+        public string? NewDisplayValue { get; }
 
-        public PropertyInfo PropertyFrom => Breadcrumb.PropertyFrom;
+        public PropertyInfo? PropertyFrom => Breadcrumb.PropertyFrom;
 
-        public PropertyInfo PropertyTo => Breadcrumb.PropertyTo;
+        public PropertyInfo? PropertyTo => Breadcrumb.PropertyTo;
 
         public override string ToString()
             => string.Format(

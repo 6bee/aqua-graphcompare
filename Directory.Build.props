@@ -27,6 +27,8 @@
     <EmbedAllSources>true</EmbedAllSources>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageOutputPath Condition=" '$(PackageOutputPath)' == '' ">$(MSBuildThisFileDirectory)artifacts</PackageOutputPath>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Nullable Condition=" '$(Nullable)' == '' ">enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -55,11 +57,12 @@
 
   <ItemGroup>
     <PackageReference Include="aqua.tool.polyfill.IsExternalInit" Version="2.0.0" PrivateAssets="all" />
+    <PackageReference Include="aqua.tool.Validation" Version="2.1.1" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)Stylecop.json" Visible="false" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>

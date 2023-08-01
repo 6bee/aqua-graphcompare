@@ -7,16 +7,17 @@ namespace Aqua.GraphCompare.Formatters.StringTransformers
     public class RegexReplaceByMatchEvaluator : IStringTransformer
     {
         private readonly string _pattern;
-
         private readonly MatchEvaluator _evaluator;
 
         public RegexReplaceByMatchEvaluator(string pattern, MatchEvaluator evaluator)
         {
-            _pattern = pattern;
-            _evaluator = evaluator;
+            _pattern = pattern.CheckNotNullOrEmpty(nameof(pattern));
+            _evaluator = evaluator.CheckNotNull(nameof(evaluator));
         }
 
-        public string Transform(string value)
-            => Regex.Replace(value, _pattern, _evaluator);
+        public string? Transform(string? value)
+            => value is null
+            ? null
+            : Regex.Replace(value, _pattern, _evaluator);
     }
 }

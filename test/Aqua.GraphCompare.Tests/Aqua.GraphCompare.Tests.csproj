@@ -3,6 +3,7 @@
   <PropertyGroup>
     <Description>Tests for aqua-graphcompare</Description>
     <TargetFrameworks>net7.0</TargetFrameworks>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

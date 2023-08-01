@@ -7,12 +7,15 @@ namespace Aqua.GraphCompare
     public sealed class DynamicObjectWithOriginalReference : DynamicObject
     {
         public DynamicObjectWithOriginalReference(DynamicObject dynamicObject, object originalObject)
-            : base(dynamicObject.Type, dynamicObject.Properties)
-            => OriginalObject = originalObject;
+            : base(dynamicObject?.Type, dynamicObject?.Properties)
+        {
+            dynamicObject.AssertNotNull(nameof(dynamicObject));
+            OriginalObject = originalObject.CheckNotNull(nameof(originalObject));
+        }
 
-        public DynamicObjectWithOriginalReference(object obj, IDynamicObjectMapper mapper = null)
+        public DynamicObjectWithOriginalReference(object obj, IDynamicObjectMapper? mapper = null)
             : base(obj, null, mapper)
-            => OriginalObject = obj;
+            => OriginalObject = obj.CheckNotNull(nameof(obj));
 
         /// <summary>
         /// Gets the object instance represented by this dynamic object.

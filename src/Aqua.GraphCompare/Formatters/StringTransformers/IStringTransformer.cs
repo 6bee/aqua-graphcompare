@@ -4,6 +4,6 @@ namespace Aqua.GraphCompare.Formatters.StringTransformers
 {
     public interface IStringTransformer
     {
-        string Transform(string value);
+        string? Transform(string? value);
     }
 }

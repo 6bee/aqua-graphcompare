@@ -18,9 +18,9 @@ namespace Aqua.GraphCompare.Formatters
             new Trim(),
         };
 
-        public virtual string GetPropertyDisplayValue(Breadcrumb breadcrumb)
+        public virtual string? GetPropertyDisplayValue(Breadcrumb? breadcrumb)
         {
-            var property = breadcrumb.PropertyTo ?? breadcrumb.PropertyFrom;
+            var property = breadcrumb?.PropertyTo ?? breadcrumb?.PropertyFrom;
 
             if (property is not null)
             {
@@ -34,14 +34,14 @@ namespace Aqua.GraphCompare.Formatters
             return GetDisplayString(breadcrumb);
         }
 
-        public virtual string FormatBreadcrumb(Breadcrumb breadcrumb)
+        public virtual string? FormatBreadcrumb(Breadcrumb? breadcrumb)
         {
-            if ((breadcrumb.PropertyTo ?? breadcrumb.PropertyFrom) is null)
+            if ((breadcrumb?.PropertyTo ?? breadcrumb?.PropertyFrom) is null)
             {
                 return GetDisplayString(breadcrumb);
             }
 
-            var s1 = FormatBreadcrumb(breadcrumb.Parent);
+            var s1 = FormatBreadcrumb(breadcrumb?.Parent);
 
             var s2 = GetPropertyDisplayValue(breadcrumb);
 
@@ -52,11 +52,11 @@ namespace Aqua.GraphCompare.Formatters
             return $"{s1}{separator}{s2}";
         }
 
-        private string GetDisplayString(Breadcrumb breadcrumb)
+        private string? GetDisplayString(Breadcrumb? breadcrumb)
         {
-            var displayString = breadcrumb.DisplayString;
+            var displayString = breadcrumb?.DisplayString;
 
-            var property = breadcrumb.PropertyTo ?? breadcrumb.PropertyFrom;
+            var property = breadcrumb?.PropertyTo ?? breadcrumb?.PropertyFrom;
 
             if (displayString is null && property is not null)
             {
@@ -66,7 +66,7 @@ namespace Aqua.GraphCompare.Formatters
             return displayString;
         }
 
-        private string FormatString(string value)
+        private string? FormatString(string? value)
         {
             foreach (var transformer in DisplayValueTransformers)
             {

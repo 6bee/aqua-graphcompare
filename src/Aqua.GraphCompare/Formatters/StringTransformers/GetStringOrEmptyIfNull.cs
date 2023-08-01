@@ -4,7 +4,7 @@ namespace Aqua.GraphCompare.Formatters.StringTransformers
 {
     public class GetStringOrEmptyIfNull : IStringTransformer
     {
-        public string Transform(string value)
+        public string? Transform(string? value)
             => value ?? string.Empty;
     }
 }

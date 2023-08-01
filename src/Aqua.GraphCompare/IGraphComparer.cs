@@ -4,6 +4,6 @@ namespace Aqua.GraphCompare
 {
     public interface IGraphComparer
     {
-        ComparisonResult Compare(object from, object to);
+        ComparisonResult Compare(object? from, object? to);
     }
 }
