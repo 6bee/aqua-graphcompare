@@ -1,10 +1,18 @@
-language: csharp
-mono: none
-dotnet: 7.0
+language: generic
 
 branches:
   except:
-  - /^experimental.*$/
+  - experimental
+
+addons:
+  apt:
+    packages:
+    - gettext
+    - libcurl4-openssl-dev
+    - libicu-dev
+    - libssl-dev
+    - libunwind8
+    - zlib1g
 
 matrix:
   include:
@@ -13,8 +21,14 @@ matrix:
     - os: osx
       env: CONFIGURATION=Release
 
+install:
+  - export DOTNET_INSTALL_DIR="$PWD/.dotnetcli"
+  - curl -sSL "https://dot.net/v1/dotnet-install.sh" | bash /dev/stdin --channel 7.0 --version Latest --install-dir "$DOTNET_INSTALL_DIR"
+  - export PATH="$DOTNET_INSTALL_DIR:$PATH"
+
 before_script:
+  - if test "$TRAVIS_OS_NAME" == "osx"; then export DYLD_LIBRARY_PATH=/usr/local/opt/openssl/lib; fi
   - dotnet --info
 
 script:
-  - dotnet test test/Aqua.GraphCompare.Tests -c $CONFIGURATION
+  - dotnet test test/Aqua.GraphCompare.Tests -c $CONFIGURATION -f net7.0
