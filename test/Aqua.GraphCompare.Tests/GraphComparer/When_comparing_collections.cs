@@ -52,8 +52,8 @@ public class When_comparing_collections
         var delta = result.Deltas.ElementAt(0);
 
         delta.ChangeType.ShouldBe(ChangeType.Delete);
-        delta.OldValue.ShouldBe("3");
-        delta.NewValue.ShouldBeNull();
+        delta.Old.Value.ShouldBe("3");
+        delta.New.Value.ShouldBeNull();
     }
 
     [Fact]
@@ -62,8 +62,8 @@ public class When_comparing_collections
         var delta = result.Deltas.ElementAt(1);
 
         delta.ChangeType.ShouldBe(ChangeType.Insert);
-        delta.OldValue.ShouldBeNull();
-        delta.NewValue.ShouldBe("5");
+        delta.Old.Value.ShouldBeNull();
+        delta.New.Value.ShouldBe("5");
     }
 
     [Fact]
@@ -72,7 +72,7 @@ public class When_comparing_collections
         var delta = result.Deltas.ElementAt(2);
 
         delta.ChangeType.ShouldBe(ChangeType.Insert);
-        delta.OldValue.ShouldBeNull();
-        delta.NewValue.ShouldBe(99);
+        delta.Old.Value.ShouldBeNull();
+        delta.New.Value.ShouldBe(99);
     }
 }

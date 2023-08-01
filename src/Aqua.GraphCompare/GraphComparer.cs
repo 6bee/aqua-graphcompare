@@ -2,7 +2,6 @@
 
 namespace Aqua.GraphCompare;
 
-using Aqua.Dynamic;
 using Aqua.TypeExtensions;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -10,8 +9,8 @@ using System.Reflection;
 
 public class GraphComparer : GraphComparerBase
 {
-    private readonly Func<object?, PropertyInfo?, string?>? _instanceDisplayStringProvider;
-    private readonly Func<object?, PropertyInfo?, string?>? _propertyValueDisplayStringProvider;
+    private readonly IDisplayStringProvider? _instanceDisplayStringProvider;
+    private readonly IDisplayStringProvider? _propertyValueDisplayStringProvider;
     private readonly Func<object?, DynamicObjectWithOriginalReference?>? _objectMapper;
     private readonly Func<PropertyInfo, bool>? _propertyFilter;
 
@@ -19,13 +18,13 @@ public class GraphComparer : GraphComparerBase
     /// Initializes a new instance of the <see cref="GraphComparer"/> class
     /// with custom logic injected via function delegates.
     /// </summary>
-    /// <param name="instanceDisplayStringProvider">Optional function delegate to create display strings for breadcrumb levels.</param>
-    /// <param name="propertyValueDisplayStringProvider">Optional function delegate to create display strings for property values.</param>
+    /// <param name="instanceDisplayStringProvider">Display strings provider for breadcrumb levels.</param>
+    /// <param name="propertyValueDisplayStringProvider">Display strings provider for property values.</param>
     /// <param name="objectMapper">Optional function to map object instances to dynamoc objects for comparison.</param>
     /// <param name="propertyFilter">Optional function to define properties to be compared for a given type.</param>
     public GraphComparer(
-        Func<object?, PropertyInfo?, string?>? instanceDisplayStringProvider = null,
-        Func<object?, PropertyInfo?, string?>? propertyValueDisplayStringProvider = null,
+        IDisplayStringProvider? instanceDisplayStringProvider = null,
+        IDisplayStringProvider? propertyValueDisplayStringProvider = null,
         Func<object?, DynamicObjectWithOriginalReference?>? objectMapper = null,
         Func<PropertyInfo, bool>? propertyFilter = null)
     {
@@ -53,7 +52,6 @@ public class GraphComparer : GraphComparerBase
         var objType = obj.GetType();
 
         var isSingleValueProperty = property is not null && !typeof(System.Collections.Generic.IEnumerable<>).MakeGenericType(objType).IsAssignableFrom(property.PropertyType);
-
         if (isSingleValueProperty)
         {
             var propertyDisplayStringAttribute = property.GetCustomAttribute<DisplayStringAttribute>();
@@ -69,9 +67,9 @@ public class GraphComparer : GraphComparerBase
             return displayStringAttribute.DisplayString;
         }
 
-        if (_instanceDisplayStringProvider is not null)
+        if (_instanceDisplayStringProvider?.TryGetDisplayString(obj, property, out var displayString) is true)
         {
-            return _instanceDisplayStringProvider(obj, property);
+            return displayString;
         }
 
         if (isSingleValueProperty)
@@ -101,9 +99,9 @@ public class GraphComparer : GraphComparerBase
             }
         }
 
-        if (_propertyValueDisplayStringProvider is not null)
+        if (_propertyValueDisplayStringProvider?.TryGetDisplayString(obj, property, out var displayString) is true)
         {
-            return _propertyValueDisplayStringProvider(obj, property);
+            return displayString;
         }
 
         return null;
@@ -120,7 +118,7 @@ public class GraphComparer : GraphComparerBase
 
     [return: NotNullIfNotNull(nameof(obj))]
     private static object? TryUnwrapDynamicObject(object? obj)
-        => obj is DynamicObjectWithOriginalReference dynamicObject && dynamicObject.OriginalObject is not null
+        => obj is DynamicObjectWithOriginalReference dynamicObject
         ? dynamicObject.OriginalObject
         : obj;
 

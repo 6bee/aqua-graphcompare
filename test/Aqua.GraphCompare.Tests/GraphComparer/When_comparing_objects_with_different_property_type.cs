@@ -37,8 +37,8 @@ public class When_comparing_objects_with_different_property_type
     {
         var delta = result.Deltas.Single(x => x.ChangeType == ChangeType.Delete);
 
-        delta.OldValue.ShouldBe(123);
-        delta.NewValue.ShouldBeNull();
+        delta.Old.Value.ShouldBe(123);
+        delta.New.Value.ShouldBeNull();
         delta.PropertyFrom.PropertyType.ShouldBe(typeof(int));
         delta.PropertyTo.ShouldBeNull();
     }
@@ -48,8 +48,8 @@ public class When_comparing_objects_with_different_property_type
     {
         var delta = result.Deltas.Single(x => x.ChangeType == ChangeType.Insert);
 
-        delta.OldValue.ShouldBeNull();
-        delta.NewValue.ShouldBe(123.0);
+        delta.Old.Value.ShouldBeNull();
+        delta.New.Value.ShouldBe(123.0);
         delta.PropertyFrom.ShouldBeNull();
         delta.PropertyTo.PropertyType.ShouldBe(typeof(double));
     }

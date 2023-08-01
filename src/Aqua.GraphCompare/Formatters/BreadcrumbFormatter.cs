@@ -8,20 +8,24 @@ using System.Reflection;
 
 public class BreadcrumbFormatter : IBreadcrumbFormatter
 {
-    public string BreadcrumbSeparator { get; init; } = " > ";
+    public IBreadcrumbItemFormatProvider? ItemFormatProvider { get; init; }
 
-    public IList<IStringTransformer> DisplayValueTransformers { get; } = new List<IStringTransformer>
-    {
-        new GetStringOrEmptyIfNull(),
-        new CamelCaseSplitter(),
-        new FirstLetterUpperCase(),
-        new Trim(),
-    };
+    public IList<IStringTransformer> DisplayValueTransformers { get; init; } = new List<IStringTransformer>
+        {
+            new GetStringOrEmptyIfNull(),
+            new CamelCaseSplitter(),
+            new FirstLetterUpperCase(),
+            new Trim(),
+        };
 
     public virtual string? GetPropertyDisplayValue(Breadcrumb? breadcrumb)
     {
-        var property = breadcrumb?.PropertyTo ?? breadcrumb?.PropertyFrom;
+        if (breadcrumb is null)
+        {
+            return null;
+        }
 
+        var property = breadcrumb.PropertyTo ?? breadcrumb.PropertyFrom;
         if (property is not null)
         {
             var displayStringAttribute = property.GetCustomAttribute<DisplayStringAttribute>();
@@ -36,27 +40,31 @@ public class BreadcrumbFormatter : IBreadcrumbFormatter
 
     public virtual string? FormatBreadcrumb(Breadcrumb? breadcrumb)
     {
-        if ((breadcrumb?.PropertyTo ?? breadcrumb?.PropertyFrom) is null)
+        if (breadcrumb is null)
         {
-            return GetDisplayString(breadcrumb);
+            return null;
         }
 
-        var s1 = FormatBreadcrumb(breadcrumb?.Parent);
+        var s1 = FormatBreadcrumb(breadcrumb.Parent);
 
-        var s2 = GetPropertyDisplayValue(breadcrumb);
+        var s2 = (breadcrumb.PropertyTo ?? breadcrumb.PropertyFrom) is null
+            ? GetDisplayString(breadcrumb)
+            : GetPropertyDisplayValue(breadcrumb);
 
-        var separator = string.IsNullOrEmpty(s1) || string.IsNullOrEmpty(s2)
-            ? null
-            : BreadcrumbSeparator;
+        var format = string.IsNullOrEmpty(s1) || string.IsNullOrEmpty(s2)
+            ? "{0}{1}"
+            : ItemFormatProvider?.TryGetFormat(breadcrumb.Parent!, out var itemFormat) is true && itemFormat is string
+            ? itemFormat
+            : "{0} > {1}";
 
-        return $"{s1}{separator}{s2}";
+        return string.Format(format, s1, s2);
     }
 
-    private string? GetDisplayString(Breadcrumb? breadcrumb)
+    private string? GetDisplayString(Breadcrumb breadcrumb)
     {
-        var displayString = breadcrumb?.DisplayString;
+        var displayString = breadcrumb.DisplayString;
 
-        var property = breadcrumb?.PropertyTo ?? breadcrumb?.PropertyFrom;
+        var property = breadcrumb.PropertyTo ?? breadcrumb.PropertyFrom;
 
         if (displayString is null && property is not null)
         {

@@ -67,10 +67,10 @@ public class When_comparing_dynamic_objects
         var d = result.Deltas.Single(x => x.PropertyTo.Name == "Int32Value");
 
         d.ChangeType.ShouldBe(ChangeType.Update);
-        d.OldValue.ShouldBe(1);
-        d.NewValue.ShouldBe(2);
-        d.OldDisplayValue.ShouldBeNull();
-        d.NewDisplayValue.ShouldBeNull();
+        d.Old.Value.ShouldBe(1);
+        d.New.Value.ShouldBe(2);
+        d.Old.DisplayValue.ShouldBeNull();
+        d.New.DisplayValue.ShouldBeNull();
         d.PropertyFrom.Name.ShouldBe("Int32Value");
         d.PropertyTo.Name.ShouldBe("Int32Value");
         d.PropertyFrom.PropertyType.ShouldBe(typeof(int));
@@ -85,10 +85,10 @@ public class When_comparing_dynamic_objects
         var d = result.Deltas.Single(x => x.PropertyTo.Name == "StringValue");
 
         d.ChangeType.ShouldBe(ChangeType.Update);
-        d.OldValue.ShouldBe("S1");
-        d.NewValue.ShouldBe("S2");
-        d.OldDisplayValue.ShouldBeNull();
-        d.NewDisplayValue.ShouldBeNull();
+        d.Old.Value.ShouldBe("S1");
+        d.New.Value.ShouldBe("S2");
+        d.Old.DisplayValue.ShouldBeNull();
+        d.New.DisplayValue.ShouldBeNull();
         d.PropertyFrom.Name.ShouldBe("StringValue");
         d.PropertyTo.Name.ShouldBe("StringValue");
         d.PropertyFrom.PropertyType.ShouldBe(typeof(string));

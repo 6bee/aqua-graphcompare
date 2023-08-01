@@ -20,13 +20,13 @@ public sealed class SimpleDelta
 
     public SimpleBreadcrumb Breadcrumb => _breadcrumb.Value;
 
-    public object? OldValue => _delta.OldValue;
+    public object? OldValue => _delta.Old.Value;
 
-    public object? NewValue => _delta.NewValue;
+    public object? NewValue => _delta.New.Value;
 
-    public string? OldDisplayValue => _delta.OldDisplayValue;
+    public string? OldDisplayValue => _delta.Old.DisplayValue;
 
-    public string? NewDisplayValue => _delta.NewDisplayValue;
+    public string? NewDisplayValue => _delta.New.DisplayValue;
 
     public PropertyInfo? Property => Breadcrumb.Property;
 

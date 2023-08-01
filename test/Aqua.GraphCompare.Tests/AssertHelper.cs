@@ -12,8 +12,8 @@ public static class AssertHelper
 {
     public static void DisplayValuesShouldBeNull(this Delta delta)
     {
-        delta.NewDisplayValue.ShouldBeNull();
-        delta.OldDisplayValue.ShouldBeNull();
+        delta.New.DisplayValue.ShouldBeNull();
+        delta.Old.DisplayValue.ShouldBeNull();
     }
 
     public static void PropertiesShouldBe(this Delta delta, PropertyInfo nameProperty)

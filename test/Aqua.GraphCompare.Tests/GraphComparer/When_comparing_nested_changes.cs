@@ -121,8 +121,8 @@ public class When_comparing_nested_changes
         var delta = result.GetDelta(nameProperty);
 
         delta.ChangeType.ShouldBe(ChangeType.Update);
-        delta.OldValue.ShouldBe("test name");
-        delta.NewValue.ShouldBe("new test name");
+        delta.Old.Value.ShouldBe("test name");
+        delta.New.Value.ShouldBe("new test name");
         delta.DisplayValuesShouldBeNull();
         delta.PropertiesShouldBe(nameProperty);
     }
@@ -160,8 +160,8 @@ public class When_comparing_nested_changes
         var delta = result.GetDelta(valueProperty);
 
         delta.ChangeType.ShouldBe(ChangeType.Update);
-        delta.OldValue.ShouldBe(10);
-        delta.NewValue.ShouldBe(20);
+        delta.Old.Value.ShouldBe(10);
+        delta.New.Value.ShouldBe(20);
         delta.DisplayValuesShouldBeNull();
         delta.PropertiesShouldBe(valueProperty);
     }
@@ -203,8 +203,8 @@ public class When_comparing_nested_changes
         var delta = result.GetDeltas(xProperty).Single(x => x.ChangeType == ChangeType.Delete);
 
         delta.ChangeType.ShouldBe(ChangeType.Delete);
-        delta.OldValue.ShouldBe("x2");
-        delta.NewValue.ShouldBeNull();
+        delta.Old.Value.ShouldBe("x2");
+        delta.New.Value.ShouldBeNull();
         delta.DisplayValuesShouldBeNull();
         delta.PropertyFrom.ShouldBe(xProperty);
         delta.PropertyTo.ShouldBeNull();
@@ -237,8 +237,8 @@ public class When_comparing_nested_changes
         var delta = result.GetDeltas(xProperty).Single(x => x.ChangeType == ChangeType.Insert);
 
         delta.ChangeType.ShouldBe(ChangeType.Insert);
-        delta.OldValue.ShouldBeNull();
-        delta.NewValue.ShouldBe("x3");
+        delta.Old.Value.ShouldBeNull();
+        delta.New.Value.ShouldBe("x3");
         delta.DisplayValuesShouldBeNull();
         delta.PropertyFrom.ShouldBeNull();
         delta.PropertyTo.ShouldBe(xProperty);
@@ -282,8 +282,8 @@ public class When_comparing_nested_changes
         var delta = result.Deltas.Single(x => x.Breadcrumb.Parent?.PropertyFrom == collectionProperty && x.ChangeType is ChangeType.Delete);
 
         delta.ChangeType.ShouldBe(ChangeType.Delete);
-        delta.OldValue.ShouldBe(2);
-        delta.NewValue.ShouldBeNull();
+        delta.Old.Value.ShouldBe(2);
+        delta.New.Value.ShouldBeNull();
         delta.DisplayValuesShouldBeNull();
         delta.PropertiesShouldBeNull();
     }
@@ -308,8 +308,8 @@ public class When_comparing_nested_changes
         var delta = result.Deltas.Single(x => x.Breadcrumb.Parent?.PropertyFrom == collectionProperty && x.ChangeType is ChangeType.Insert);
 
         delta.ChangeType.ShouldBe(ChangeType.Insert);
-        delta.OldValue.ShouldBeNull();
-        delta.NewValue.ShouldBe(3);
+        delta.Old.Value.ShouldBeNull();
+        delta.New.Value.ShouldBe(3);
         delta.DisplayValuesShouldBeNull();
         delta.PropertiesShouldBeNull();
     }
@@ -334,8 +334,8 @@ public class When_comparing_nested_changes
         var delta = result.Deltas.Single(x => x.Breadcrumb.Parent?.PropertyFrom == collectionProperty && x.ChangeType is ChangeType.Delete);
 
         delta.ChangeType.ShouldBe(ChangeType.Delete);
-        delta.OldValue.ShouldBe(N.Two);
-        delta.NewValue.ShouldBeNull();
+        delta.Old.Value.ShouldBe(N.Two);
+        delta.New.Value.ShouldBeNull();
         delta.DisplayValuesShouldBeNull();
         delta.PropertiesShouldBeNull();
     }
@@ -360,8 +360,8 @@ public class When_comparing_nested_changes
         var delta = result.Deltas.Single(x => x.Breadcrumb.Parent?.PropertyFrom == collectionProperty && x.ChangeType is ChangeType.Insert);
 
         delta.ChangeType.ShouldBe(ChangeType.Insert);
-        delta.OldValue.ShouldBeNull();
-        delta.NewValue.ShouldBe(N.Three);
+        delta.Old.Value.ShouldBeNull();
+        delta.New.Value.ShouldBe(N.Three);
         delta.DisplayValuesShouldBeNull();
         delta.PropertiesShouldBeNull();
     }

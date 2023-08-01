@@ -100,8 +100,8 @@ public class When_comparing_anonymous_types
         var d = result.Deltas.Single(x => x.PropertyTo?.Name == "Value");
         d.PropertyFrom.ShouldBeNull();
         d.PropertyTo.PropertyType.ShouldBe(typeof(string));
-        d.OldValue.ShouldBeNull();
-        d.NewValue.ShouldBe("abc");
+        d.Old.Value.ShouldBeNull();
+        d.New.Value.ShouldBe("abc");
     }
 
     [Fact]
@@ -110,8 +110,8 @@ public class When_comparing_anonymous_types
         var d = result.Deltas.Single(x => x.PropertyFrom?.Name == "Value");
         d.PropertyTo.ShouldBeNull();
         d.PropertyFrom.PropertyType.ShouldBe(typeof(decimal));
-        d.OldValue.ShouldBe(1.23456789m);
-        d.NewValue.ShouldBeNull();
+        d.Old.Value.ShouldBe(1.23456789m);
+        d.New.Value.ShouldBeNull();
     }
 
     [Fact]
@@ -119,7 +119,7 @@ public class When_comparing_anonymous_types
     {
         var d = result.Deltas.Single(x => x.PropertyFrom?.Name == "Name");
         d.PropertyTo.Name.ShouldBe("Name");
-        d.OldValue.ShouldBe("test name");
-        d.NewValue.ShouldBe("test new name");
+        d.Old.Value.ShouldBe("test name");
+        d.New.Value.ShouldBe("test new name");
     }
 }

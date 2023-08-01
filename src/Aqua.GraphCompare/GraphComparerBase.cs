@@ -423,8 +423,8 @@ public abstract class GraphComparerBase : IGraphComparer
     {
         public PropertyPair(PropertyInfo propertyFrom, PropertyInfo propertyTo)
         {
-            From = propertyFrom;
-            To = propertyTo;
+            From = propertyFrom.CheckNotNull(nameof(propertyFrom));
+            To = propertyTo.CheckNotNull(nameof(propertyTo));
         }
 
         public PropertyInfo From { get; }
