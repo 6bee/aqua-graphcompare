@@ -278,7 +278,7 @@ public abstract class GraphComparerBase : IGraphComparer
     private sealed class ComparableDynamicObject : IEquatable<ComparableDynamicObject>
     {
         public ComparableDynamicObject(DynamicObject obj)
-            => DynamicObject = obj.CheckNotNull(nameof(obj));
+            => DynamicObject = obj.CheckNotNull();
 
         public DynamicObject DynamicObject { get; }
 
@@ -303,12 +303,12 @@ public abstract class GraphComparerBase : IGraphComparer
         }
 
         public bool Equals(ComparableDynamicObject other)
-            => Equals(DynamicObject, other.CheckNotNull(nameof(other)).DynamicObject);
+            => Equals(DynamicObject, other.CheckNotNull().DynamicObject);
 
         private static bool Equals(DynamicObject item1, DynamicObject item2)
         {
-            item1.AssertNotNull(nameof(item1));
-            item2.AssertNotNull(nameof(item2));
+            item1.AssertNotNull();
+            item2.AssertNotNull();
 
             var keyProperties1 = GetKeyProperties(item1);
             var keyProperties2 = GetKeyProperties(item2);
@@ -374,7 +374,7 @@ public abstract class GraphComparerBase : IGraphComparer
 
         public ObjectMapper(Func<PropertyInfo, bool> propertyFilter)
             : base(isKnownTypeProvider: new IsKnownTypeProvider())
-            => _propertyFilter = propertyFilter.CheckNotNull(nameof(propertyFilter));
+            => _propertyFilter = propertyFilter.CheckNotNull();
 
         public DynamicObjectWithOriginalReference? MapToDynamicObjectWithOriginalReference(object? obj)
             => MapObject(obj, setTypeInformation: t => true);
@@ -399,8 +399,8 @@ public abstract class GraphComparerBase : IGraphComparer
     {
         public PropertyPair(PropertyInfo propertyFrom, PropertyInfo propertyTo)
         {
-            From = propertyFrom.CheckNotNull(nameof(propertyFrom));
-            To = propertyTo.CheckNotNull(nameof(propertyTo));
+            From = propertyFrom.CheckNotNull();
+            To = propertyTo.CheckNotNull();
         }
 
         public PropertyInfo From { get; }

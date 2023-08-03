@@ -11,8 +11,8 @@ public class RegexReplaceByPattern : IStringTransformer
 
     public RegexReplaceByPattern(string pattern, string replacement)
     {
-        _pattern = pattern.CheckNotNullOrEmpty(nameof(pattern));
-        _replacement = replacement.CheckNotNull(nameof(replacement));
+        _pattern = pattern.CheckNotNullOrEmpty();
+        _replacement = replacement.CheckNotNull();
     }
 
     public string? Transform(string? value)

@@ -13,7 +13,7 @@ public class SimpleComparisonResult
 
     public SimpleComparisonResult(ComparisonResult comparisonResult)
     {
-        _comparisonResult = comparisonResult.CheckNotNull(nameof(comparisonResult));
+        _comparisonResult = comparisonResult.CheckNotNull();
         _deltas = new Lazy<IReadOnlyCollection<SimpleDelta>>(() => _comparisonResult.Deltas.Select(x => new SimpleDelta(x)).ToList());
     }
 

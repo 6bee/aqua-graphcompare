@@ -11,8 +11,8 @@ public class RegexReplaceByMatchEvaluator : IStringTransformer
 
     public RegexReplaceByMatchEvaluator(string pattern, MatchEvaluator evaluator)
     {
-        _pattern = pattern.CheckNotNullOrEmpty(nameof(pattern));
-        _evaluator = evaluator.CheckNotNull(nameof(evaluator));
+        _pattern = pattern.CheckNotNullOrEmpty();
+        _evaluator = evaluator.CheckNotNull();
     }
 
     public string? Transform(string? value)

@@ -27,7 +27,7 @@ public sealed class Delta
     public Delta(ChangeType changeType, Breadcrumb breadcrumb, object? oldValue, object? newValue, string? oldDisplayValue, string? newDisplayValue)
     {
         ChangeType = changeType;
-        Breadcrumb = breadcrumb.CheckNotNull(nameof(breadcrumb));
+        Breadcrumb = breadcrumb.CheckNotNull();
         Old = new Reference(oldValue, oldDisplayValue);
         New = new Reference(newValue, newDisplayValue);
     }

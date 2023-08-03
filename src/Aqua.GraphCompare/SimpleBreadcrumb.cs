@@ -12,7 +12,7 @@ public sealed class SimpleBreadcrumb
 
     public SimpleBreadcrumb(Breadcrumb breadcrumb)
     {
-        _breadcrumb = breadcrumb.CheckNotNull(nameof(breadcrumb));
+        _breadcrumb = breadcrumb.CheckNotNull();
         _parent = new Lazy<SimpleBreadcrumb?>(() => _breadcrumb.Parent is null ? null : new SimpleBreadcrumb(_breadcrumb.Parent));
     }
 

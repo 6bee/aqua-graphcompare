@@ -15,7 +15,7 @@ public class ComparisonResult
             throw new ArgumentException($"Only one of '{nameof(from)}' and '{nameof(to)}' may be null.");
         }
 
-        Deltas = deltas.CheckNotNull(nameof(deltas));
+        Deltas = deltas.CheckNotNull();
         From = from;
         To = to;
     }

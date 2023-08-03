@@ -12,7 +12,7 @@ public sealed class SimpleDelta
 
     internal SimpleDelta(Delta delta)
     {
-        _delta = delta.CheckNotNull(nameof(delta));
+        _delta = delta.CheckNotNull();
         _breadcrumb = new Lazy<SimpleBreadcrumb>(() => new SimpleBreadcrumb(_delta.Breadcrumb));
     }
 
