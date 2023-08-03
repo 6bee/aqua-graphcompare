@@ -48,7 +48,7 @@ public class When_created_from_comparison_result_of_different_types
             new Delta(ChangeType.Insert, breadcrumbInsert, null, 64, "NULL", "v64"),
         };
 
-        result = new ComparisonResult(a.GetType(), b.GetType(), deltas).AsSimpleResult();
+        result = new ComparisonResult(new DynamicObjectWithOriginalReference(a), new DynamicObjectWithOriginalReference(b), deltas).AsSimpleResult();
     }
 
     [Fact]

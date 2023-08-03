@@ -34,11 +34,7 @@ public abstract class GraphComparerBase : IGraphComparer
 
         CompareInstances(breadcrumb, item1, item2, deltas, new HashSet<object>(ReferenceEqualityComparer<object>.Default));
 
-        var fromObjType = GetTypeInfo(item1);
-
-        var toObjType = GetTypeInfo(item2);
-
-        return new ComparisonResult(fromObjType, toObjType, deltas);
+        return new ComparisonResult(item1, item2, deltas);
     }
 
     protected virtual DynamicObjectWithOriginalReference? MapObject(object? obj)
@@ -239,9 +235,6 @@ public abstract class GraphComparerBase : IGraphComparer
         ? new ComparableDynamicObject(dynamicObject)
         : item;
 
-    private static Type? GetTypeInfo(DynamicObject? obj)
-        => obj?.Type?.ToType();
-
     private static IEnumerable<PropertyInfo> GetPropertiesMissingInSecondInstance(DynamicObject? item1, DynamicObject? item2)
     {
         if (item1?.Type is null)
@@ -370,7 +363,7 @@ public abstract class GraphComparerBase : IGraphComparer
             .ToArray();
     }
 
-    private sealed class ObjectMapper : DynamicObjectMapper
+    private sealed class ObjectMapper : DynamicObjectMapperWithOriginalReference
     {
         private sealed class IsKnownTypeProvider : IIsKnownTypeProvider
         {
@@ -384,24 +377,7 @@ public abstract class GraphComparerBase : IGraphComparer
             => _propertyFilter = propertyFilter.CheckNotNull(nameof(propertyFilter));
 
         public DynamicObjectWithOriginalReference? MapToDynamicObjectWithOriginalReference(object? obj)
-            => (DynamicObjectWithOriginalReference?)MapObject(obj, setTypeInformation: t => true);
-
-        protected override DynamicObject? MapToDynamicObjectGraph(object? obj, Func<Type, bool> setTypeInformation)
-        {
-            if (obj is null)
-            {
-                return null;
-            }
-
-            var dynamicObject = (obj as DynamicObject) ?? base.MapToDynamicObjectGraph(obj, setTypeInformation);
-
-            if (dynamicObject is not null && dynamicObject is not DynamicObjectWithOriginalReference)
-            {
-                dynamicObject = new DynamicObjectWithOriginalReference(dynamicObject, obj);
-            }
-
-            return dynamicObject;
-        }
+            => MapObject(obj, setTypeInformation: t => true);
 
         protected override IEnumerable<PropertyInfo> GetPropertiesForMapping(Type type)
         {

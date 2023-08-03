@@ -8,21 +8,25 @@ using System.Linq;
 
 public class ComparisonResult
 {
-    public ComparisonResult(Type? fromType, Type? toType, IReadOnlyCollection<Delta> deltas)
+    public ComparisonResult(DynamicObjectWithOriginalReference? from, DynamicObjectWithOriginalReference? to, IReadOnlyCollection<Delta> deltas)
     {
-        if (fromType is null && toType is null)
+        if (from is null && to is null)
         {
-            throw new ArgumentException($"Only one of '{nameof(fromType)}' and '{nameof(toType)}' may be null.");
+            throw new ArgumentException($"Only one of '{nameof(from)}' and '{nameof(to)}' may be null.");
         }
 
-        FromType = fromType;
-        ToType = toType;
         Deltas = deltas.CheckNotNull(nameof(deltas));
+        From = from;
+        To = to;
     }
 
-    public Type? FromType { get; }
+    public DynamicObjectWithOriginalReference? From { get; }
 
-    public Type? ToType { get; }
+    public DynamicObjectWithOriginalReference? To { get; }
+
+    public Type? FromType => From?.Type?.ToType();
+
+    public Type? ToType => To?.Type?.ToType();
 
     public IReadOnlyCollection<Delta> Deltas { get; }
 

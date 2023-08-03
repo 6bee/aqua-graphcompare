@@ -4,7 +4,8 @@ namespace Aqua.GraphCompare;
 
 using System;
 
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+// TODO: allow format definition like with DebuggerDisplayAttribute
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
 public class DisplayStringAttribute : Attribute
 {
     public DisplayStringAttribute(string? displayString) => DisplayString = displayString;

@@ -6,9 +6,9 @@ using System.Reflection;
 
 public sealed class Delta
 {
-    public sealed record Val
+    public sealed record Reference
     {
-        public Val(object? value, string? displayValue)
+        public Reference(object? value, string? displayValue)
         {
             Value = value;
             DisplayValue = displayValue;
@@ -28,17 +28,17 @@ public sealed class Delta
     {
         ChangeType = changeType;
         Breadcrumb = breadcrumb.CheckNotNull(nameof(breadcrumb));
-        Old = new Val(oldValue, oldDisplayValue);
-        New = new Val(newValue, newDisplayValue);
+        Old = new Reference(oldValue, oldDisplayValue);
+        New = new Reference(newValue, newDisplayValue);
     }
 
     public ChangeType ChangeType { get; }
 
     public Breadcrumb Breadcrumb { get; }
 
-    public Val Old { get; }
+    public Reference Old { get; }
 
-    public Val New { get; }
+    public Reference New { get; }
 
     public PropertyInfo? PropertyFrom => Breadcrumb.PropertyFrom;
 
