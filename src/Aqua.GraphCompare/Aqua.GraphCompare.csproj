@@ -10,11 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="aqua-core" Version="5.3.0-alpha-002" NoWarn="$(NoWarn);NU5104" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="StyleCop.Analyzers" Version="1.1.118" />
+    <PackageReference Include="aqua-core" Version="5.3.0" NoWarn="$(NoWarn);NU5104" />
   </ItemGroup>
 
 </Project>
