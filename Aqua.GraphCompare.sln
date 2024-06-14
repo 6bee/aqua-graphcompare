@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28729.10
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0D9E9EEF-C316-4083-B603-9B5ECF50C3AF}"
 EndProject
@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".global", ".global", "{60DD
 		Directory.Build.targets = Directory.Build.targets
 		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
 		NuGet.config = NuGet.config
+		README.md = README.md
 		Style.ruleset = Style.ruleset
 		stylecop.json = stylecop.json
 		StyleNoDoc.ruleset = StyleNoDoc.ruleset
@@ -30,12 +31,12 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64FB0AE0-A3AB-4413-81AC-305938FAC8E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{435495FC-BEFF-4B3E-9596-907AB9D63CCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{435495FC-BEFF-4B3E-9596-907AB9D63CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{435495FC-BEFF-4B3E-9596-907AB9D63CCE}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{435495FC-BEFF-4B3E-9596-907AB9D63CCE}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{435495FC-BEFF-4B3E-9596-907AB9D63CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{435495FC-BEFF-4B3E-9596-907AB9D63CCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,15 @@
-language: generic
+language: minimal
+
+if: tag IS blank
 
 branches:
   except:
-  - experimental
+  - /^experimental.*$/
+
+env:
+  global:
+    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+    - DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 addons:
   apt:
@@ -17,18 +24,20 @@ addons:
 matrix:
   include:
     - os: linux
+      dist: jammy # define Ubuntu Linux Build Environment [Jammy 22.04] to fix issue with loading/executing sqlite
       env: CONFIGURATION=Release
     - os: osx
+      osx_image: xcode14.2 # https://docs.travis-ci.com/user/reference/osx/#macos-version
       env: CONFIGURATION=Release
 
 install:
   - export DOTNET_INSTALL_DIR="$PWD/.dotnetcli"
-  - curl -sSL "https://dot.net/v1/dotnet-install.sh" | bash /dev/stdin --channel 7.0 --version Latest --install-dir "$DOTNET_INSTALL_DIR"
+  - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel LTS --version latest --install-dir "$DOTNET_INSTALL_DIR"
   - export PATH="$DOTNET_INSTALL_DIR:$PATH"
+  - if test "$TRAVIS_OS_NAME" == "osx"; then export DYLD_LIBRARY_PATH=/usr/local/opt/openssl/lib; fi
 
 before_script:
-  - if test "$TRAVIS_OS_NAME" == "osx"; then export DYLD_LIBRARY_PATH=/usr/local/opt/openssl/lib; fi
   - dotnet --info
 
 script:
-  - dotnet test test/Aqua.GraphCompare.Tests -c $CONFIGURATION -f net7.0
+  - dotnet test test/Aqua.GraphCompare.Tests -c $CONFIGURATION -f net8.0

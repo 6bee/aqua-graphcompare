@@ -4,13 +4,21 @@
     <Description>Comparer for arbitrary object graphs</Description>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>Aqua.GraphCompare</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <PackageId>aqua-graphcompare</PackageId>
     <PackageTags>compare;diff;graph-compare;graph-diff;deep-compare;deep-diff;object-compare;object-diff</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReadmeFile>PACKAGE.md</PackageReadmeFile>
+    <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="aqua-core" Version="5.3.0" NoWarn="$(NoWarn);NU5104" />
+    <PackageReference Include="aqua-core" Version="5.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="PACKAGE.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

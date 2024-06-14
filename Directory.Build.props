@@ -1,10 +1,11 @@
-﻿<Project>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
 
   <PropertyGroup>
     <MajorVersion>1</MajorVersion>
-    <MinorVersion>3</MinorVersion>
+    <MinorVersion>4</MinorVersion>
     <PatchVersion>0</PatchVersion>
-    <PreReleaseLabel></PreReleaseLabel>
+    <PreReleaseLabel>dev</PreReleaseLabel>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -20,6 +21,7 @@
     <PackageIcon>aqua-small.png</PackageIcon>
     <PackageIconUrl>https://raw.githubusercontent.com/6bee/aqua-graphcompare/master/aqua-small.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/6bee/aqua-graphcompare</PackageProjectUrl>
+    <PackageReleaseNotes>$(PackageProjectUrl)/blob/main/CHANGELOG.md</PackageReleaseNotes>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/6bee/aqua-graphcompare.git</RepositoryUrl>
@@ -41,13 +43,13 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <LangVersion Condition=" '$(LangVersion)' == '' ">10</LangVersion>
+    <LangVersion Condition=" '$(LangVersion)' == '' ">latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)StyleNoDoc.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <SignAssembly Condition=" '$(SignAssembly)' == '' ">true</SignAssembly>
     <DelaySign>false</DelaySign>
@@ -56,13 +58,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="aqua.tool.polyfill.IsExternalInit" Version="2.2.9" PrivateAssets="all" />
-    <PackageReference Include="aqua.tool.Validation" Version="2.2.9" PrivateAssets="all" />
+    <PackageReference Include="aqua.tool.Validation" Version="3.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)Stylecop.json" Visible="false" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.507">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>

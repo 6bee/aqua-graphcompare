@@ -4,6 +4,8 @@ branches:
   except:
   - /^experimental.*$/
 
+skip_tags: true
+
 init:
   - git config --global core.autocrlf true
 
@@ -15,9 +17,13 @@ environment:
 
 before_build:
   - dotnet --info
+  - dotnet tool install --global codecov.tool
 
 build_script:
   - dotnet build Aqua.GraphCompare.sln
 
 test_script:
   - dotnet test test\Aqua.GraphCompare.Tests
+
+after_test:
+  - codecov -f **\coverage.cobertura.xml

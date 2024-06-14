@@ -1,14 +1,16 @@
 # aqua-graphcompare
 
-| branch | package                                             | AppVeyor                | Travis CI                      |
-| ---    | ---                                                 | ---                     | ---                            |
-| `main` | [![NuGet Badge][1]][2] [![MyGet Pre Release][3]][4] | [![Build status][5]][6] | [![Travis build Status][7]][8] |
+[![Github Workflow][pub-badge]][pub-link]
 
-### Description
+| branch | package                                             | AppVeyor                | Travis CI                      | License                    |
+| ---    | ---                                                 | ---                     | ---                            | ---                        |
+| `main` | [![NuGet Badge][1]][2] [![MyGet Pre Release][3]][4] | [![Build status][5]][6] | [![Travis build Status][7]][8] | [![GitHub license][9]][10] |
 
-Differ for arbitrary object graphs allows to compare property values starting at a pair of root objects, recording any differences while visiting all nodes of the object graph. 
+## Description
 
-The comparison result contains a list of deltas describing each difference found. 
+Differ for arbitrary object graphs allows to compare property values starting at a pair of root objects, recording any differences while visiting all nodes of the object graph.
+
+The comparison result contains a list of deltas describing each difference found.
 
 The comparer may be customized by both, subtyping and dependency injection for various purposes:
 
@@ -19,7 +21,7 @@ The comparer may be customized by both, subtyping and dependency injection for v
 
 The comparer allows comparison of independent object types and relies on object structure and values at runtime rather than statically defined type information.
 
-### Features
+## Features
 
 * Differ for arbitrary object graphs
 * Provides hierarchical and flat deltas
@@ -28,15 +30,13 @@ The comparer allows comparison of independent object types and relies on object 
 
 ## Sample
 
-Compare two versions of a business object
+Compare two versions of an object graph:
 
 ```C#
 var original = GetOriginalBusinessObject();
 var changed = GetModifiedBusinessObject();
 
-
 var result = new GraphComparer().Compare(original, changed);
-
 
 Console.WriteLine("{0} {1} {2}", 
     result.FromType, 
@@ -60,3 +60,8 @@ foreach (var delta in result.Deltas)
 [6]: https://ci.appveyor.com/project/6bee/aqua-graphcompare/branch/main
 [7]: https://travis-ci.org/6bee/aqua-graphcompare.svg?branch=main
 [8]: https://travis-ci.org/6bee/aqua-graphcompare?branch=main
+[9]: https://img.shields.io/github/license/6bee/aqua-graphcompare.svg
+[10]: https://github.com/6bee/aqua-graphcompare/blob/main/license.txt
+
+[pub-badge]: https://github.com/6bee/aqua-graphcompare/actions/workflows/publish.yml/badge.svg
+[pub-link]: https://github.com/6bee/aqua-graphcompare/actions/workflows/publish.yml
