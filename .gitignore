@@ -26,6 +26,7 @@ nuget.exe
 *.sln.ide
 *.lock.json
 *.db
+*.binlog
 .vs/
 config.test.json
 *.log
@@ -34,3 +35,5 @@ config.test.json
 .idea/
 *.sln.iml
 *.DotSettings
+coverage*.json
+coverage*.xml
