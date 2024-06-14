@@ -23,7 +23,7 @@ build_script:
   - dotnet build Aqua.GraphCompare.sln
 
 test_script:
-  - dotnet test test\Aqua.GraphCompare.Tests
+  - dotnet test Aqua.GraphCompare.sln --settings coverlet.runsettings
 
 after_test:
   - codecov -f **\coverage.cobertura.xml
