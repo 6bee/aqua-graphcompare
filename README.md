@@ -8,7 +8,7 @@
 | `main` | [![Build status][5]][6] | [![Travis build Status][7]][8] |
 
 | package             | nuget                  | myget                        |
-| ---                 | ---                    |                              |
+| ---                 | ---                    | ---                          |
 | `aqua-graphcompare` | [![NuGet Badge][1]][2] | [![MyGet Pre Release][3]][4] |
 
 ## Description
