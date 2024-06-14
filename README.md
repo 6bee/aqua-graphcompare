@@ -5,11 +5,13 @@
 | `main` | [![NuGet Badge][1]][2] [![MyGet Pre Release][3]][4] | [![Build status][5]][6] | [![Travis build Status][7]][8] |
 
 ### Description
+
 Differ for arbitrary object graphs allows to compare property values starting at a pair of root objects, recording any differences while visiting all nodes of the object graph. 
 
 The comparison result contains a list of deltas describing each difference found. 
 
 The comparer may be customized by both, subtyping and dependency injection for various purposes:
+
 * Override selection of properties for comparison for any given object type
 * Specify display string provider for object instance/value labeling (breadcrumb)
 * Specify display string provider for property values (old/new value display string)
@@ -17,8 +19,8 @@ The comparer may be customized by both, subtyping and dependency injection for v
 
 The comparer allows comparison of independent object types and relies on object structure and values at runtime rather than statically defined type information.
 
-
 ### Features
+
 * Differ for arbitrary object graphs
 * Provides hierarchical and flat deltas
 * Allows for custom descriptions for types and members
@@ -27,6 +29,7 @@ The comparer allows comparison of independent object types and relies on object 
 ## Sample
 
 Compare two versions of a business object
+
 ```C#
 var original = GetOriginalBusinessObject();
 var changed = GetModifiedBusinessObject();
