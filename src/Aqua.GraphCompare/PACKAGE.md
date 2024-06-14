@@ -1,4 +1,4 @@
-### About
+## About
 
 Differ for arbitrary object graphs allows to compare property values starting at a pair of root objects, recording any differences while visiting all nodes of the object graph. 
 
@@ -13,7 +13,7 @@ The comparer may be customized by both, subtyping and dependency injection for v
 
 The comparer allows comparison of independent object types and relies on object structure and values at runtime rather than statically defined type information.
 
-### Features
+## Features
 
 * Differ for arbitrary object graphs
 * Provides hierarchical and flat deltas
