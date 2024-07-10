@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="aqua-core" Version="5.4.0" />
+    <PackageReference Include="aqua-core" Version="5.4.1" />
   </ItemGroup>
 
   <ItemGroup>
