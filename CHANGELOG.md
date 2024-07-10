@@ -19,11 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
-## [1.4.0][1.4.0] - 2024-06-14
+## [1.4.0][1.4.0] - 2024-07-10
 
 ### Changed
 
-- Update to aqua-core 5.4.0
+- Bump aqua-core from 5.3.0 to 5.4.1
 
 ## [1.3.0][1.3.0] - 2023-09-14
 
@@ -37,8 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0][1.0.0] - 2016-02-25
 
-[vnext-unreleased]: https://github.com/6bee/aqua-graphcompare/compare/1.4.0...main
-[1.4.0]: https://github.com/6bee/aqua-graphcompare/compare/1.3.0...1.4.0
+[vnext-unreleased]: https://github.com/6bee/aqua-graphcompare/compare/v1.4.0...main
+[1.4.0]: https://github.com/6bee/aqua-graphcompare/compare/1.3.0...v1.4.0
 [1.3.0]: https://github.com/6bee/aqua-graphcompare/compare/1.2.2...1.3.0
 [1.2.2]: https://github.com/6bee/aqua-graphcompare/compare/1.2.0...1.2.2
 [1.2.0]: https://github.com/6bee/aqua-graphcompare/compare/1.1.0...1.2.0
