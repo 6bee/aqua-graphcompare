@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Bump aqua-core from 5.3.0 to 5.4.1
+- Bump _aqua-core_ from 5.3.0 to 5.4.1
 
 ## [1.3.0][1.3.0] - 2023-09-14
 
